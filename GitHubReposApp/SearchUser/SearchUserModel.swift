@@ -62,9 +62,10 @@ class SearchUserModelStub: SearchUserModelProtocol {
         
         return Observable.create { [weak self] observer in
             var users: [User] = []
-            for i in 0...query.count {
-                //let user = User(id: i, login: "")
-                //users.append(user)
+            let usersCount = max(0, 10 - query.count)
+            for i in 0 ... usersCount {
+                let user = User(id: i, login: "♥UserName\(i)♥", avatarURL: URL(fileURLWithPath: "https://aaaa"), name: nil)
+                users.append(user)
             }
             DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
                 observer.onNext(users)

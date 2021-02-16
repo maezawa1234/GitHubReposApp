@@ -5,6 +5,7 @@ import RxCocoa
 class SearchUserViewModel {
     //Drivers
     let sections: Driver<[SearchUserSectionModel]>
+    let error: Driver<Bool>
     let transitionToReposView: Driver<User>
     let listIsEmpty: Driver<Bool>
     
@@ -17,22 +18,45 @@ class SearchUserViewModel {
          dependency: (
             wireFrame: Wireframe,
             model: SearchUserModelProtocol)
-         ) {
+    ) {
         let model = dependency.model
         let wireFrame = dependency.wireFrame
         
         var sections = [SearchUserSectionModel(header: "Users", items: [])]
         
-        self.sections = input.searchButtonClicked.withLatestFrom(input.searchBarText)
+        //let searchSequence = input.searchButtonClicked.withLatestFrom(input.searchBarText)
+        let searchSequence = input.searchBarText
+            .filter { !$0.isEmpty }
+            .distinctUntilChanged()
+            .asObservable()
             .flatMapLatest { text in
-                return model
-                    .fetchUser(query: text)
-                    .asDriver(onErrorDriveWith: .empty())
-                    .map { users in
-                        sections[0].items = users
-                        return sections
-                    }
+                return model.fetchUser(query: text)
+                    .materialize()
             }
+            .share(replay: 1)
+        
+        self.sections = searchSequence.elements()
+            .asDriver(onErrorDriveWith: .empty())
+            .map { users in
+                sections[0].items = users
+                return sections
+            }
+        
+        self.error = searchSequence.errors()
+            .asDriver(onErrorDriveWith: .empty())
+            .flatMapLatest { error in
+                return wireFrame.promptFor(error.localizedDescription, cancelAction: "OK", actions: [])
+                    .map { _ in
+                        return true
+                    }
+                    .asDriver(onErrorJustReturn: false)
+            }
+        
+        self.error
+            .drive(onNext: { erorr in
+                print("エラーおきたよ")
+            })
+            .disposed(by: disposeBag)
         
         self.listIsEmpty = self.sections
             .map { $0[0].items.isEmpty }
