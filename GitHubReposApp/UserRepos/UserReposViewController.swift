@@ -4,15 +4,14 @@ import RxDataSources
 
 class UserReposViewController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
-    
+    private let indicator = UIActivityIndicatorView()
     
     private let disposeBag = DisposeBag()
     
     var user: User!
 
     private lazy var viewModel = UserReposViewModel(
-        userName: user.login,
-        viewDidAppear: self.rx.viewDidAppear,
+        user: user,
         dependencies: (
             wireFrame: DefaultWireframe.shared,
             model: UserReposModel())
@@ -26,17 +25,30 @@ class UserReposViewController: UIViewController {
     }
     
     private func setup() {
-        
+        //Configure navigationBar
+        self.navigationItem.title = "\(user.login)'s repositories"
         //Configure tableView
         tableView.sectionHeaderHeight = .zero
         tableView.tableFooterView = UIView(frame: .zero)
         tableView.register(UINib(nibName: "ReposCell", bundle: nil), forCellReuseIdentifier: "ReposCell")
-        
+        //Configure indicator
+        indicator.center = self.view.center
+        indicator.style = .large
+        indicator.hidesWhenStopped = true
+        self.view.addSubview(indicator)
     }
     
     private func binding() {
         viewModel.sections
             .drive(tableView.rx.items(dataSource: Self.configureDataSource()))
+            .disposed(by: disposeBag)
+        
+        viewModel.listIsEmpty
+            .drive(setEmpty)
+            .disposed(by: disposeBag)
+        
+        viewModel.fetchingRepos
+            .drive(indicator.rx.isAnimating)
             .disposed(by: disposeBag)
     }
     
@@ -59,3 +71,16 @@ class UserReposViewController: UIViewController {
         return dataSource
     }
 }
+
+extension UserReposViewController {
+    private var setEmpty: Binder<Bool> {
+        return Binder(self) { me, isEmpty in
+            if isEmpty {
+                me.tableView.setEmptyMessage("no repos")
+            } else {
+                me.tableView.restore()
+            }
+        }
+    }
+}
+ 

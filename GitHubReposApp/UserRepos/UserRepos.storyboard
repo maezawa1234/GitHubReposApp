@@ -22,7 +22,6 @@
                             </tableView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="yDS-TK-xLp"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="4hP-Kl-6yI" firstAttribute="top" secondItem="yDS-TK-xLp" secondAttribute="top" id="HhU-bp-Zxl"/>
                             <constraint firstItem="yDS-TK-xLp" firstAttribute="trailing" secondItem="4hP-Kl-6yI" secondAttribute="trailing" id="Y5R-Jw-NCq"/>
@@ -40,9 +39,6 @@
         </scene>
     </scenes>
     <resources>
-        <systemColor name="systemBackgroundColor">
-            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-        </systemColor>
         <systemColor name="systemGray6Color">
             <color red="0.94901960784313721" green="0.94901960784313721" blue="0.96862745098039216" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>

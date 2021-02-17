@@ -10,12 +10,11 @@ class ReposCell: UITableViewCell {
         }
     }
     @IBOutlet weak var nameLabel: UILabel!
-    
     @IBOutlet weak var descriptionLabel: UILabel!
-    
+    @IBOutlet weak var languageContainerView: UIView!
     @IBOutlet weak var languageLabel: UILabel!
-    
     @IBOutlet weak var starLabel: UILabel!
+    
     override func awakeFromNib() {
         super.awakeFromNib()
     }

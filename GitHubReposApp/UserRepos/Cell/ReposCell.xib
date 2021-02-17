@@ -38,13 +38,13 @@
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <stackView opaque="NO" contentMode="scaleToFill" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="gqD-nJ-TRr">
-                                                <rect key="frame" x="0.0" y="35.5" width="214" height="33"/>
+                                                <rect key="frame" x="0.0" y="35.5" width="99" height="33"/>
                                                 <subviews>
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="UZO-AI-8Ul">
-                                                        <rect key="frame" x="0.0" y="0.0" width="170.5" height="33"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="55.5" height="33"/>
                                                         <subviews>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="97u-ui-qRc">
-                                                                <rect key="frame" x="0.0" y="0.0" width="150.5" height="33"/>
+                                                                <rect key="frame" x="0.0" y="0.0" width="35.5" height="33"/>
                                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                                 <color key="textColor" red="0.34509803919999998" green="0.37647058820000001" blue="0.41176470590000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                 <nil key="highlightedColor"/>
@@ -59,7 +59,7 @@
                                                         </constraints>
                                                     </view>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Os7-9S-LBF">
-                                                        <rect key="frame" x="178.5" y="0.0" width="35.5" height="33"/>
+                                                        <rect key="frame" x="63.5" y="0.0" width="35.5" height="33"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                         <color key="textColor" red="0.36470588240000001" green="0.37647058820000001" blue="0.41176470590000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         <nil key="highlightedColor"/>
@@ -92,6 +92,7 @@
             <connections>
                 <outlet property="containerView" destination="4qv-oA-lFD" id="SSr-zA-2w1"/>
                 <outlet property="descriptionLabel" destination="nkh-jz-Qb6" id="rBi-Te-1SH"/>
+                <outlet property="languageContainerView" destination="UZO-AI-8Ul" id="xeP-Kg-EdD"/>
                 <outlet property="languageLabel" destination="97u-ui-qRc" id="r3V-UV-XgW"/>
                 <outlet property="nameLabel" destination="RKg-xx-sfd" id="KlP-Rc-3Qh"/>
                 <outlet property="starLabel" destination="Os7-9S-LBF" id="paa-PO-0Fc"/>

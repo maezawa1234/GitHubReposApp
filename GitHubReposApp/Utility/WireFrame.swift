@@ -1,6 +1,5 @@
 import RxSwift
 import RxCocoa
-import UIKit
 
 enum RetryResult {
     case retry

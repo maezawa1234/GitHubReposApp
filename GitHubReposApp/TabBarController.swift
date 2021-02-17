@@ -4,13 +4,12 @@ class TabBarController: UITabBarController {
     enum ViewControllers {
         case search
     }
-    
     let vcArray: [ViewControllers] = [.search]
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        UITabBar.appearance().barTintColor = UIColor(red: 0.6, green: 0.6, blue: 1.0, alpha: 1.0)
+        UITabBar.appearance().barTintColor = UIColor(red: 0.4, green: 0.4, blue: 1.0, alpha: 1.0)
         UITabBar.appearance().tintColor = UIColor.white
         
         var myTabs: [UIViewController] = []
@@ -24,7 +23,6 @@ class TabBarController: UITabBarController {
                 tabVC = searchVC
                 tabVC.tabBarItem = UITabBarItem(tabBarSystemItem: .search, tag: i)
             }
-            //各ビューにナビゲーションコントローラを追加
             let nc = UINavigationController(rootViewController: tabVC)
             myTabs.append(nc)
         }

@@ -40,6 +40,7 @@
 		0865A6FF25DC4ECF00C9C5B9 /* ExtensionUIKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0865A6FE25DC4ECF00C9C5B9 /* ExtensionUIKit.swift */; };
 		0865A70425DC4F0000C9C5B9 /* WireFrame.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0865A70325DC4F0000C9C5B9 /* WireFrame.swift */; };
 		0865A70C25DC4FDE00C9C5B9 /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0865A70B25DC4FDE00C9C5B9 /* TabBarController.swift */; };
+		08765E1C25DD81FA00EB14A2 /* ActivityIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08765E1B25DD81FA00EB14A2 /* ActivityIndicator.swift */; };
 		7DB8D19DA69F2A668B59981F /* Pods_GitHubReposAppTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D770E1F7E3EA7DD5EDC79D9 /* Pods_GitHubReposAppTests.framework */; };
 		915267FA7C75E015ABC879B7 /* Pods_GitHubReposApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4D1DC228FEA1013BF284462E /* Pods_GitHubReposApp.framework */; };
 		A8B6A7EA7A8F7FB3FB941813 /* Pods_GitHubReposApp_GitHubReposAppUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 696B216774628671F68CB95C /* Pods_GitHubReposApp_GitHubReposAppUITests.framework */; };
@@ -103,6 +104,7 @@
 		0865A6FE25DC4ECF00C9C5B9 /* ExtensionUIKit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtensionUIKit.swift; sourceTree = "<group>"; };
 		0865A70325DC4F0000C9C5B9 /* WireFrame.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WireFrame.swift; sourceTree = "<group>"; };
 		0865A70B25DC4FDE00C9C5B9 /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
+		08765E1B25DD81FA00EB14A2 /* ActivityIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityIndicator.swift; sourceTree = "<group>"; };
 		2A2CC4CE3D78C29CB649FEFC /* Pods-GitHubReposAppTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GitHubReposAppTests.debug.xcconfig"; path = "Target Support Files/Pods-GitHubReposAppTests/Pods-GitHubReposAppTests.debug.xcconfig"; sourceTree = "<group>"; };
 		3D770E1F7E3EA7DD5EDC79D9 /* Pods_GitHubReposAppTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_GitHubReposAppTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		41BE864012D05AACDAFD2C5F /* Pods-GitHubReposApp-GitHubReposAppUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GitHubReposApp-GitHubReposAppUITests.release.xcconfig"; path = "Target Support Files/Pods-GitHubReposApp-GitHubReposAppUITests/Pods-GitHubReposApp-GitHubReposAppUITests.release.xcconfig"; sourceTree = "<group>"; };
@@ -285,9 +287,10 @@
 		0865A6F525DC4EA000C9C5B9 /* Utility */ = {
 			isa = PBXGroup;
 			children = (
-				0865A70325DC4F0000C9C5B9 /* WireFrame.swift */,
 				0865A6F625DC4EC400C9C5B9 /* ExtensionRx.swift */,
 				0865A6FE25DC4ECF00C9C5B9 /* ExtensionUIKit.swift */,
+				0865A70325DC4F0000C9C5B9 /* WireFrame.swift */,
+				08765E1B25DD81FA00EB14A2 /* ActivityIndicator.swift */,
 			);
 			path = Utility;
 			sourceTree = "<group>";
@@ -573,6 +576,7 @@
 				0865A6B425DC4D0E00C9C5B9 /* UserCell.swift in Sources */,
 				0865A69F25DC4C6E00C9C5B9 /* SearchUserModel.swift in Sources */,
 				0865A63E25DC4AD700C9C5B9 /* GitHubAPI.swift in Sources */,
+				08765E1C25DD81FA00EB14A2 /* ActivityIndicator.swift in Sources */,
 				0865A6D925DC4DE900C9C5B9 /* UserReposModel.swift in Sources */,
 				0865A65F25DC4B2500C9C5B9 /* GitHubClientError.swift in Sources */,
 				0865A6DE25DC4DFA00C9C5B9 /* UserReposSectionModel.swift in Sources */,

@@ -8,6 +8,7 @@ class SearchUserViewModel {
     let error: Driver<Bool>
     let transitionToReposView: Driver<User>
     let listIsEmpty: Driver<Bool>
+    let totalCount: Driver<Int>
     
     private let disposeBag = DisposeBag()
     
@@ -24,8 +25,7 @@ class SearchUserViewModel {
         
         var sections = [SearchUserSectionModel(header: "Users", items: [])]
         
-        //let searchSequence = input.searchButtonClicked.withLatestFrom(input.searchBarText)
-        let searchSequence = input.searchBarText
+        let searchSequence = input.searchButtonClicked.withLatestFrom(input.searchBarText)
             .filter { !$0.isEmpty }
             .distinctUntilChanged()
             .asObservable()
@@ -35,14 +35,20 @@ class SearchUserViewModel {
             }
             .share(replay: 1)
         
-        self.sections = searchSequence.elements()
+        let response = searchSequence.elements()
             .asDriver(onErrorDriveWith: .empty())
-            .map { users in
-                sections[0].items = users
+        
+        self.sections = response
+            .map { response in
+                sections[0].items = response.users
                 return sections
             }
         
+        self.totalCount = response
+            .map { $0.totalCount }
+        
         self.error = searchSequence.errors()
+            .take(1)
             .asDriver(onErrorDriveWith: .empty())
             .flatMapLatest { error in
                 return wireFrame.promptFor(error.localizedDescription, cancelAction: "OK", actions: [])
@@ -53,8 +59,8 @@ class SearchUserViewModel {
             }
         
         self.error
-            .drive(onNext: { erorr in
-                print("エラーおきたよ")
+            .drive(onNext: { error in
+                print("error occured")
             })
             .disposed(by: disposeBag)
         

@@ -21,16 +21,24 @@
                                 <textInputTraits key="textInputTraits"/>
                             </searchBar>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="yXD-lH-njm">
-                                <rect key="frame" x="0.0" y="100" width="414" height="762"/>
-                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <rect key="frame" x="0.0" y="125" width="414" height="737"/>
+                                <color key="backgroundColor" systemColor="systemGray6Color"/>
                             </tableView>
+                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="検索結果: " textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iZr-t2-0aZ">
+                                <rect key="frame" x="20" y="105" width="56" height="15"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="j4f-vD-xgp"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <color key="backgroundColor" systemColor="systemGray6Color"/>
                         <constraints>
+                            <constraint firstItem="iZr-t2-0aZ" firstAttribute="top" secondItem="tzs-fT-NMT" secondAttribute="bottom" constant="5" id="08B-Qa-3YV"/>
+                            <constraint firstItem="yXD-lH-njm" firstAttribute="top" secondItem="iZr-t2-0aZ" secondAttribute="bottom" constant="5" id="APN-Cg-Vv2"/>
                             <constraint firstItem="tzs-fT-NMT" firstAttribute="leading" secondItem="j4f-vD-xgp" secondAttribute="leading" id="Kgd-im-O7d"/>
+                            <constraint firstItem="iZr-t2-0aZ" firstAttribute="leading" secondItem="j4f-vD-xgp" secondAttribute="leading" constant="20" id="Vmc-lG-a4n"/>
                             <constraint firstItem="j4f-vD-xgp" firstAttribute="trailing" secondItem="yXD-lH-njm" secondAttribute="trailing" id="XMB-MD-AkJ"/>
-                            <constraint firstItem="yXD-lH-njm" firstAttribute="top" secondItem="tzs-fT-NMT" secondAttribute="bottom" id="j7Q-g6-lsZ"/>
                             <constraint firstItem="tzs-fT-NMT" firstAttribute="trailing" secondItem="j4f-vD-xgp" secondAttribute="trailing" id="ki3-XD-Rtm"/>
                             <constraint firstItem="tzs-fT-NMT" firstAttribute="centerX" secondItem="1NM-Bh-YPc" secondAttribute="centerX" id="lvy-5G-bjW"/>
                             <constraint firstItem="tzs-fT-NMT" firstAttribute="top" secondItem="j4f-vD-xgp" secondAttribute="top" id="m2M-TW-NAG"/>
@@ -41,16 +49,17 @@
                     <connections>
                         <outlet property="searchBar" destination="tzs-fT-NMT" id="ESi-R1-Z4e"/>
                         <outlet property="tableView" destination="yXD-lH-njm" id="coS-kV-Y47"/>
+                        <outlet property="totalCountLabel" destination="iZr-t2-0aZ" id="WSc-vO-Lzl"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="cFk-hZ-bqd" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-378" y="144"/>
+            <point key="canvasLocation" x="-378.26086956521743" y="143.97321428571428"/>
         </scene>
     </scenes>
     <resources>
-        <systemColor name="systemBackgroundColor">
-            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        <systemColor name="systemGray6Color">
+            <color red="0.94901960784313721" green="0.94901960784313721" blue="0.96862745098039216" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>

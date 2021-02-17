@@ -5,6 +5,8 @@ import RxDataSources
 class SearchUserViewController: UIViewController {
     @IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var totalCountLabel: UILabel!
+    
     private let closeButton = UIBarButtonItem(systemItem: .close)
     
     private let disposeBag = DisposeBag()
@@ -30,7 +32,7 @@ class SearchUserViewController: UIViewController {
     private func setup() {
         // Configure navigetionBar
         self.navigationItem.title = "Search User"  //ナビゲーションバーのタイトルを設定
-        self.navigationController?.navigationBar.barTintColor = UIColor(red: 0.6, green: 0.6, blue: 1.0, alpha: 1.0)
+        self.navigationController?.navigationBar.barTintColor = UIColor(red: 0.4, green: 0.4, blue: 1.0, alpha: 1.0)
         self.navigationController?.navigationBar.tintColor = .white
         self.navigationController?.navigationBar.titleTextAttributes = [.foregroundColor: UIColor.white]//文字の色
         //Configure searchBar
@@ -54,6 +56,10 @@ class SearchUserViewController: UIViewController {
         
         viewModel.listIsEmpty
             .drive(setEmpty)
+            .disposed(by: disposeBag)
+        
+        viewModel.totalCount
+            .drive(totalCountText)
             .disposed(by: disposeBag)
         
         closeButton.rx.tap.asSignal()
@@ -91,6 +97,13 @@ extension SearchUserViewController {
             } else {
                 me.tableView.restore()
             }
+        }
+    }
+    
+    private var totalCountText: Binder<Int> {
+        return Binder(self) { me, count in
+            me.totalCountLabel.isHidden = false
+            me.totalCountLabel.text = "検索件数: \(count)"
         }
     }
     
