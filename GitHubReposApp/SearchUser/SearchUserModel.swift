@@ -16,7 +16,7 @@ class SearchUserModel: SearchUserModelProtocol {
         return Observable.create { [weak self] observer in
             let request = GitHubAPI.SearchUsers(keyword: query)
             let urlRequest = request.buildURLRequest()
-            print("urlRequest:", urlRequest)
+            print("URLRequest:", urlRequest)
             
             let task = self?.session.dataTask(with: urlRequest) { data, response, error in
                 switch (data, response, error) {
