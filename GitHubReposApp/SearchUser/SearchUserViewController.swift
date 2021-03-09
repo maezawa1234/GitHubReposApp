@@ -6,7 +6,6 @@ class SearchUserViewController: UIViewController {
     @IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var totalCountLabel: UILabel!
-    
     private let closeButton = UIBarButtonItem(systemItem: .close)
     
     private let disposeBag = DisposeBag()
@@ -31,12 +30,12 @@ class SearchUserViewController: UIViewController {
     
     private func setup() {
         // Configure navigetionBar
-        self.navigationItem.title = "Search User"  //ナビゲーションバーのタイトルを設定
+        self.navigationItem.title = "Search User"
         self.navigationController?.navigationBar.barTintColor = UIColor(red: 0.4, green: 0.4, blue: 1.0, alpha: 1.0)
         self.navigationController?.navigationBar.tintColor = .white
-        self.navigationController?.navigationBar.titleTextAttributes = [.foregroundColor: UIColor.white]//文字の色
+        self.navigationController?.navigationBar.titleTextAttributes = [.foregroundColor: UIColor.white]
         //Configure searchBar
-        let toolbar = UIToolbar(frame: CGRect(x: 0, y: 0, width: 0, height: 35))    //入力画面のツールバー
+        let toolbar = UIToolbar(frame: CGRect(x: 0, y: 0, width: 0, height: 35))
         toolbar.setItems([closeButton], animated: true)
         searchBar.searchTextField.inputAccessoryView = toolbar
         //Configure tableView

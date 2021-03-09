@@ -1,7 +1,6 @@
-
 import RxDataSources
 
-struct SearchUserSectionModel: AnimatableSectionModelType  {
+struct SearchUserSectionModel: AnimatableSectionModelType {
     typealias Item = User
     
     var header: String
@@ -20,7 +19,6 @@ struct SearchUserSectionModel: AnimatableSectionModelType  {
         return header
     }
 }
-
 
 extension User: IdentifiableType, Equatable {
     var identity: Int {

@@ -9,7 +9,6 @@ class UserCell: UITableViewCell {
             containerView.layer.borderColor = UIColor.lightGray.cgColor
         }
     }
-    
     @IBOutlet weak var iconImageView: UIImageView!
     @IBOutlet weak var userNameLabel: UILabel!
     
@@ -17,7 +16,6 @@ class UserCell: UITableViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
     }
     
     override func prepareForReuse() {
