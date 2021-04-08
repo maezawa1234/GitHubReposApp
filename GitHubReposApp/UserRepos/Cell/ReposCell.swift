@@ -15,16 +15,26 @@ class ReposCell: UITableViewCell {
     @IBOutlet weak var languageContainerView: UIView!
     @IBOutlet weak var languageLabel: UILabel!
     @IBOutlet weak var starLabel: UILabel!
+    @IBOutlet weak var favoriteButton: UIButton! {
+        didSet {
+            favoriteButton.setTitle("☆", for: .normal)
+        }
+    }
     
-    @IBOutlet weak var favoriteButton: UIButton!
-    
+    // Favorite state
     private var isLiked = false
+    
+    var disposeBag = DisposeBag()
     
     override func awakeFromNib() {
         super.awakeFromNib()
     }
     
-    var favoriteButtonClickedTrigger: PublishRelay<Int>!
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        
+        self.disposeBag = DisposeBag()
+    }
     
     func configure(with repos: Repository, isLiked: Bool) {
         nameLabel.text = repos.name
@@ -37,6 +47,5 @@ class ReposCell: UITableViewCell {
     @IBAction func clickedFavoriteButton(_ sender: Any) {
         self.isLiked.toggle()
         self.favoriteButton.setTitle(isLiked ? "⭐" : "☆", for: .normal)
-        self.favoriteButtonClickedTrigger.accept(self.tag)
     }
 }

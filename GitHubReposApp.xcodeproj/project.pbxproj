@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		085452DB261F0A31002CFE3B /* FavoriteReposViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 085452DA261F0A31002CFE3B /* FavoriteReposViewController.swift */; };
+		085452E3261F0A4B002CFE3B /* FavoriteReposViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 085452E2261F0A4B002CFE3B /* FavoriteReposViewModel.swift */; };
+		085452E8261F0A9B002CFE3B /* FavoriteRepos.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 085452E7261F0A9B002CFE3B /* FavoriteRepos.storyboard */; };
+		085452F0261F0BEA002CFE3B /* RepoStatusList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 085452EF261F0BEA002CFE3B /* RepoStatusList.swift */; };
 		0865A60525DC4A4100C9C5B9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0865A60425DC4A4100C9C5B9 /* AppDelegate.swift */; };
 		0865A60725DC4A4100C9C5B9 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0865A60625DC4A4100C9C5B9 /* SceneDelegate.swift */; };
 		0865A60C25DC4A4100C9C5B9 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0865A60A25DC4A4100C9C5B9 /* Main.storyboard */; };
@@ -65,6 +69,10 @@
 
 /* Begin PBXFileReference section */
 		0161675865AB6AB9BA6D8560 /* Pods-GitHubReposApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GitHubReposApp.debug.xcconfig"; path = "Target Support Files/Pods-GitHubReposApp/Pods-GitHubReposApp.debug.xcconfig"; sourceTree = "<group>"; };
+		085452DA261F0A31002CFE3B /* FavoriteReposViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteReposViewController.swift; sourceTree = "<group>"; };
+		085452E2261F0A4B002CFE3B /* FavoriteReposViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteReposViewModel.swift; sourceTree = "<group>"; };
+		085452E7261F0A9B002CFE3B /* FavoriteRepos.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = FavoriteRepos.storyboard; sourceTree = "<group>"; };
+		085452EF261F0BEA002CFE3B /* RepoStatusList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepoStatusList.swift; sourceTree = "<group>"; };
 		0865A60125DC4A4100C9C5B9 /* GitHubReposApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GitHubReposApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0865A60425DC4A4100C9C5B9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		0865A60625DC4A4100C9C5B9 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -143,6 +151,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		085452D9261F0A03002CFE3B /* FavoriteRepos */ = {
+			isa = PBXGroup;
+			children = (
+				085452E7261F0A9B002CFE3B /* FavoriteRepos.storyboard */,
+				085452DA261F0A31002CFE3B /* FavoriteReposViewController.swift */,
+				085452E2261F0A4B002CFE3B /* FavoriteReposViewModel.swift */,
+			);
+			path = FavoriteRepos;
+			sourceTree = "<group>";
+		};
 		0865A5F825DC4A4100C9C5B9 = {
 			isa = PBXGroup;
 			children = (
@@ -172,8 +190,10 @@
 				0865A60425DC4A4100C9C5B9 /* AppDelegate.swift */,
 				0865A60625DC4A4100C9C5B9 /* SceneDelegate.swift */,
 				0865A70B25DC4FDE00C9C5B9 /* TabBarController.swift */,
+				085452EF261F0BEA002CFE3B /* RepoStatusList.swift */,
 				0865A63825DC4A6A00C9C5B9 /* SearchUser */,
 				0865A63925DC4A7700C9C5B9 /* UserRepos */,
+				085452D9261F0A03002CFE3B /* FavoriteRepos */,
 				0865A6F525DC4EA000C9C5B9 /* Utility */,
 				0865A60A25DC4A4100C9C5B9 /* Main.storyboard */,
 				0865A60D25DC4A4200C9C5B9 /* Assets.xcassets */,
@@ -426,6 +446,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				085452E8261F0A9B002CFE3B /* FavoriteRepos.storyboard in Resources */,
 				0865A61125DC4A4200C9C5B9 /* LaunchScreen.storyboard in Resources */,
 				0865A6AE25DC4CA700C9C5B9 /* SearchUser.storyboard in Resources */,
 				0865A60E25DC4A4200C9C5B9 /* Assets.xcassets in Resources */,
@@ -562,6 +583,7 @@
 			files = (
 				0865A66425DC4B2C00C9C5B9 /* GitHubAPIError.swift in Sources */,
 				0865A6A425DC4C7F00C9C5B9 /* SearchUserViewController.swift in Sources */,
+				085452F0261F0BEA002CFE3B /* RepoStatusList.swift in Sources */,
 				0865A6F725DC4EC400C9C5B9 /* ExtensionRx.swift in Sources */,
 				0865A64325DC4ADE00C9C5B9 /* GitHubRequest.swift in Sources */,
 				0865A70425DC4F0000C9C5B9 /* WireFrame.swift in Sources */,
@@ -576,8 +598,10 @@
 				0865A6B425DC4D0E00C9C5B9 /* UserCell.swift in Sources */,
 				0865A69F25DC4C6E00C9C5B9 /* SearchUserModel.swift in Sources */,
 				0865A63E25DC4AD700C9C5B9 /* GitHubAPI.swift in Sources */,
+				085452DB261F0A31002CFE3B /* FavoriteReposViewController.swift in Sources */,
 				08765E1C25DD81FA00EB14A2 /* ActivityIndicator.swift in Sources */,
 				0865A6D925DC4DE900C9C5B9 /* UserReposModel.swift in Sources */,
+				085452E3261F0A4B002CFE3B /* FavoriteReposViewModel.swift in Sources */,
 				0865A65F25DC4B2500C9C5B9 /* GitHubClientError.swift in Sources */,
 				0865A6DE25DC4DFA00C9C5B9 /* UserReposSectionModel.swift in Sources */,
 				0865A60525DC4A4100C9C5B9 /* AppDelegate.swift in Sources */,

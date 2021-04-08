@@ -9,6 +9,7 @@ class UserReposViewModel {
     private let disposeBah = DisposeBag()
     
     init(user: User,
+         favoriteButtonClicked: Driver<IndexPath>,
          dependencies: (
             wireFrame: Wireframe,
             model: UserReposModelProtocol)

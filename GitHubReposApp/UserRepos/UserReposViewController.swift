@@ -6,7 +6,7 @@ class UserReposViewController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
     private let indicator = UIActivityIndicatorView()
     
-    private let faveriteButtonClicked: PublishRelay<Int> = PublishRelay()
+    private let favoriteButtonClicked: PublishRelay<IndexPath> = PublishRelay()
     
     private let disposeBag = DisposeBag()
     
@@ -14,6 +14,7 @@ class UserReposViewController: UIViewController {
 
     private lazy var viewModel = UserReposViewModel(
         user: user,
+        favoriteButtonClicked: favoriteButtonClicked.asDriver(onErrorDriveWith: .empty()),
         dependencies: (
             wireFrame: DefaultWireframe.shared,
             model: UserReposModel())
@@ -53,7 +54,7 @@ class UserReposViewController: UIViewController {
             .drive(indicator.rx.isAnimating)
             .disposed(by: disposeBag)
         
-        faveriteButtonClicked.asDriver(onErrorDriveWith: .empty())
+        favoriteButtonClicked.asDriver(onErrorDriveWith: .empty())
             .drive(onNext: { row in
                 print("favorite button tapped at: ", row)
             })
@@ -69,9 +70,14 @@ class UserReposViewController: UIViewController {
             ),
             configureCell: { (_, tableView, indexPath, repos) in
                 let cell = tableView.dequeueReusableCell(withIdentifier: "ReposCell") as! ReposCell
-                cell.tag = indexPath.row
+                
                 cell.configure(with: repos, isLiked: false)
-                cell.favoriteButtonClickedTrigger = self.faveriteButtonClicked
+                cell.favoriteButton.rx.tap.asDriver()
+                    .drive(onNext: {
+                        self.favoriteButtonClicked.accept(indexPath)
+                    })
+                    .disposed(by: cell.disposeBag)
+                
                 return cell
             },
             titleForHeaderInSection: { dataSource, sectionIndex in return dataSource[sectionIndex].header },

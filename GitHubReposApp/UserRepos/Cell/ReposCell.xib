@@ -23,7 +23,7 @@
                                 <rect key="frame" x="12" y="8" width="264" height="68.5"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalSpacing" alignment="top" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="LbR-MX-EXQ">
-                                        <rect key="frame" x="0.0" y="0.0" width="264" height="68.5"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="234" height="68.5"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Repository title" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RKg-xx-sfd">
                                                 <rect key="frame" x="0.0" y="0.0" width="119" height="19.5"/>
@@ -38,7 +38,7 @@
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <stackView opaque="NO" contentMode="scaleToFill" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="gqD-nJ-TRr">
-                                                <rect key="frame" x="0.0" y="35.5" width="137" height="33"/>
+                                                <rect key="frame" x="0.0" y="35.5" width="99" height="33"/>
                                                 <subviews>
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="UZO-AI-8Ul">
                                                         <rect key="frame" x="0.0" y="0.0" width="55.5" height="33"/>
@@ -64,17 +64,17 @@
                                                         <color key="textColor" red="0.36470588240000001" green="0.37647058820000001" blue="0.41176470590000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
-                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gYF-O2-yZX">
-                                                        <rect key="frame" x="107" y="0.0" width="30" height="33"/>
-                                                        <state key="normal" title="☆"/>
-                                                        <connections>
-                                                            <action selector="clickedFavoriteButton:" destination="CiO-yz-Gk1" eventType="touchUpInside" id="h53-6Z-UJP"/>
-                                                        </connections>
-                                                    </button>
                                                 </subviews>
                                             </stackView>
                                         </subviews>
                                     </stackView>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gYF-O2-yZX">
+                                        <rect key="frame" x="234" y="0.0" width="30" height="68.5"/>
+                                        <state key="normal" title="☆"/>
+                                        <connections>
+                                            <action selector="clickedFavoriteButton:" destination="CiO-yz-Gk1" eventType="touchUpInside" id="h53-6Z-UJP"/>
+                                        </connections>
+                                    </button>
                                 </subviews>
                             </stackView>
                         </subviews>
