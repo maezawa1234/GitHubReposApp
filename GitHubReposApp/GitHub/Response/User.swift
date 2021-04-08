@@ -1,6 +1,6 @@
 import RxDataSources
 
-struct User : Decodable {
+struct User : Codable {
     let id: Int
     let login: String
     let avatarURL: URL
