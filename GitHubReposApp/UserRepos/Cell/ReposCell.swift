@@ -1,4 +1,5 @@
-import UIKit
+import RxSwift
+import RxCocoa
 
 class ReposCell: UITableViewCell {
     @IBOutlet weak var containerView: UIView! {
@@ -15,14 +16,27 @@ class ReposCell: UITableViewCell {
     @IBOutlet weak var languageLabel: UILabel!
     @IBOutlet weak var starLabel: UILabel!
     
+    @IBOutlet weak var favoriteButton: UIButton!
+    
+    private var isLiked = false
+    
     override func awakeFromNib() {
         super.awakeFromNib()
     }
     
-    func configure(with repos: Repository) {
+    var favoriteButtonClickedTrigger: PublishRelay<Int>!
+    
+    func configure(with repos: Repository, isLiked: Bool) {
         nameLabel.text = repos.name
         descriptionLabel.text = repos.description
         languageLabel.text = repos.language
         starLabel.text = "★ \(repos.stargazersCount)"
+        self.isLiked = isLiked
+    }
+    
+    @IBAction func clickedFavoriteButton(_ sender: Any) {
+        self.isLiked.toggle()
+        self.favoriteButton.setTitle(isLiked ? "⭐" : "☆", for: .normal)
+        self.favoriteButtonClickedTrigger.accept(self.tag)
     }
 }

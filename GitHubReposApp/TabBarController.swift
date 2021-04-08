@@ -3,8 +3,9 @@ import UIKit
 class TabBarController: UITabBarController {
     enum ViewControllers {
         case search
+        case favorite
     }
-    let vcArray: [ViewControllers] = [.search]
+    let vcArray: [ViewControllers] = [.search, .favorite]
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -22,6 +23,12 @@ class TabBarController: UITabBarController {
                     .instantiateViewController(identifier: "SearchUserViewController") as! SearchUserViewController
                 tabVC = searchVC
                 tabVC.tabBarItem = UITabBarItem(tabBarSystemItem: .search, tag: i)
+                
+            case .favorite:
+                //FIXME: お気に入りVCのインスタンス化、未実装
+                let favoriteVC = UIViewController()
+                tabVC = favoriteVC
+                tabVC.tabBarItem = UITabBarItem(tabBarSystemItem: .favorites, tag: i)
             }
             let nc = UINavigationController(rootViewController: tabVC)
             myTabs.append(nc)

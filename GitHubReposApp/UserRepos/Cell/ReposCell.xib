@@ -38,7 +38,7 @@
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <stackView opaque="NO" contentMode="scaleToFill" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="gqD-nJ-TRr">
-                                                <rect key="frame" x="0.0" y="35.5" width="99" height="33"/>
+                                                <rect key="frame" x="0.0" y="35.5" width="137" height="33"/>
                                                 <subviews>
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="UZO-AI-8Ul">
                                                         <rect key="frame" x="0.0" y="0.0" width="55.5" height="33"/>
@@ -64,6 +64,13 @@
                                                         <color key="textColor" red="0.36470588240000001" green="0.37647058820000001" blue="0.41176470590000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
+                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gYF-O2-yZX">
+                                                        <rect key="frame" x="107" y="0.0" width="30" height="33"/>
+                                                        <state key="normal" title="☆"/>
+                                                        <connections>
+                                                            <action selector="clickedFavoriteButton:" destination="CiO-yz-Gk1" eventType="touchUpInside" id="h53-6Z-UJP"/>
+                                                        </connections>
+                                                    </button>
                                                 </subviews>
                                             </stackView>
                                         </subviews>
@@ -92,6 +99,7 @@
             <connections>
                 <outlet property="containerView" destination="4qv-oA-lFD" id="SSr-zA-2w1"/>
                 <outlet property="descriptionLabel" destination="nkh-jz-Qb6" id="rBi-Te-1SH"/>
+                <outlet property="favoriteButton" destination="gYF-O2-yZX" id="eKK-DM-n4B"/>
                 <outlet property="languageContainerView" destination="UZO-AI-8Ul" id="xeP-Kg-EdD"/>
                 <outlet property="languageLabel" destination="97u-ui-qRc" id="r3V-UV-XgW"/>
                 <outlet property="nameLabel" destination="RKg-xx-sfd" id="KlP-Rc-3Qh"/>

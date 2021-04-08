@@ -6,6 +6,8 @@ class UserReposViewController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
     private let indicator = UIActivityIndicatorView()
     
+    private let faveriteButtonClicked: PublishRelay<Int> = PublishRelay()
+    
     private let disposeBag = DisposeBag()
     
     var user: User!
@@ -40,7 +42,7 @@ class UserReposViewController: UIViewController {
     
     private func binding() {
         viewModel.sections
-            .drive(tableView.rx.items(dataSource: Self.configureDataSource()))
+            .drive(tableView.rx.items(dataSource: self.configureDataSource()))
             .disposed(by: disposeBag)
         
         viewModel.listIsEmpty
@@ -50,9 +52,15 @@ class UserReposViewController: UIViewController {
         viewModel.fetchingRepos
             .drive(indicator.rx.isAnimating)
             .disposed(by: disposeBag)
+        
+        faveriteButtonClicked.asDriver(onErrorDriveWith: .empty())
+            .drive(onNext: { row in
+                print("favorite button tapped at: ", row)
+            })
+            .disposed(by: disposeBag)
     }
     
-    private static func configureDataSource() -> RxTableViewSectionedAnimatedDataSource<UserReposSectionModel> {
+    private func configureDataSource() -> RxTableViewSectionedAnimatedDataSource<UserReposSectionModel> {
         let dataSource = RxTableViewSectionedAnimatedDataSource<UserReposSectionModel>(
             animationConfiguration: AnimationConfiguration(
                 insertAnimation: .right,
@@ -61,7 +69,9 @@ class UserReposViewController: UIViewController {
             ),
             configureCell: { (_, tableView, indexPath, repos) in
                 let cell = tableView.dequeueReusableCell(withIdentifier: "ReposCell") as! ReposCell
-                cell.configure(with: repos)
+                cell.tag = indexPath.row
+                cell.configure(with: repos, isLiked: false)
+                cell.favoriteButtonClickedTrigger = self.faveriteButtonClicked
                 return cell
             },
             titleForHeaderInSection: { dataSource, sectionIndex in return dataSource[sectionIndex].header },
