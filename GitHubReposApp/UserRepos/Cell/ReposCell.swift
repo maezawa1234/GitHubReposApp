@@ -41,6 +41,7 @@ class ReposCell: UITableViewCell {
         descriptionLabel.text = repos.description
         languageLabel.text = repos.language
         starLabel.text = "★ \(repos.stargazersCount)"
+        self.favoriteButton.setTitle(isLiked ? "⭐" : "☆", for: .normal)
         self.isLiked = isLiked
     }
     

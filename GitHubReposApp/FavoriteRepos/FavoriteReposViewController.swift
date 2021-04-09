@@ -1,12 +1,19 @@
 import RxSwift
 import RxCocoa
+import RxDataSources
 
 class FavoriteReposViewController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
     
     private let disposeBag = DisposeBag()
     
-    private lazy var viewModel = FavoriteReposViewModel()
+    private lazy var viewModel = FavoriteReposViewModel(
+        dependencies: (
+            wireFrame: DefaultWireframe.shared,
+            dataStore: UserDefaultsDataStore(userDefaults: UserDefaults.standard
+            )
+        )
+    )
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -24,10 +31,33 @@ class FavoriteReposViewController: UIViewController {
         //Configure tableView
         tableView.sectionHeaderHeight = .zero
         tableView.tableFooterView = UIView(frame: .zero)
-        //tableView.register(UINib(nibName: "UserCell", bundle: nil), forCellReuseIdentifier: "UserCell")
+        tableView.register(UINib(nibName: "ReposCell", bundle: nil), forCellReuseIdentifier: "ReposCell")
     }
     
     private func binding() {
-        
+        viewModel.sections
+            .drive(tableView.rx.items(dataSource: self.configureDataSource()))
+            .disposed(by: disposeBag)
+    }
+    
+    private func configureDataSource() -> RxTableViewSectionedAnimatedDataSource<UserReposSectionModel> {
+        let dataSource = RxTableViewSectionedAnimatedDataSource<UserReposSectionModel>(
+            animationConfiguration: AnimationConfiguration(
+                insertAnimation: .right,
+                reloadAnimation: .automatic,
+                deleteAnimation: .fade
+            ),
+            configureCell: { (_, tableView, indexPath, repoStatus) in
+                let cell = tableView.dequeueReusableCell(withIdentifier: "ReposCell") as! ReposCell
+                cell.configure(with: repoStatus.repo, isLiked: repoStatus.isFavorite)
+                print("cell at indexPath: \(indexPath) isLiked: \(repoStatus.isFavorite)")
+                
+                return cell
+            },
+            titleForHeaderInSection: { dataSource, sectionIndex in return dataSource[sectionIndex].header },
+            canEditRowAtIndexPath: { (_, _) in false },
+            canMoveRowAtIndexPath: { (_, _) in false }
+        )
+        return dataSource
     }
 }

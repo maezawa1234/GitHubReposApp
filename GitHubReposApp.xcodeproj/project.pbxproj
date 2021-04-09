@@ -196,6 +196,8 @@
 				0865A70B25DC4FDE00C9C5B9 /* TabBarController.swift */,
 				085452EF261F0BEA002CFE3B /* RepoStatusList.swift */,
 				085452FC261F1D77002CFE3B /* UserDefaultsDataStore.swift */,
+				0865A69E25DC4C6E00C9C5B9 /* SearchUserModel.swift */,
+				0865A6D825DC4DE900C9C5B9 /* UserReposModel.swift */,
 				0865A63825DC4A6A00C9C5B9 /* SearchUser */,
 				0865A63925DC4A7700C9C5B9 /* UserRepos */,
 				085452D9261F0A03002CFE3B /* FavoriteRepos */,
@@ -242,7 +244,6 @@
 				0865A6AD25DC4CA700C9C5B9 /* SearchUser.storyboard */,
 				0865A6A325DC4C7F00C9C5B9 /* SearchUserViewController.swift */,
 				0865A69625DC4C6400C9C5B9 /* SearchuserViewModel.swift */,
-				0865A69E25DC4C6E00C9C5B9 /* SearchUserModel.swift */,
 				0865A6A825DC4C9700C9C5B9 /* SearchUserSectionModel.swift */,
 				0865A6B225DC4CFC00C9C5B9 /* Cell */,
 			);
@@ -255,7 +256,6 @@
 				0865A6E225DC4E0400C9C5B9 /* UserRepos.storyboard */,
 				0865A6CE25DC4DD100C9C5B9 /* UserReposViewController.swift */,
 				0865A6D325DC4DDC00C9C5B9 /* UserReposViewModel.swift */,
-				0865A6D825DC4DE900C9C5B9 /* UserReposModel.swift */,
 				0865A6DD25DC4DFA00C9C5B9 /* UserReposSectionModel.swift */,
 				0865A6E725DC4E0E00C9C5B9 /* Cell */,
 			);
