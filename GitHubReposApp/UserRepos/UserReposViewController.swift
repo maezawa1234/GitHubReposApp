@@ -72,6 +72,7 @@ class UserReposViewController: UIViewController {
                 let cell = tableView.dequeueReusableCell(withIdentifier: "ReposCell") as! ReposCell
                 
                 cell.configure(with: repos, isLiked: false)
+                
                 cell.favoriteButton.rx.tap.asDriver()
                     .drive(onNext: {
                         self.favoriteButtonClicked.accept(indexPath)

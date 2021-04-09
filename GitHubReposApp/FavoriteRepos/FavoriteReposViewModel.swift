@@ -1,2 +1,7 @@
 import RxSwift
 
+class FavoriteReposViewModel {
+    
+}
+
+

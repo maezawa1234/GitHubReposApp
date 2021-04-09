@@ -26,7 +26,8 @@ class TabBarController: UITabBarController {
                 
             case .favorite:
                 //FIXME: お気に入りVCのインスタンス化、未実装
-                let favoriteVC = UIViewController()
+                let favoriteVC = UIStoryboard(name: "FavoriteRepos", bundle: nil)
+                    .instantiateViewController(identifier: "FavoriteReposViewController") as! FavoriteReposViewController
                 tabVC = favoriteVC
                 tabVC.tabBarItem = UITabBarItem(tabBarSystemItem: .favorites, tag: i)
             }

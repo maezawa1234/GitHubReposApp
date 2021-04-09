@@ -1,16 +1,15 @@
- 
- import Foundation
- 
- protocol UserDefaultsProtocol {
+import Foundation
+
+protocol UserDefaultsProtocol {
     func dictionary(forKey defaultName: String) -> [String : Any]?
     func string(forKey defaultName: String) -> String?
     
     func set(_ value: Any?, forKey defaultName: String)
- }
- 
- extension UserDefaults: UserDefaultsProtocol {}
- 
- protocol DataStoreProtocol: AnyObject {
+}
+
+extension UserDefaults: UserDefaultsProtocol {}
+
+protocol DataStoreProtocol: AnyObject {
     // お気に入り情報を検索・保存する
     func fetch(ids: [Int],
                completion: @escaping (Result<[Int: Bool]>) -> Void)
@@ -18,9 +17,9 @@
               for id: Int,
               completion: @escaping (Result<Bool>) -> Void)
     func allLikes(completion: @escaping (Result<[Int: Bool]>) -> Void)
- }
- 
- final class UserDefaultsDataStore: DataStoreProtocol {
+}
+
+final class UserDefaultsDataStore: DataStoreProtocol {
     
     let userDefaults: UserDefaultsProtocol
     
@@ -61,5 +60,5 @@
             return [:]
         }
     }
- }
- 
+}
+
