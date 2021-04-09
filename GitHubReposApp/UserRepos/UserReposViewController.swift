@@ -11,18 +11,19 @@ class UserReposViewController: UIViewController {
     private let disposeBag = DisposeBag()
     
     var user: User!
-
+    
     private lazy var viewModel = UserReposViewModel(
         user: user,
         favoriteButtonClicked: favoriteButtonClicked.asDriver(onErrorDriveWith: .empty()),
         dependencies: (
             wireFrame: DefaultWireframe.shared,
-            model: UserReposModel())
+            model: UserReposModel(),
+            dataStore: UserDefaultsDataStore(userDefaults: UserDefaults.standard))
     )
-        
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         setup()
         binding()
     }
@@ -68,10 +69,9 @@ class UserReposViewController: UIViewController {
                 reloadAnimation: .automatic,
                 deleteAnimation: .fade
             ),
-            configureCell: { (_, tableView, indexPath, repos) in
+            configureCell: { (_, tableView, indexPath, repoStatus) in
                 let cell = tableView.dequeueReusableCell(withIdentifier: "ReposCell") as! ReposCell
-                
-                cell.configure(with: repos, isLiked: false)
+                cell.configure(with: repoStatus.repo, isLiked: repoStatus.isFavorite)
                 
                 cell.favoriteButton.rx.tap.asDriver()
                     .drive(onNext: {
@@ -100,4 +100,4 @@ extension UserReposViewController {
         }
     }
 }
- 
+

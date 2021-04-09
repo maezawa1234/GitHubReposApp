@@ -1,7 +1,7 @@
 import RxDataSources
 
 struct UserReposSectionModel: AnimatableSectionModelType {
-    typealias Item = Repository
+    typealias Item = RepoStatus
     
     var items: [Item]
     var header: String
@@ -21,6 +21,7 @@ struct UserReposSectionModel: AnimatableSectionModelType {
     }
 }
 
+// FIXME: SecionModelのItemをRepoStatusに変更
 extension Repository: IdentifiableType, Equatable {
     var identity: Int {
         self.id
@@ -28,6 +29,12 @@ extension Repository: IdentifiableType, Equatable {
     
     static func == (lhs: Repository, rhs: Repository) -> Bool {
         return lhs.id == rhs.id
+    }
+}
+
+extension RepoStatus: IdentifiableType {
+    var identity: Int {
+        self.repo.id
     }
 }
 
