@@ -49,7 +49,7 @@ class FavoriteReposViewController: UIViewController {
             ),
             configureCell: { (_, tableView, indexPath, repoStatus) in
                 let cell = tableView.dequeueReusableCell(withIdentifier: "ReposCell") as! ReposCell
-                cell.configure(with: repoStatus.repo, isLiked: repoStatus.isFavorite)
+                cell.configure(with: repoStatus.repo, _isLiked: repoStatus.isFavorite)
                 print("cell at indexPath: \(indexPath) isLiked: \(repoStatus.isFavorite)")
                 
                 return cell

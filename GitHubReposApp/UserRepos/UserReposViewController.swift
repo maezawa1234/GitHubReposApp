@@ -6,7 +6,7 @@ class UserReposViewController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
     private let indicator = UIActivityIndicatorView()
     
-    private let favoriteButtonClicked: PublishRelay<IndexPath> = PublishRelay()
+    private let favoriteButtonClicked: PublishRelay<(indexPath: IndexPath, repoStatus: RepoStatus, isFavorite: Bool)> = PublishRelay()
     
     private let disposeBag = DisposeBag()
     
@@ -44,7 +44,14 @@ class UserReposViewController: UIViewController {
     
     private func binding() {
         viewModel.sections
-            .drive(tableView.rx.items(dataSource: self.configureDataSource()))
+            .drive(tableView.rx.items(dataSource: self.configureDataSource())) 
+            .disposed(by: disposeBag)
+        
+        viewModel.sections
+            .drive(onNext:{ sections in
+                let a = sections[0].items.map { $0.isFavorite }
+                print(a)
+            })
             .disposed(by: disposeBag)
         
         viewModel.listIsEmpty
@@ -54,6 +61,15 @@ class UserReposViewController: UIViewController {
         viewModel.fetchingRepos
             .drive(indicator.rx.isAnimating)
             .disposed(by: disposeBag)
+        
+        /*
+        viewModel.updateCell
+            .drive(onNext: { indexPath in
+                let cell = self.tableView.cellForRow(at: indexPath) as! ReposCell
+                cell.toggle()
+            })
+            .disposed(by: disposeBag)
+ */
         
         favoriteButtonClicked.asDriver(onErrorDriveWith: .empty())
             .drive(onNext: { row in
@@ -71,12 +87,16 @@ class UserReposViewController: UIViewController {
             ),
             configureCell: { (_, tableView, indexPath, repoStatus) in
                 let cell = tableView.dequeueReusableCell(withIdentifier: "ReposCell") as! ReposCell
-                cell.configure(with: repoStatus.repo, isLiked: repoStatus.isFavorite)
-                print("cell at indexPath: \(indexPath) isLiked: \(repoStatus.isFavorite)")
+                print("YYYYYYYYYYYYYYYYYYYYY", repoStatus.isFavorite)
+                cell.configure(with: repoStatus.repo, _isLiked: repoStatus.isFavorite)
+                //print("cell at indexPath: \(indexPath) isLiked: \(repoStatus.isFavorite)")
                 
                 cell.favoriteButton.rx.tap.asDriver()
                     .drive(onNext: {
-                        self.favoriteButtonClicked.accept(indexPath)
+                        //print("isFavorite:", cell.isFavorite)
+                        cell.isLiked.toggle()
+                        print("GGGGGGGGGGGGGGGGG", repoStatus.isFavorite)
+                        self.favoriteButtonClicked.accept((indexPath: indexPath, repoStatus: repoStatus, isFavorite: cell.isLiked))
                     })
                     .disposed(by: cell.disposeBag)
                 

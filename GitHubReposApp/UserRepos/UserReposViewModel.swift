@@ -6,20 +6,24 @@ class UserReposViewModel {
     let listIsEmpty: Driver<Bool>
     let fetchingRepos: Driver<Bool>
     
+    let updateCell: Driver<IndexPath>
+    
     private let disposeBag = DisposeBag()
     
     init(user: User,
-         favoriteButtonClicked: Driver<IndexPath>,
+         favoriteButtonClicked: Driver<(indexPath: IndexPath, repoStatus: RepoStatus, isFavorite: Bool)>,
          dependencies: (
             wireFrame: Wireframe,
             model: UserReposModelProtocol,
             dataStore: DataStoreProtocol)
     ) {
+        let webClient = dependencies.model
         let dataStore = dependencies.dataStore
+        
         let fetchingRepos = ActivityIndicator()
         self.fetchingRepos = fetchingRepos.asDriver()
         
-        self.sections = dependencies.model
+        let fetchRepositoriesResponse = webClient
             .fetchRepositories(by: user.login)
             .trackActivity(fetchingRepos)
             .asDriver(onErrorDriveWith: .empty())
@@ -28,11 +32,34 @@ class UserReposViewModel {
                 return dataStore.save(repos: repos)
                     .asDriver(onErrorDriveWith: .empty())
             }
-            .flatMap { repositories -> Driver<RepoStatusList> in
+    
+        //MARK: お気に入り状態をdataStoreへ保存
+        let favoriteEvent = favoriteButtonClicked
+            //FIXME: イベントの値Boolはてきとう、使用していない状態です。
+            .flatMap { statusValue -> Driver<Bool> in
+                let row = statusValue.indexPath.row
+                let repoStatus = statusValue.repoStatus
+                let isFavorite = statusValue.isFavorite
+                print("In ViewModel Event, will save isFavorite", isFavorite)
+                return dataStore.save(liked: isFavorite, for: repoStatus.repo.id)
+                    .asDriver(onErrorDriveWith: .empty())
+            }
+            .startWith(true)
+            
+        self.updateCell = favoriteButtonClicked
+            .map {
+                return $0.indexPath
+            }
+        
+        self.sections = Driver.combineLatest(fetchRepositoriesResponse, favoriteEvent) { ($0, $1) }
+            .flatMap { o -> Driver<RepoStatusList> in
+                print("aaaaaaaaaaaaaaaaa")
                 //MARK: RepositoryをRepoStatusに変換する. dataStoreからお気に入り情報の取得を開始
+                let repositories = o.0
                 let ids = repositories.map { $0.id }
                 return dataStore.fetch(ids: ids)
                     .map { likes in
+                        print(likes)
                         let statusList = RepoStatusList(
                             repos: repositories, favoriteStatuses: likes
                         )
@@ -44,6 +71,7 @@ class UserReposViewModel {
                 let sectionModel = UserReposSectionModel(header: "Repositories", items: reposStatusList.statuses)
                 return [sectionModel]
             }
+            
         
         sections.drive(onNext: { _ in
         })
@@ -51,20 +79,5 @@ class UserReposViewModel {
         
         self.listIsEmpty = self.sections
             .map { $0[0].items.isEmpty }
-        
-        //MARK: お気に入り状態をdataStoreへ保存
-        Driver.combineLatest(favoriteButtonClicked, sections) { (indexPath: $0, sections: $1) }
-        .drive(onNext: { statusValue in
-            let row = statusValue.indexPath.row
-            let repoStatus = statusValue.sections[0].items[row]
-            let isLiked = repoStatus.isFavorite
-            let a = dataStore.save(liked: !isLiked, for: repoStatus.repo.id)
-            //FIXME: flatMapで展開すればここで無駄にイベント購読する必要はない
-            a.subscribe(onNext: { liked in
-                print("a")
-            })
-            .disposed(by: self.disposeBag)
-        })
-        .disposed(by: disposeBag)
     }
 }

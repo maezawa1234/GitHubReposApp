@@ -15,14 +15,15 @@ class ReposCell: UITableViewCell {
     @IBOutlet weak var languageContainerView: UIView!
     @IBOutlet weak var languageLabel: UILabel!
     @IBOutlet weak var starLabel: UILabel!
-    @IBOutlet weak var favoriteButton: UIButton! {
-        didSet {
-            favoriteButton.setTitle("☆", for: .normal)
-        }
+    @IBOutlet weak var favoriteButton: UIButton! 
+    
+    var isFavorite: Bool {
+        print(favoriteButton.titleLabel?.text)
+        return favoriteButton.titleLabel?.text == "☆"
     }
     
     // Favorite state
-    private var isLiked = false
+    var isLiked: Bool!
     
     var disposeBag = DisposeBag()
     
@@ -36,17 +37,25 @@ class ReposCell: UITableViewCell {
         self.disposeBag = DisposeBag()
     }
     
-    func configure(with repos: Repository, isLiked: Bool) {
+    func configure(with repos: Repository, _isLiked: Bool) {
         nameLabel.text = repos.name
         descriptionLabel.text = repos.description
         languageLabel.text = repos.language
         starLabel.text = "★ \(repos.stargazersCount)"
-        self.favoriteButton.setTitle(isLiked ? "⭐" : "☆", for: .normal)
-        self.isLiked = isLiked
+        self.isLiked = _isLiked
+        self.favoriteButton.setTitle(self.isLiked ? "⭐" : "☆", for: .normal)
     }
     
     @IBAction func clickedFavoriteButton(_ sender: Any) {
-        self.isLiked.toggle()
-        self.favoriteButton.setTitle(isLiked ? "⭐" : "☆", for: .normal)
+        //self.favoriteButton.setTitle(self.isLiked ? "⭐" : "☆", for: .normal)
+        //self.isLiked.toggle()
+    }
+    
+    func toggle() {
+        if self.favoriteButton.titleLabel?.text == "☆" {
+            favoriteButton.setTitle("⭐", for: .normal)
+        } else {
+            favoriteButton.setTitle("☆", for: .normal)
+        }
     }
 }

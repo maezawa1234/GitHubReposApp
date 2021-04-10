@@ -6,7 +6,7 @@ struct RepoStatus: Equatable {
     
     // リポジトリが同じであればtrue
     static func == (lhs: RepoStatus, rhs: RepoStatus) -> Bool {
-        return lhs.repo == rhs.repo
+        return lhs.repo == rhs.repo && lhs.isFavorite == rhs.isFavorite
     }
 }
 
@@ -41,6 +41,8 @@ struct RepoStatusList {
         if isOnlyFavorite {
             self.statuses = statuses.filter { $0.isFavorite }
         }
+        print("XXXXXXXXXXXXXXXXXXXX")
+        print(self.statuses.map { $0.isFavorite })
     }
     
     mutating func set(isFavorite: Bool, for id: Int) throws {

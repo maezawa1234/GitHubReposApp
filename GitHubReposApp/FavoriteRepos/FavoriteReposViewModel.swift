@@ -10,7 +10,9 @@ class FavoriteReposViewModel {
             wireFrame: Wireframe,
             dataStore: DataStoreProtocol)
     ) {
-        self.sections  = dependencies.dataStore.allLikes()
+        let dataStore = dependencies.dataStore
+        
+        self.sections = dataStore.allLikes()
             .flatMap { likes -> Driver<RepoStatusList> in
                 let ids = Array(likes.keys)
                 

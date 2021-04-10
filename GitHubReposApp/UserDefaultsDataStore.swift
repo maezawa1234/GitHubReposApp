@@ -50,7 +50,7 @@ final class UserDefaultsDataStore: DataStoreProtocol {
     
     func save(liked: Bool, for id: Int) -> Observable<Bool> {
         return Observable.create { observer in
-            
+            print("will save with liked:", liked)
             var all = self._allLikes()
             let id = String(id)
             all[id] = liked
@@ -67,6 +67,7 @@ final class UserDefaultsDataStore: DataStoreProtocol {
     func allLikes() -> Observable<[Int: Bool]> {
         let pair = _allLikes().map { (k, v) in (Int(k)!, v) }
         let likes = Dictionary(uniqueKeysWithValues: pair)
+        print("allLikes: ", likes)
         return .just(likes)
     }
     

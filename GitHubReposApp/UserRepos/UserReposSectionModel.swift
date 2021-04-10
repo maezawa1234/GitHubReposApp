@@ -21,7 +21,6 @@ struct UserReposSectionModel: AnimatableSectionModelType {
     }
 }
 
-// FIXME: SecionModelのItemをRepoStatusに変更
 extension Repository: IdentifiableType, Equatable {
     var identity: Int {
         self.id
