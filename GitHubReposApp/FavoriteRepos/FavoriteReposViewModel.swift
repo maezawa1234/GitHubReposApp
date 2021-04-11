@@ -2,6 +2,7 @@ import RxSwift
 import RxCocoa
 
 class FavoriteReposViewModel {
+    //MARK: Drivers
     let sections: Driver<[UserReposSectionModel]>
     let listIsEmpty: Driver<Bool>
     let transitionToRepoDetailView: Driver<Repository>
@@ -31,10 +32,10 @@ class FavoriteReposViewModel {
             .startWith(true)
         
         let reposStatusList = Driver.combineLatest(input.viewWillAppear, favoriteEvent)
-            .flatMap { _ in
+            .flatMapLatest { _ in
                 return dataStore.allLikes().asDriver(onErrorDriveWith: .empty())
             }
-            .flatMap { o -> Driver<RepoStatusList> in
+            .flatMapLatest { o -> Driver<RepoStatusList> in
                 let likes = o
                 let ids = Array(likes.keys)
                 return dependencies.dataStore.fetch(using: ids)

@@ -18,13 +18,12 @@ class RepositoryDetailViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+ 
         setup()
     }
     
     private func setup() {
         self.navigationItem.title = repository.name
-        
         let request = URLRequest(url: repository.htmlURL)
         webView.load(request)
     }

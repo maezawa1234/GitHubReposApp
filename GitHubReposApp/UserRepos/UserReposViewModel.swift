@@ -2,6 +2,7 @@ import RxSwift
 import RxCocoa
 
 class UserReposViewModel {
+    //MARK: Drivers
     let sections: Driver<[UserReposSectionModel]>
     let listIsEmpty: Driver<Bool>
     let fetchingRepos: Driver<Bool>

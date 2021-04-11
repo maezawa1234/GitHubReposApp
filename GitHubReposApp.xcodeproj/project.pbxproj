@@ -202,8 +202,8 @@
 				085452FC261F1D77002CFE3B /* UserDefaultsDataStore.swift */,
 				0865A63825DC4A6A00C9C5B9 /* SearchUser */,
 				0865A63925DC4A7700C9C5B9 /* UserRepos */,
-				08675FE72622DF5E00189058 /* RepositoryDetailViewController */,
 				085452D9261F0A03002CFE3B /* FavoriteRepos */,
+				08675FE72622DF5E00189058 /* RepositoryDetail */,
 				0865A60A25DC4A4100C9C5B9 /* Main.storyboard */,
 				0865A60D25DC4A4200C9C5B9 /* Assets.xcassets */,
 				0865A60F25DC4A4200C9C5B9 /* LaunchScreen.storyboard */,
@@ -323,13 +323,13 @@
 			path = Utility;
 			sourceTree = "<group>";
 		};
-		08675FE72622DF5E00189058 /* RepositoryDetailViewController */ = {
+		08675FE72622DF5E00189058 /* RepositoryDetail */ = {
 			isa = PBXGroup;
 			children = (
 				08675FF02622DFEB00189058 /* RepositoryDetail.storyboard */,
 				08675FE82622DF8A00189058 /* RepositoryDetailViewController.swift */,
 			);
-			path = RepositoryDetailViewController;
+			path = RepositoryDetail;
 			sourceTree = "<group>";
 		};
 		5FA3DB44256EE0F03D4F4B0E /* Frameworks */ = {
