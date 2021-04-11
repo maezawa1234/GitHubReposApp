@@ -71,9 +71,6 @@
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gYF-O2-yZX">
                                         <rect key="frame" x="234" y="0.0" width="30" height="68.5"/>
                                         <state key="normal" title="☆"/>
-                                        <connections>
-                                            <action selector="clickedFavoriteButton:" destination="CiO-yz-Gk1" eventType="touchUpInside" id="h53-6Z-UJP"/>
-                                        </connections>
                                     </button>
                                 </subviews>
                             </stackView>

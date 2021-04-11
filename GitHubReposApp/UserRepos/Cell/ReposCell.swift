@@ -18,13 +18,13 @@ class ReposCell: UITableViewCell {
     @IBOutlet weak var favoriteButton: UIButton! 
     
     var isFavorite: Bool {
-        print(favoriteButton.titleLabel?.text)
-        return favoriteButton.titleLabel?.text == "☆"
+        if favoriteButton.titleLabel?.text == "⭐" {
+            return true
+        } else {
+            return false
+        }
     }
-    
-    // Favorite state
-    var isLiked: Bool!
-    
+
     var disposeBag = DisposeBag()
     
     override func awakeFromNib() {
@@ -37,25 +37,11 @@ class ReposCell: UITableViewCell {
         self.disposeBag = DisposeBag()
     }
     
-    func configure(with repos: Repository, _isLiked: Bool) {
+    func configure(with repos: Repository, isFavorite: Bool) {
         nameLabel.text = repos.name
         descriptionLabel.text = repos.description
         languageLabel.text = repos.language
         starLabel.text = "★ \(repos.stargazersCount)"
-        self.isLiked = _isLiked
-        self.favoriteButton.setTitle(self.isLiked ? "⭐" : "☆", for: .normal)
-    }
-    
-    @IBAction func clickedFavoriteButton(_ sender: Any) {
-        //self.favoriteButton.setTitle(self.isLiked ? "⭐" : "☆", for: .normal)
-        //self.isLiked.toggle()
-    }
-    
-    func toggle() {
-        if self.favoriteButton.titleLabel?.text == "☆" {
-            favoriteButton.setTitle("⭐", for: .normal)
-        } else {
-            favoriteButton.setTitle("☆", for: .normal)
-        }
+        favoriteButton.setTitle(isFavorite ? "⭐" : "☆", for: .normal)
     }
 }

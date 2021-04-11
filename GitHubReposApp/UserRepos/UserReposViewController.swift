@@ -87,16 +87,11 @@ class UserReposViewController: UIViewController {
             ),
             configureCell: { (_, tableView, indexPath, repoStatus) in
                 let cell = tableView.dequeueReusableCell(withIdentifier: "ReposCell") as! ReposCell
-                print("YYYYYYYYYYYYYYYYYYYYY", repoStatus.isFavorite)
-                cell.configure(with: repoStatus.repo, _isLiked: repoStatus.isFavorite)
-                //print("cell at indexPath: \(indexPath) isLiked: \(repoStatus.isFavorite)")
+                cell.configure(with: repoStatus.repo, isFavorite: repoStatus.isFavorite)
                 
                 cell.favoriteButton.rx.tap.asDriver()
                     .drive(onNext: {
-                        //print("isFavorite:", cell.isFavorite)
-                        cell.isLiked.toggle()
-                        print("GGGGGGGGGGGGGGGGG", repoStatus.isFavorite)
-                        self.favoriteButtonClicked.accept((indexPath: indexPath, repoStatus: repoStatus, isFavorite: cell.isLiked))
+                        self.favoriteButtonClicked.accept((indexPath: indexPath, repoStatus: repoStatus, isFavorite: cell.isFavorite))
                     })
                     .disposed(by: cell.disposeBag)
                 
