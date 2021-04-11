@@ -5,11 +5,15 @@ class UserReposViewModel {
     let sections: Driver<[UserReposSectionModel]>
     let listIsEmpty: Driver<Bool>
     let fetchingRepos: Driver<Bool>
+    let transitionToRepoDetailView: Driver<URL>
     
     private let disposeBag = DisposeBag()
     
     init(user: User,
-         favoriteButtonClicked: Driver<(indexPath: IndexPath, repoStatus: RepoStatus)>,
+         input: (
+            cellSelected: Driver<IndexPath>,
+            favoriteButtonClicked: Driver<(indexPath: IndexPath, repoStatus: RepoStatus)>,
+            viewWillAppear: Driver<Void>),
          dependencies: (
             wireFrame: Wireframe,
             webClient: WebAPIClientProtocol,
@@ -32,7 +36,7 @@ class UserReposViewModel {
             }
     
         //MARK: お気に入り状態をdataStoreへ保存
-        let favoriteEvent = favoriteButtonClicked
+        let favoriteEvent = input.favoriteButtonClicked
             //FIXME: イベントの値Boolはてきとう、使用していない状態です。
             .flatMap { statusValue -> Driver<Bool> in
                 let repoStatus = statusValue.repoStatus
@@ -40,9 +44,11 @@ class UserReposViewModel {
                 return dataStore.save(liked: !repoStatus.isFavorite, for: repoStatus.repo.id)
                     .asDriver(onErrorDriveWith: .empty())
             }
+            //combineでイベント流れるようにとりあえず初期値'true'を流しておく
             .startWith(true)
         
-        self.sections = Driver.combineLatest(fetchRepositoriesResponse, favoriteEvent) { ($0, $1) }
+        self.sections = Driver
+            .combineLatest(fetchRepositoriesResponse, favoriteEvent, input.viewWillAppear) { ($0, $1, $2) }
             .flatMap { reposAndFavoriteEvent -> Driver<RepoStatusList> in
                 //MARK: RepositoryをRepoStatusに変換する. dataStoreからお気に入り情報の取得を開始
                 let repositories = reposAndFavoriteEvent.0
@@ -67,5 +73,10 @@ class UserReposViewModel {
         
         self.listIsEmpty = self.sections
             .map { $0[0].items.isEmpty }
+        
+        self.transitionToRepoDetailView = input.cellSelected
+            .withLatestFrom(fetchRepositoriesResponse) { (indexPath: $0, repositories: $1) }
+            .map { $0.repositories[$0.indexPath.row].htmlURL }
+ 
     }
 }

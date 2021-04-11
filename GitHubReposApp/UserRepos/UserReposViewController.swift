@@ -14,11 +14,16 @@ class UserReposViewController: UIViewController {
     
     private lazy var viewModel = UserReposViewModel(
         user: user,
-        favoriteButtonClicked: favoriteButtonClicked.asDriver(onErrorDriveWith: .empty()),
+        input: (
+            cellSelected: tableView.rx.itemSelected.asDriver(onErrorDriveWith: .empty()),
+            favoriteButtonClicked: favoriteButtonClicked.asDriver(onErrorDriveWith: .empty()),
+            viewWillAppear: self.rx.viewWillAppear
+        ),
         dependencies: (
             wireFrame: DefaultWireframe.shared,
             webClient: WebAPIClient(),
-            dataStore: UserDefaultsDataStore(userDefaults: UserDefaults.standard))
+            dataStore: UserDefaultsDataStore(userDefaults: UserDefaults.standard)
+        )
     )
     
     override func viewDidLoad() {
@@ -47,19 +52,16 @@ class UserReposViewController: UIViewController {
             .drive(tableView.rx.items(dataSource: self.configureDataSource())) 
             .disposed(by: disposeBag)
         
-        viewModel.sections
-            .drive(onNext:{ sections in
-                let a = sections[0].items.map { $0.isFavorite }
-                print(a)
-            })
-            .disposed(by: disposeBag)
-        
         viewModel.listIsEmpty
             .drive(setEmpty)
             .disposed(by: disposeBag)
         
         viewModel.fetchingRepos
             .drive(indicator.rx.isAnimating)
+            .disposed(by: disposeBag)
+        
+        viewModel.transitionToRepoDetailView
+            .drive(transitionToRepoDetailView)
             .disposed(by: disposeBag)
     }
     
@@ -98,6 +100,15 @@ extension UserReposViewController {
             } else {
                 me.tableView.restore()
             }
+        }
+    }
+    
+    private var transitionToRepoDetailView: Binder<URL> {
+        return Binder(self) { me, url in
+            let repoDetailVC = UIStoryboard(name: "RepositoryDetail", bundle: nil)
+                .instantiateViewController(identifier: "RepositoryDetailViewController") as! RepositoryDetailViewController
+            repoDetailVC.url = url
+            self.navigationController?.pushViewController(repoDetailVC, animated: true)
         }
     }
 }

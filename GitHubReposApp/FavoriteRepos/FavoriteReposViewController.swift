@@ -42,6 +42,10 @@ class FavoriteReposViewController: UIViewController {
         viewModel.sections
             .drive(tableView.rx.items(dataSource: self.configureDataSource()))
             .disposed(by: disposeBag)
+        
+        viewModel.listIsEmpty
+            .drive(setEmpty)
+            .disposed(by: disposeBag)
     }
     
     private func configureDataSource() -> RxTableViewSectionedAnimatedDataSource<UserReposSectionModel> {
@@ -68,5 +72,17 @@ class FavoriteReposViewController: UIViewController {
             canMoveRowAtIndexPath: { (_, _) in false }
         )
         return dataSource
+    }
+}
+
+extension FavoriteReposViewController {
+    private var setEmpty: Binder<Bool> {
+        return Binder(self) { me, isEmpty in
+            if isEmpty {
+                me.tableView.setEmptyMessage("There is no favorite repositories.\n\nPlease register your favorite one!")
+            } else {
+                me.tableView.restore()
+            }
+        }
     }
 }

@@ -94,6 +94,7 @@ final class UserDefaultsDataStore: DataStoreProtocol {
                 observer.onNext(repos)
                 observer.onCompleted()
             } catch {
+                print("GGGGGGGGGGGGGGGGGGGGGGGGGGGG")
                 observer.onError(error)
             }
             
@@ -117,6 +118,7 @@ final class UserDefaultsDataStore: DataStoreProtocol {
                 observer.onNext(result)
                 observer.onCompleted()
             } catch {
+                print("TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT")
                 observer.onError(error)
             }
             

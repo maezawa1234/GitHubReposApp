@@ -3,6 +3,7 @@ import RxCocoa
 
 class FavoriteReposViewModel {
     let sections: Driver<[UserReposSectionModel]>
+    let listIsEmpty: Driver<Bool>
     
     private let disposeBag = DisposeBag()
     
@@ -34,7 +35,7 @@ class FavoriteReposViewModel {
             .flatMap { o -> Driver<RepoStatusList> in
                 let likes = o
                 let ids = Array(likes.keys)
-                print("likes: ", likes)
+                print("AAAAAAAAAAAAAAAAlikes: ", likes)
                 return dependencies.dataStore.fetch(using: ids)
                     .map { repos -> RepoStatusList in
                         let likesList = RepoStatusList(
@@ -57,9 +58,14 @@ class FavoriteReposViewModel {
         
         self.sections = firstSections
         
-        self.sections.drive(onNext: { _ in
+        self.sections.drive(onNext: { a in
+            print("GGGGGGGGGGGGGGGGGGGGGGG")
+            print(a[0].items.count)
         })
         .disposed(by: disposeBag)
+        
+        self.listIsEmpty = self.sections
+            .map {$0[0].items.isEmpty }
     }
 }
 

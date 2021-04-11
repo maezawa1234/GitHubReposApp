@@ -1,3 +1,5 @@
+import Foundation
+
 struct Repository: Codable {
     let id: Int
     let name: String
@@ -6,6 +8,7 @@ struct Repository: Codable {
     let language: String?
     let stargazersCount: Int
     let owner: User
+    let htmlURL: URL
     
     enum CodingKeys: String, CodingKey {
         case id
@@ -15,6 +18,7 @@ struct Repository: Codable {
         case fullName = "full_name"
         case owner
         case stargazersCount = "stargazers_count"
+        case htmlURL = "html_url"
     }
 }
 
