@@ -4,12 +4,14 @@ import RxCocoa
 class FavoriteReposViewModel {
     let sections: Driver<[UserReposSectionModel]>
     let listIsEmpty: Driver<Bool>
+    let transitionToRepoDetailView: Driver<Repository>
     
     private let disposeBag = DisposeBag()
     
     init(input: (
-            viewWillAppear: Driver<Void>,
-            favoriteButtonClicked: Driver<(indexPath: IndexPath, repoStatus: RepoStatus)>),
+            cellSelected: Driver<IndexPath>,
+            favoriteButtonClicked: Driver<(indexPath: IndexPath, repoStatus: RepoStatus)>,
+            viewWillAppear: Driver<Void>),
          dependencies: (
             wireFrame: Wireframe,
             dataStore: DataStoreProtocol)
@@ -28,14 +30,13 @@ class FavoriteReposViewModel {
             }
             .startWith(true)
         
-        let firstSections = Driver.combineLatest(input.viewWillAppear, favoriteEvent)
+        let reposStatusList = Driver.combineLatest(input.viewWillAppear, favoriteEvent)
             .flatMap { _ in
                 return dataStore.allLikes().asDriver(onErrorDriveWith: .empty())
             }
             .flatMap { o -> Driver<RepoStatusList> in
                 let likes = o
                 let ids = Array(likes.keys)
-                print("AAAAAAAAAAAAAAAAlikes: ", likes)
                 return dependencies.dataStore.fetch(using: ids)
                     .map { repos -> RepoStatusList in
                         let likesList = RepoStatusList(
@@ -47,6 +48,8 @@ class FavoriteReposViewModel {
                     }
                     .asDriver(onErrorDriveWith: .empty())
             }
+        
+        self.sections = reposStatusList
             .map { reposStatusList -> [UserReposSectionModel] in
                 let sectionModel = UserReposSectionModel(
                     header: "Repositories",
@@ -56,16 +59,16 @@ class FavoriteReposViewModel {
             }
             .asDriver(onErrorDriveWith: .empty())
         
-        self.sections = firstSections
-        
-        self.sections.drive(onNext: { a in
-            print("GGGGGGGGGGGGGGGGGGGGGGG")
-            print(a[0].items.count)
+        self.sections.drive(onNext: { _ in
         })
         .disposed(by: disposeBag)
         
         self.listIsEmpty = self.sections
             .map {$0[0].items.isEmpty }
+        
+        self.transitionToRepoDetailView = input.cellSelected
+            .withLatestFrom(reposStatusList) { (indexPath: $0, repositories: $1) }
+            .map { $0.repositories.statuses[$0.indexPath.row].repo }
     }
 }
 

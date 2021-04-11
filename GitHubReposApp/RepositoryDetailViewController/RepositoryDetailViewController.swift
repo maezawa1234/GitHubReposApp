@@ -2,16 +2,30 @@ import UIKit
 import WebKit
 
 class RepositoryDetailViewController: UIViewController {
-
-    //FIXME: urlの初期化処理しっかり書きましょう
-    var url: URL!
-    
     @IBOutlet weak var webView: WKWebView!
+    
+    private let repository: Repository
+    
+    init?(coder: NSCoder, repository: Repository) {
+        self.repository = repository
+        
+        super.init(coder: coder)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        let request = URLRequest(url: self.url)
+        setup()
+    }
+    
+    private func setup() {
+        self.navigationItem.title = repository.name
+        
+        let request = URLRequest(url: repository.htmlURL)
         webView.load(request)
     }
 }

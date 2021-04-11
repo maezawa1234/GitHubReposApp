@@ -10,8 +10,9 @@ class FavoriteReposViewController: UIViewController {
     
     private lazy var viewModel = FavoriteReposViewModel(
         input: (
-            viewWillAppear: self.rx.viewWillAppear,
-            favoriteButtonClicked: self.favoriteButtonClicked.asDriver(onErrorDriveWith: .empty())
+            cellSelected: self.tableView.rx.itemSelected.asDriver(),
+            favoriteButtonClicked: self.favoriteButtonClicked.asDriver(onErrorDriveWith: .empty()),
+            viewWillAppear: self.rx.viewWillAppear
         ),
         dependencies: (
             wireFrame: DefaultWireframe.shared,
@@ -45,6 +46,10 @@ class FavoriteReposViewController: UIViewController {
         
         viewModel.listIsEmpty
             .drive(setEmpty)
+            .disposed(by: disposeBag)
+        
+        viewModel.transitionToRepoDetailView
+            .drive(transitionToRepoDetailView)
             .disposed(by: disposeBag)
     }
     
@@ -83,6 +88,16 @@ extension FavoriteReposViewController {
             } else {
                 me.tableView.restore()
             }
+        }
+    }
+    
+    private var transitionToRepoDetailView: Binder<Repository> {
+        return Binder(self) { me, repo in
+            let repoDetailVC = UIStoryboard(name: "RepositoryDetail", bundle: nil)
+                .instantiateViewController(identifier: "RepositoryDetailViewController") { coder in
+                    RepositoryDetailViewController(coder: coder, repository: repo)
+                }
+            self.navigationController?.pushViewController(repoDetailVC, animated: true)
         }
     }
 }

@@ -103,11 +103,12 @@ extension UserReposViewController {
         }
     }
     
-    private var transitionToRepoDetailView: Binder<URL> {
-        return Binder(self) { me, url in
+    private var transitionToRepoDetailView: Binder<Repository> {
+        return Binder(self) { me, repo in
             let repoDetailVC = UIStoryboard(name: "RepositoryDetail", bundle: nil)
-                .instantiateViewController(identifier: "RepositoryDetailViewController") as! RepositoryDetailViewController
-            repoDetailVC.url = url
+                .instantiateViewController(identifier: "RepositoryDetailViewController") { coder in
+                    RepositoryDetailViewController(coder: coder, repository: repo)
+                }
             self.navigationController?.pushViewController(repoDetailVC, animated: true)
         }
     }

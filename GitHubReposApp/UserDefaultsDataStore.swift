@@ -67,7 +67,6 @@ final class UserDefaultsDataStore: DataStoreProtocol {
     func allLikes() -> Observable<[Int: Bool]> {
         let pair = _allLikes().map { (k, v) in (Int(k)!, v) }
         let likes = Dictionary(uniqueKeysWithValues: pair)
-        print("allLikes: ", likes)
         return .just(likes)
     }
     
@@ -94,7 +93,7 @@ final class UserDefaultsDataStore: DataStoreProtocol {
                 observer.onNext(repos)
                 observer.onCompleted()
             } catch {
-                print("GGGGGGGGGGGGGGGGGGGGGGGGGGGG")
+                print("error occured: saving repositories \(error.localizedDescription)")
                 observer.onError(error)
             }
             
@@ -118,11 +117,11 @@ final class UserDefaultsDataStore: DataStoreProtocol {
                 observer.onNext(result)
                 observer.onCompleted()
             } catch {
-                print("TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT")
+                print("error occured: fetching repositories \(error.localizedDescription)")
                 observer.onError(error)
             }
-            
             return Disposables.create()
+            
         }
     }
 }

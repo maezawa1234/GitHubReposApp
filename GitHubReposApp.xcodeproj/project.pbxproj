@@ -29,7 +29,7 @@
 		0865A65F25DC4B2500C9C5B9 /* GitHubClientError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0865A65E25DC4B2500C9C5B9 /* GitHubClientError.swift */; };
 		0865A66425DC4B2C00C9C5B9 /* GitHubAPIError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0865A66325DC4B2C00C9C5B9 /* GitHubAPIError.swift */; };
 		0865A69725DC4C6400C9C5B9 /* SearchuserViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0865A69625DC4C6400C9C5B9 /* SearchuserViewModel.swift */; };
-		0865A69F25DC4C6E00C9C5B9 /* SearchUserModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0865A69E25DC4C6E00C9C5B9 /* SearchUserModel.swift */; };
+		0865A69F25DC4C6E00C9C5B9 /* WebAPIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0865A69E25DC4C6E00C9C5B9 /* WebAPIClient.swift */; };
 		0865A6A425DC4C7F00C9C5B9 /* SearchUserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0865A6A325DC4C7F00C9C5B9 /* SearchUserViewController.swift */; };
 		0865A6A925DC4C9700C9C5B9 /* SearchUserSectionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0865A6A825DC4C9700C9C5B9 /* SearchUserSectionModel.swift */; };
 		0865A6AE25DC4CA700C9C5B9 /* SearchUser.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0865A6AD25DC4CA700C9C5B9 /* SearchUser.storyboard */; };
@@ -100,7 +100,7 @@
 		0865A65E25DC4B2500C9C5B9 /* GitHubClientError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GitHubClientError.swift; sourceTree = "<group>"; };
 		0865A66325DC4B2C00C9C5B9 /* GitHubAPIError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GitHubAPIError.swift; sourceTree = "<group>"; };
 		0865A69625DC4C6400C9C5B9 /* SearchuserViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchuserViewModel.swift; sourceTree = "<group>"; };
-		0865A69E25DC4C6E00C9C5B9 /* SearchUserModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchUserModel.swift; sourceTree = "<group>"; };
+		0865A69E25DC4C6E00C9C5B9 /* WebAPIClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebAPIClient.swift; sourceTree = "<group>"; };
 		0865A6A325DC4C7F00C9C5B9 /* SearchUserViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchUserViewController.swift; sourceTree = "<group>"; };
 		0865A6A825DC4C9700C9C5B9 /* SearchUserSectionModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchUserSectionModel.swift; sourceTree = "<group>"; };
 		0865A6AD25DC4CA700C9C5B9 /* SearchUser.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = SearchUser.storyboard; sourceTree = "<group>"; };
@@ -193,17 +193,17 @@
 			isa = PBXGroup;
 			children = (
 				0865A63725DC4A5C00C9C5B9 /* GitHub */,
+				0865A6F525DC4EA000C9C5B9 /* Utility */,
 				0865A60425DC4A4100C9C5B9 /* AppDelegate.swift */,
 				0865A60625DC4A4100C9C5B9 /* SceneDelegate.swift */,
 				0865A70B25DC4FDE00C9C5B9 /* TabBarController.swift */,
 				085452EF261F0BEA002CFE3B /* RepoStatusList.swift */,
+				0865A69E25DC4C6E00C9C5B9 /* WebAPIClient.swift */,
 				085452FC261F1D77002CFE3B /* UserDefaultsDataStore.swift */,
-				0865A69E25DC4C6E00C9C5B9 /* SearchUserModel.swift */,
 				0865A63825DC4A6A00C9C5B9 /* SearchUser */,
 				0865A63925DC4A7700C9C5B9 /* UserRepos */,
-				085452D9261F0A03002CFE3B /* FavoriteRepos */,
 				08675FE72622DF5E00189058 /* RepositoryDetailViewController */,
-				0865A6F525DC4EA000C9C5B9 /* Utility */,
+				085452D9261F0A03002CFE3B /* FavoriteRepos */,
 				0865A60A25DC4A4100C9C5B9 /* Main.storyboard */,
 				0865A60D25DC4A4200C9C5B9 /* Assets.xcassets */,
 				0865A60F25DC4A4200C9C5B9 /* LaunchScreen.storyboard */,
@@ -614,7 +614,7 @@
 				0865A6D425DC4DDC00C9C5B9 /* UserReposViewModel.swift in Sources */,
 				0865A65025DC4B1000C9C5B9 /* SearchResponse.swift in Sources */,
 				0865A6B425DC4D0E00C9C5B9 /* UserCell.swift in Sources */,
-				0865A69F25DC4C6E00C9C5B9 /* SearchUserModel.swift in Sources */,
+				0865A69F25DC4C6E00C9C5B9 /* WebAPIClient.swift in Sources */,
 				0865A63E25DC4AD700C9C5B9 /* GitHubAPI.swift in Sources */,
 				085452DB261F0A31002CFE3B /* FavoriteReposViewController.swift in Sources */,
 				08765E1C25DD81FA00EB14A2 /* ActivityIndicator.swift in Sources */,

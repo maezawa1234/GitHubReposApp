@@ -5,7 +5,7 @@ class UserReposViewModel {
     let sections: Driver<[UserReposSectionModel]>
     let listIsEmpty: Driver<Bool>
     let fetchingRepos: Driver<Bool>
-    let transitionToRepoDetailView: Driver<URL>
+    let transitionToRepoDetailView: Driver<Repository>
     
     private let disposeBag = DisposeBag()
     
@@ -49,7 +49,7 @@ class UserReposViewModel {
         
         self.sections = Driver
             .combineLatest(fetchRepositoriesResponse, favoriteEvent, input.viewWillAppear) { ($0, $1, $2) }
-            .flatMap { reposAndFavoriteEvent -> Driver<RepoStatusList> in
+            .flatMapLatest { reposAndFavoriteEvent -> Driver<RepoStatusList> in
                 //MARK: RepositoryをRepoStatusに変換する. dataStoreからお気に入り情報の取得を開始
                 let repositories = reposAndFavoriteEvent.0
                 let ids = repositories.map { $0.id }
@@ -76,7 +76,7 @@ class UserReposViewModel {
         
         self.transitionToRepoDetailView = input.cellSelected
             .withLatestFrom(fetchRepositoriesResponse) { (indexPath: $0, repositories: $1) }
-            .map { $0.repositories[$0.indexPath.row].htmlURL }
+            .map { $0.repositories[$0.indexPath.row] }
  
     }
 }
