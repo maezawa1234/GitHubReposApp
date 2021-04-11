@@ -37,7 +37,6 @@
 		0865A6C725DC4D9700C9C5B9 /* UserCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0865A6C625DC4D9700C9C5B9 /* UserCell.xib */; };
 		0865A6CF25DC4DD100C9C5B9 /* UserReposViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0865A6CE25DC4DD100C9C5B9 /* UserReposViewController.swift */; };
 		0865A6D425DC4DDC00C9C5B9 /* UserReposViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0865A6D325DC4DDC00C9C5B9 /* UserReposViewModel.swift */; };
-		0865A6D925DC4DE900C9C5B9 /* UserReposModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0865A6D825DC4DE900C9C5B9 /* UserReposModel.swift */; };
 		0865A6DE25DC4DFA00C9C5B9 /* UserReposSectionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0865A6DD25DC4DFA00C9C5B9 /* UserReposSectionModel.swift */; };
 		0865A6E325DC4E0400C9C5B9 /* UserRepos.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0865A6E225DC4E0400C9C5B9 /* UserRepos.storyboard */; };
 		0865A6E925DC4E2900C9C5B9 /* ReposCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0865A6E825DC4E2900C9C5B9 /* ReposCell.swift */; };
@@ -107,7 +106,6 @@
 		0865A6C625DC4D9700C9C5B9 /* UserCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = UserCell.xib; sourceTree = "<group>"; };
 		0865A6CE25DC4DD100C9C5B9 /* UserReposViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserReposViewController.swift; sourceTree = "<group>"; };
 		0865A6D325DC4DDC00C9C5B9 /* UserReposViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserReposViewModel.swift; sourceTree = "<group>"; };
-		0865A6D825DC4DE900C9C5B9 /* UserReposModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserReposModel.swift; sourceTree = "<group>"; };
 		0865A6DD25DC4DFA00C9C5B9 /* UserReposSectionModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserReposSectionModel.swift; sourceTree = "<group>"; };
 		0865A6E225DC4E0400C9C5B9 /* UserRepos.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = UserRepos.storyboard; sourceTree = "<group>"; };
 		0865A6E825DC4E2900C9C5B9 /* ReposCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReposCell.swift; sourceTree = "<group>"; };
@@ -197,7 +195,6 @@
 				085452EF261F0BEA002CFE3B /* RepoStatusList.swift */,
 				085452FC261F1D77002CFE3B /* UserDefaultsDataStore.swift */,
 				0865A69E25DC4C6E00C9C5B9 /* SearchUserModel.swift */,
-				0865A6D825DC4DE900C9C5B9 /* UserReposModel.swift */,
 				0865A63825DC4A6A00C9C5B9 /* SearchUser */,
 				0865A63925DC4A7700C9C5B9 /* UserRepos */,
 				085452D9261F0A03002CFE3B /* FavoriteRepos */,
@@ -607,7 +604,6 @@
 				085452DB261F0A31002CFE3B /* FavoriteReposViewController.swift in Sources */,
 				08765E1C25DD81FA00EB14A2 /* ActivityIndicator.swift in Sources */,
 				085452FD261F1D77002CFE3B /* UserDefaultsDataStore.swift in Sources */,
-				0865A6D925DC4DE900C9C5B9 /* UserReposModel.swift in Sources */,
 				085452E3261F0A4B002CFE3B /* FavoriteReposViewModel.swift in Sources */,
 				08545302261F2128002CFE3B /* Result.swift in Sources */,
 				0865A65F25DC4B2500C9C5B9 /* GitHubClientError.swift in Sources */,

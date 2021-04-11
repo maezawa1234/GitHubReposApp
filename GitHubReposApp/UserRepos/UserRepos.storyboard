@@ -22,6 +22,7 @@
                             </tableView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="yDS-TK-xLp"/>
+                        <color key="backgroundColor" systemColor="systemGray6Color"/>
                         <constraints>
                             <constraint firstItem="4hP-Kl-6yI" firstAttribute="top" secondItem="yDS-TK-xLp" secondAttribute="top" id="HhU-bp-Zxl"/>
                             <constraint firstItem="yDS-TK-xLp" firstAttribute="trailing" secondItem="4hP-Kl-6yI" secondAttribute="trailing" id="Y5R-Jw-NCq"/>

@@ -17,7 +17,7 @@ class SearchUserViewModel {
             itemSelected: Driver<IndexPath>),
          dependency: (
             wireFrame: Wireframe,
-            model: SearchUserModelProtocol)
+            model: WebAPIClientProtocol)
     ) {
         let model = dependency.model
         let wireFrame = dependency.wireFrame

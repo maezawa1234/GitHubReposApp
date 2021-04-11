@@ -4,14 +4,18 @@ import RxDataSources
 
 class FavoriteReposViewController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
+    private let favoriteButtonClicked: PublishRelay<(indexPath: IndexPath, repoStatus: RepoStatus)> = PublishRelay()
     
     private let disposeBag = DisposeBag()
     
     private lazy var viewModel = FavoriteReposViewModel(
+        input: (
+            viewWillAppear: self.rx.viewWillAppear,
+            favoriteButtonClicked: self.favoriteButtonClicked.asDriver(onErrorDriveWith: .empty())
+        ),
         dependencies: (
             wireFrame: DefaultWireframe.shared,
-            dataStore: UserDefaultsDataStore(userDefaults: UserDefaults.standard
-            )
+            dataStore: UserDefaultsDataStore(userDefaults: UserDefaults.standard)
         )
     )
     
@@ -50,7 +54,12 @@ class FavoriteReposViewController: UIViewController {
             configureCell: { (_, tableView, indexPath, repoStatus) in
                 let cell = tableView.dequeueReusableCell(withIdentifier: "ReposCell") as! ReposCell
                 cell.configure(with: repoStatus.repo, isFavorite: repoStatus.isFavorite)
-                print("cell at indexPath: \(indexPath) isLiked: \(repoStatus.isFavorite)")
+                
+                cell.favoriteButton.rx.tap.asDriver()
+                    .drive(onNext: {
+                        self.favoriteButtonClicked.accept((indexPath: indexPath, repoStatus: repoStatus))
+                    })
+                    .disposed(by: cell.disposeBag)
                 
                 return cell
             },

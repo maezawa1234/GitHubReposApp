@@ -17,7 +17,7 @@ class UserReposViewController: UIViewController {
         favoriteButtonClicked: favoriteButtonClicked.asDriver(onErrorDriveWith: .empty()),
         dependencies: (
             wireFrame: DefaultWireframe.shared,
-            model: UserReposModel(),
+            webClient: WebAPIClient(),
             dataStore: UserDefaultsDataStore(userDefaults: UserDefaults.standard))
     )
     
@@ -60,12 +60,6 @@ class UserReposViewController: UIViewController {
         
         viewModel.fetchingRepos
             .drive(indicator.rx.isAnimating)
-            .disposed(by: disposeBag)
-        
-        favoriteButtonClicked.asDriver(onErrorDriveWith: .empty())
-            .drive(onNext: { row in
-                print("favorite button tapped at: ", row)
-            })
             .disposed(by: disposeBag)
     }
     

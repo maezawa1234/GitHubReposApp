@@ -17,7 +17,7 @@ class SearchUserViewController: UIViewController {
             itemSelected: tableView.rx.itemSelected.asDriver()),
         dependency: (
             wireFrame: DefaultWireframe.shared,
-            model: SearchUserModel()
+            model: WebAPIClient()
         )
     )
     

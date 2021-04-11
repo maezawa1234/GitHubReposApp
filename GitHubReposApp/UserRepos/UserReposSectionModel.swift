@@ -21,16 +21,6 @@ struct UserReposSectionModel: AnimatableSectionModelType {
     }
 }
 
-extension Repository: IdentifiableType, Equatable {
-    var identity: Int {
-        self.id
-    }
-    
-    static func == (lhs: Repository, rhs: Repository) -> Bool {
-        return lhs.id == rhs.id
-    }
-}
-
 extension RepoStatus: IdentifiableType {
     var identity: Int {
         self.repo.id

@@ -12,10 +12,10 @@ class UserReposViewModel {
          favoriteButtonClicked: Driver<(indexPath: IndexPath, repoStatus: RepoStatus)>,
          dependencies: (
             wireFrame: Wireframe,
-            model: UserReposModelProtocol,
+            webClient: WebAPIClientProtocol,
             dataStore: DataStoreProtocol)
     ) {
-        let webClient = dependencies.model
+        let webClient = dependencies.webClient
         let dataStore = dependencies.dataStore
         
         let fetchingRepos = ActivityIndicator()
@@ -25,7 +25,7 @@ class UserReposViewModel {
             .fetchRepositories(by: user.login)
             .trackActivity(fetchingRepos)
             .asDriver(onErrorDriveWith: .empty())
-            //APIで取得したリポジトリ配列をDataStoreへ保存
+            //MARK: APIで取得したリポジトリ配列をDataStoreへ保存
             .flatMap { repos -> Driver<[Repository]> in
                 return dataStore.save(repos: repos)
                     .asDriver(onErrorDriveWith: .empty())
@@ -35,19 +35,17 @@ class UserReposViewModel {
         let favoriteEvent = favoriteButtonClicked
             //FIXME: イベントの値Boolはてきとう、使用していない状態です。
             .flatMap { statusValue -> Driver<Bool> in
-                let row = statusValue.indexPath.row
                 let repoStatus = statusValue.repoStatus
-                let isFavorite = repoStatus.isFavorite
-                print("In ViewModel Event, will save isFavorite", !isFavorite)
-                return dataStore.save(liked: !isFavorite, for: repoStatus.repo.id)
+                print("In ViewModel Event, will save isFavorite", !repoStatus.isFavorite)
+                return dataStore.save(liked: !repoStatus.isFavorite, for: repoStatus.repo.id)
                     .asDriver(onErrorDriveWith: .empty())
             }
             .startWith(true)
         
         self.sections = Driver.combineLatest(fetchRepositoriesResponse, favoriteEvent) { ($0, $1) }
-            .flatMap { o -> Driver<RepoStatusList> in
+            .flatMap { reposAndFavoriteEvent -> Driver<RepoStatusList> in
                 //MARK: RepositoryをRepoStatusに変換する. dataStoreからお気に入り情報の取得を開始
-                let repositories = o.0
+                let repositories = reposAndFavoriteEvent.0
                 let ids = repositories.map { $0.id }
                 return dataStore.fetch(ids: ids)
                     .map { likes in
@@ -62,7 +60,6 @@ class UserReposViewModel {
                 let sectionModel = UserReposSectionModel(header: "Repositories", items: reposStatusList.statuses)
                 return [sectionModel]
             }
-            
         
         sections.drive(onNext: { _ in
         })
