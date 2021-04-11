@@ -6,7 +6,7 @@ class UserReposViewController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
     private let indicator = UIActivityIndicatorView()
     
-    private let favoriteButtonClicked: PublishRelay<(indexPath: IndexPath, repoStatus: RepoStatus, isFavorite: Bool)> = PublishRelay()
+    private let favoriteButtonClicked: PublishRelay<(indexPath: IndexPath, repoStatus: RepoStatus)> = PublishRelay()
     
     private let disposeBag = DisposeBag()
     
@@ -62,15 +62,6 @@ class UserReposViewController: UIViewController {
             .drive(indicator.rx.isAnimating)
             .disposed(by: disposeBag)
         
-        /*
-        viewModel.updateCell
-            .drive(onNext: { indexPath in
-                let cell = self.tableView.cellForRow(at: indexPath) as! ReposCell
-                cell.toggle()
-            })
-            .disposed(by: disposeBag)
- */
-        
         favoriteButtonClicked.asDriver(onErrorDriveWith: .empty())
             .drive(onNext: { row in
                 print("favorite button tapped at: ", row)
@@ -91,7 +82,7 @@ class UserReposViewController: UIViewController {
                 
                 cell.favoriteButton.rx.tap.asDriver()
                     .drive(onNext: {
-                        self.favoriteButtonClicked.accept((indexPath: indexPath, repoStatus: repoStatus, isFavorite: cell.isFavorite))
+                        self.favoriteButtonClicked.accept((indexPath: indexPath, repoStatus: repoStatus))
                     })
                     .disposed(by: cell.disposeBag)
                 
