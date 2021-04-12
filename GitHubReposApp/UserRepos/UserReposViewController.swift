@@ -9,7 +9,17 @@ class UserReposViewController: UIViewController {
     private let favoriteButtonClicked: PublishRelay<(indexPath: IndexPath, repoStatus: RepoStatus)> = PublishRelay()
     private let disposeBag = DisposeBag()
     
-    var user: User!
+    private let user: User
+    
+    init?(coder: NSCoder, user: User) {
+        self.user = user
+        
+        super.init(coder: coder)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     private lazy var viewModel = UserReposViewModel(
         user: user,

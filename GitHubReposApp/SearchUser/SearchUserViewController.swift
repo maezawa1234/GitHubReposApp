@@ -141,8 +141,9 @@ extension SearchUserViewController {
     private var transitionToUserReposView: Binder<User> {
         return Binder(self) { me, user in
             let userReposVC = UIStoryboard(name: "UserRepos", bundle: nil)
-                .instantiateViewController(identifier: "UserReposViewController") as! UserReposViewController
-            userReposVC.user = user
+                .instantiateViewController(identifier: "UserReposViewController") { coder in
+                    UserReposViewController(coder: coder, user: user)
+                }
             me.navigationController?.pushViewController(userReposVC, animated: true)
         }
     }
