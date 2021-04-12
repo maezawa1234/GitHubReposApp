@@ -7,7 +7,6 @@ class UserReposViewController: UIViewController {
     private let indicator = UIActivityIndicatorView()
     
     private let favoriteButtonClicked: PublishRelay<(indexPath: IndexPath, repoStatus: RepoStatus)> = PublishRelay()
-    
     private let disposeBag = DisposeBag()
     
     var user: User!
@@ -35,7 +34,7 @@ class UserReposViewController: UIViewController {
     
     private func setup() {
         //Configure navigationBar
-        self.navigationItem.title = "\(user.login)'s repositories"
+        self.navigationItem.title = "\(user.login)'s Repositories"
         //Configure tableView
         tableView.sectionHeaderHeight = .zero
         tableView.tableFooterView = UIView(frame: .zero)
