@@ -24,8 +24,12 @@
                                 <rect key="frame" x="0.0" y="125" width="414" height="737"/>
                                 <color key="backgroundColor" systemColor="systemGray6Color"/>
                             </tableView>
-                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="検索結果: " textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iZr-t2-0aZ">
-                                <rect key="frame" x="20" y="105" width="56" height="15"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iZr-t2-0aZ">
+                                <rect key="frame" x="0.0" y="100" width="414" height="25"/>
+                                <color key="backgroundColor" systemColor="systemGray6Color"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="25" id="Npe-Fb-9gS"/>
+                                </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -34,11 +38,12 @@
                         <viewLayoutGuide key="safeArea" id="j4f-vD-xgp"/>
                         <color key="backgroundColor" systemColor="systemGray6Color"/>
                         <constraints>
-                            <constraint firstItem="iZr-t2-0aZ" firstAttribute="top" secondItem="tzs-fT-NMT" secondAttribute="bottom" constant="5" id="08B-Qa-3YV"/>
-                            <constraint firstItem="yXD-lH-njm" firstAttribute="top" secondItem="iZr-t2-0aZ" secondAttribute="bottom" constant="5" id="APN-Cg-Vv2"/>
+                            <constraint firstItem="iZr-t2-0aZ" firstAttribute="leading" secondItem="j4f-vD-xgp" secondAttribute="leading" id="6XN-l6-piS"/>
                             <constraint firstItem="tzs-fT-NMT" firstAttribute="leading" secondItem="j4f-vD-xgp" secondAttribute="leading" id="Kgd-im-O7d"/>
-                            <constraint firstItem="iZr-t2-0aZ" firstAttribute="leading" secondItem="j4f-vD-xgp" secondAttribute="leading" constant="20" id="Vmc-lG-a4n"/>
                             <constraint firstItem="j4f-vD-xgp" firstAttribute="trailing" secondItem="yXD-lH-njm" secondAttribute="trailing" id="XMB-MD-AkJ"/>
+                            <constraint firstItem="yXD-lH-njm" firstAttribute="top" secondItem="iZr-t2-0aZ" secondAttribute="bottom" id="chq-Aa-L1W"/>
+                            <constraint firstItem="iZr-t2-0aZ" firstAttribute="top" secondItem="tzs-fT-NMT" secondAttribute="bottom" id="dXl-fm-HNG"/>
+                            <constraint firstItem="iZr-t2-0aZ" firstAttribute="trailing" secondItem="j4f-vD-xgp" secondAttribute="trailing" id="kH6-tq-I7h"/>
                             <constraint firstItem="tzs-fT-NMT" firstAttribute="trailing" secondItem="j4f-vD-xgp" secondAttribute="trailing" id="ki3-XD-Rtm"/>
                             <constraint firstItem="tzs-fT-NMT" firstAttribute="centerX" secondItem="1NM-Bh-YPc" secondAttribute="centerX" id="lvy-5G-bjW"/>
                             <constraint firstItem="tzs-fT-NMT" firstAttribute="top" secondItem="j4f-vD-xgp" secondAttribute="top" id="m2M-TW-NAG"/>

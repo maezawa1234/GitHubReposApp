@@ -8,12 +8,16 @@ class SearchUserViewModel {
     let transitionToReposView: Driver<User>
     let listIsEmpty: Driver<Bool>
     let totalCount: Driver<Int>
+    let isSearchFieldEditing: Signal<Bool>
+    let fetchingUsers: Driver<Bool>
     
     private let disposeBag = DisposeBag()
     
     init(input: (
             searchBarText: Driver<String>,
+            searchBarDidBeginEditing: Signal<Void>,
             searchButtonClicked: Signal<Void>,
+            cancelButtonClicked: Signal<Void>,
             itemSelected: Driver<IndexPath>),
          dependency: (
             wireFrame: Wireframe,
@@ -21,6 +25,9 @@ class SearchUserViewModel {
     ) {
         let model = dependency.model
         let wireFrame = dependency.wireFrame
+        
+        let fetchingUsers = ActivityIndicator()
+        self.fetchingUsers = fetchingUsers.asDriver()
         
         var sections = [SearchUserSectionModel(header: "Users", items: [])]
         
@@ -30,6 +37,7 @@ class SearchUserViewModel {
             .asObservable()
             .flatMapLatest { text in
                 return model.fetchUser(query: text)
+                    .trackActivity(fetchingUsers)
                     .materialize()
             }
             .share(replay: 1)
@@ -47,7 +55,7 @@ class SearchUserViewModel {
             .map { $0.totalCount }
         
         self.error = searchSequence.errors()
-            .take(1)
+            //.take(1)
             .asDriver(onErrorDriveWith: .empty())
             .flatMapLatest { error in
                 return wireFrame.promptFor(error.localizedDescription, cancelAction: "OK", actions: [])
@@ -74,5 +82,10 @@ class SearchUserViewModel {
                 let items = $0.sections[0].items
                 return items[$0.indexPath.row]
             }
+        
+        let didBeginEditing = input.searchBarDidBeginEditing.map { true }
+        let didEndEditing = Signal.merge(input.searchButtonClicked, input.cancelButtonClicked)
+            .map { false }
+        self.isSearchFieldEditing = Signal.merge(didBeginEditing, didEndEditing)
     }
 }

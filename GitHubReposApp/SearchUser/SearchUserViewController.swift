@@ -6,6 +6,7 @@ class SearchUserViewController: UIViewController {
     @IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var totalCountLabel: UILabel!
+    private let indicator = UIActivityIndicatorView()
     private let closeButton = UIBarButtonItem(systemItem: .close)
     
     private let disposeBag = DisposeBag()
@@ -13,7 +14,9 @@ class SearchUserViewController: UIViewController {
     private lazy var viewModel = SearchUserViewModel(
         input: (
             searchBarText: searchBar.rx.text.orEmpty.asDriver(),
+            searchBarDidBeginEditing: searchBar.rx.textDidBeginEditing.asSignal(),
             searchButtonClicked: searchBar.rx.searchButtonClicked.asSignal(),
+            cancelButtonClicked: Signal.merge(searchBar.rx.cancelButtonClicked.asSignal(), closeButton.rx.tap.asSignal()),
             itemSelected: tableView.rx.itemSelected.asDriver()),
         dependency: (
             wireFrame: DefaultWireframe.shared,
@@ -34,6 +37,7 @@ class SearchUserViewController: UIViewController {
         self.navigationController?.navigationBar.barTintColor = UIColor(red: 0.4, green: 0.4, blue: 1.0, alpha: 1.0)
         self.navigationController?.navigationBar.tintColor = .white
         self.navigationController?.navigationBar.titleTextAttributes = [.foregroundColor: UIColor.white]
+        self.navigationController?.navigationBar.alpha = 1
         //Configure searchBar
         let toolbar = UIToolbar(frame: CGRect(x: 0, y: 0, width: 0, height: 35))
         toolbar.setItems([closeButton], animated: true)
@@ -42,6 +46,11 @@ class SearchUserViewController: UIViewController {
         tableView.sectionHeaderHeight = .zero
         tableView.tableFooterView = UIView(frame: .zero)
         tableView.register(UINib(nibName: "UserCell", bundle: nil), forCellReuseIdentifier: "UserCell")
+        //Configure activityIndicator
+        indicator.center = self.view.center
+        indicator.style = .large
+        indicator.hidesWhenStopped = true
+        self.view.addSubview(indicator)
     }
     
     private func binding() {
@@ -61,10 +70,12 @@ class SearchUserViewController: UIViewController {
             .drive(totalCountText)
             .disposed(by: disposeBag)
         
-        closeButton.rx.tap.asSignal()
-            .emit(onNext: { _ in
-                self.view.endEditing(true)
-            })
+        viewModel.isSearchFieldEditing
+            .emit(to: refrectEditing)
+            .disposed(by: disposeBag)
+        
+        viewModel.fetchingUsers
+            .drive(indicator.rx.isAnimating)
             .disposed(by: disposeBag)
     }
     
@@ -89,6 +100,27 @@ class SearchUserViewController: UIViewController {
 }
 
 extension SearchUserViewController {
+    private var refrectEditing: Binder<Bool> {
+        return Binder(self) { me, isEditing in
+            UIView.animate(withDuration: 0.3) {
+                if isEditing {
+                    self.view.backgroundColor = .black
+                    self.tableView.isUserInteractionEnabled = false
+                    self.tableView.alpha = 0.5
+                    self.totalCountLabel.alpha = 0.5
+                    self.searchBar.setShowsCancelButton(true, animated: true)
+                } else {
+                    self.view.backgroundColor = .white
+                    self.searchBar.resignFirstResponder()
+                    self.tableView.isUserInteractionEnabled = true
+                    self.tableView.alpha = 1
+                    self.totalCountLabel.alpha = 1
+                    self.searchBar.setShowsCancelButton(false, animated: true)
+                }
+            }
+        }
+    }
+    
     private var setEmpty: Binder<Bool> {
         return Binder(self) { me, isEmpty in
             if isEmpty {
@@ -102,7 +134,7 @@ extension SearchUserViewController {
     private var totalCountText: Binder<Int> {
         return Binder(self) { me, count in
             me.totalCountLabel.isHidden = false
-            me.totalCountLabel.text = "検索件数: \(count)"
+            me.totalCountLabel.text = "  検索件数: \(count)"
         }
     }
     

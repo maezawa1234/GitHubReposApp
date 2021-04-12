@@ -43,7 +43,10 @@ class FavoriteReposViewModel {
                         let likesList = RepoStatusList(
                             repos: repos,
                             favoriteStatuses: likes,
-                            isOnlyFavorite: true
+                            isOnlyFavorite: true,
+                            sortBy: {
+                                ($0.repo.owner.login == $1.repo.owner.login) ? $0.repo.name < $1.repo.name : ($0.repo.owner.login < $1.repo.owner.login)
+                            }
                         )
                         return likesList
                     }
@@ -60,7 +63,8 @@ class FavoriteReposViewModel {
             }
             .asDriver(onErrorDriveWith: .empty())
         
-        self.sections.drive(onNext: { _ in
+        self.sections.drive(onNext: { a in
+            print(a[0].items.map { $0.repo.name })
         })
         .disposed(by: disposeBag)
         

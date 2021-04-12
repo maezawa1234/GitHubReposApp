@@ -34,13 +34,18 @@ struct RepoStatusList {
             .unique { _, _ in .removeOldOne }
     }
     
-    init(repos: [Repository], favoriteStatuses: [Int: Bool], isOnlyFavorite: Bool = false) {
+    init(repos: [Repository],
+         favoriteStatuses: [Int: Bool],
+         isOnlyFavorite: Bool = false,
+         sortBy areInIncreasingOrder: ((RepoStatus, RepoStatus) -> Bool)? = nil) {
         self.statuses = Array(repos: repos, favoriteStatuses: favoriteStatuses)
             .unique(resolve: { _, _ in .ignoreNewOne})
         if isOnlyFavorite {
             self.statuses = statuses.filter { $0.isFavorite }
         }
-        print(self.statuses.map { $0.isFavorite })
+        if let areInIncreasingOrder = areInIncreasingOrder {
+            self.statuses.sort(by: areInIncreasingOrder)
+        }
     }
     
     mutating func set(isFavorite: Bool, for id: Int) throws {
