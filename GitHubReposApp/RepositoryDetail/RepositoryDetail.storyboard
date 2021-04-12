@@ -17,30 +17,41 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <wkWebView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="pQ4-bz-6Ji">
-                                <rect key="frame" x="0.0" y="44" width="414" height="818"/>
+                                <rect key="frame" x="0.0" y="46" width="414" height="816"/>
                                 <color key="backgroundColor" systemColor="systemGray6Color"/>
                                 <wkWebViewConfiguration key="configuration">
                                     <audiovisualMediaTypes key="mediaTypesRequiringUserActionForPlayback" none="YES"/>
                                     <wkPreferences key="preferences"/>
                                 </wkWebViewConfiguration>
                             </wkWebView>
+                            <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="Fqi-PF-MEd">
+                                <rect key="frame" x="0.0" y="44" width="414" height="2"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="2" id="wIX-Xn-pXj"/>
+                                </constraints>
+                            </progressView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="HJT-w5-QqM"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="HJT-w5-QqM" firstAttribute="trailing" secondItem="pQ4-bz-6Ji" secondAttribute="trailing" id="3DS-WM-Jv7"/>
-                            <constraint firstItem="HJT-w5-QqM" firstAttribute="bottom" secondItem="pQ4-bz-6Ji" secondAttribute="bottom" id="Pwf-Kc-Cye"/>
-                            <constraint firstItem="pQ4-bz-6Ji" firstAttribute="leading" secondItem="HJT-w5-QqM" secondAttribute="leading" id="d9T-gb-FwD"/>
-                            <constraint firstItem="pQ4-bz-6Ji" firstAttribute="top" secondItem="HJT-w5-QqM" secondAttribute="top" id="kBi-LO-ze4"/>
+                            <constraint firstItem="pQ4-bz-6Ji" firstAttribute="trailing" secondItem="HJT-w5-QqM" secondAttribute="trailing" id="0b4-fY-Vab"/>
+                            <constraint firstItem="Fqi-PF-MEd" firstAttribute="centerX" secondItem="FYo-pB-hfo" secondAttribute="centerX" id="6F7-8e-7nJ"/>
+                            <constraint firstItem="Fqi-PF-MEd" firstAttribute="leading" secondItem="HJT-w5-QqM" secondAttribute="leading" id="PnT-lV-i20"/>
+                            <constraint firstItem="pQ4-bz-6Ji" firstAttribute="leading" secondItem="HJT-w5-QqM" secondAttribute="leading" id="RpS-gF-ccj"/>
+                            <constraint firstItem="pQ4-bz-6Ji" firstAttribute="bottom" secondItem="HJT-w5-QqM" secondAttribute="bottom" id="clD-6g-dYO"/>
+                            <constraint firstItem="pQ4-bz-6Ji" firstAttribute="top" secondItem="Fqi-PF-MEd" secondAttribute="bottom" id="jhZ-Nz-awc"/>
+                            <constraint firstItem="Fqi-PF-MEd" firstAttribute="top" secondItem="HJT-w5-QqM" secondAttribute="top" id="s3a-O0-JpI"/>
+                            <constraint firstItem="HJT-w5-QqM" firstAttribute="trailing" secondItem="Fqi-PF-MEd" secondAttribute="trailing" id="sbv-tm-LSc"/>
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="progressView" destination="Fqi-PF-MEd" id="HJT-Mh-Nr6"/>
                         <outlet property="webView" destination="pQ4-bz-6Ji" id="ROZ-Dv-YDr"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="mOH-ER-HJ5" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-70" y="123"/>
+            <point key="canvasLocation" x="-71.014492753623188" y="122.54464285714285"/>
         </scene>
     </scenes>
     <resources>
