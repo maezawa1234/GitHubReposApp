@@ -36,7 +36,7 @@ class FavoriteReposViewController: UIViewController {
         //Configure tableView
         tableView.sectionHeaderHeight = .zero
         tableView.tableFooterView = UIView(frame: .zero)
-        tableView.register(UINib(nibName: "ReposCell", bundle: nil), forCellReuseIdentifier: "ReposCell")
+        tableView.register(ReposCell.nib, forCellReuseIdentifier: ReposCell.identifier)
     }
     
     private func binding() {

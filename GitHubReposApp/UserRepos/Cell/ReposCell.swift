@@ -15,15 +15,10 @@ class ReposCell: UITableViewCell {
     @IBOutlet weak var languageContainerView: UIView!
     @IBOutlet weak var languageLabel: UILabel!
     @IBOutlet weak var starLabel: UILabel!
-    @IBOutlet weak var favoriteButton: UIButton! 
+    @IBOutlet weak var favoriteButton: UIButton!
     
-    var isFavorite: Bool {
-        if favoriteButton.titleLabel?.text == "⭐" {
-            return true
-        } else {
-            return false
-        }
-    }
+    static var identifier: String { "ReposCell" }
+    static var nib: UINib { UINib(nibName: identifier, bundle: nil) }
 
     var disposeBag = DisposeBag()
     

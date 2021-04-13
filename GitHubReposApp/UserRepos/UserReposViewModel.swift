@@ -41,7 +41,6 @@ class UserReposViewModel {
             //FIXME: イベントの値Boolはてきとう、使用していない状態です。
             .flatMap { statusValue -> Driver<Bool> in
                 let repoStatus = statusValue.repoStatus
-                print("In ViewModel Event, will save isFavorite", !repoStatus.isFavorite)
                 return dataStore.save(liked: !repoStatus.isFavorite, for: repoStatus.repo.id)
                     .asDriver(onErrorDriveWith: .empty())
             }

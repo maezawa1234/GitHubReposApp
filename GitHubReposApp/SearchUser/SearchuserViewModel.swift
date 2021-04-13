@@ -36,7 +36,7 @@ class SearchUserViewModel {
             .distinctUntilChanged()
             .asObservable()
             .flatMapLatest { text in
-                return model.fetchUser(query: text)
+                return model.fetchUsers(query: text)
                     .trackActivity(fetchingUsers)
                     .materialize()
             }

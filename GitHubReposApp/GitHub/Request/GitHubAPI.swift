@@ -1,7 +1,7 @@
 import Foundation
 
 final class GitHubAPI {
-    struct SearchRepositories: GitHubRequest {
+    struct SearchRepositoriesRequest: GitHubRequest {
         let keyword: String
         // GitHubRequestが要求する連想型
         typealias Response = SearchResponse<Repository>
@@ -17,10 +17,10 @@ final class GitHubAPI {
         }
     }
     
-    struct SearchUsers: GitHubRequest {
-        let keyword: String
-        
+    struct SearchUsersRequest: GitHubRequest {
         typealias Response = SearchResponse<User>
+        
+        let keyword: String
         
         var method: HTTPMethod {
             return .get
@@ -33,7 +33,7 @@ final class GitHubAPI {
         }
     }
     
-    struct UserRepositories: GitHubRequest {
+    struct UserRepositoriesRequest: GitHubRequest {
         typealias Response = RepositoriesResponse
         
         let userName: String
@@ -49,7 +49,16 @@ final class GitHubAPI {
             return []
         }
     }
+   
+    /*
+    struct SearchRepositoriesWithPaginationRequest: GitHubRequest {
+        typealias Response = 
+        
+        
+    }
+     */
 }
+
 
 
 

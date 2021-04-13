@@ -9,7 +9,7 @@ protocol GitHubRequest {
     var queryItems: [URLQueryItem] { get }
 }
 
-extension GitHubRequest{
+extension GitHubRequest {
     var baseURL :URL{
         return URL(string: "https://api.github.com")!
     }

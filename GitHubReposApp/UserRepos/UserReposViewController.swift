@@ -30,7 +30,7 @@ class UserReposViewController: UIViewController {
         ),
         dependencies: (
             wireFrame: DefaultWireframe.shared,
-            webClient: WebAPIClient(),
+            webClient: WebAPIClient.shared,
             dataStore: UserDefaultsDataStore(userDefaults: UserDefaults.standard)
         )
     )
@@ -48,7 +48,7 @@ class UserReposViewController: UIViewController {
         //Configure tableView
         tableView.sectionHeaderHeight = .zero
         tableView.tableFooterView = UIView(frame: .zero)
-        tableView.register(UINib(nibName: "ReposCell", bundle: nil), forCellReuseIdentifier: "ReposCell")
+        tableView.register(ReposCell.nib, forCellReuseIdentifier: ReposCell.identifier)
         //Configure indicator
         indicator.center = self.view.center
         indicator.style = .large

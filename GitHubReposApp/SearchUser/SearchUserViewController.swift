@@ -20,7 +20,7 @@ class SearchUserViewController: UIViewController {
             itemSelected: tableView.rx.itemSelected.asDriver()),
         dependency: (
             wireFrame: DefaultWireframe.shared,
-            model: WebAPIClient()
+            model: WebAPIClient.shared
         )
     )
     
@@ -45,7 +45,7 @@ class SearchUserViewController: UIViewController {
         //Configure tableView
         tableView.sectionHeaderHeight = .zero
         tableView.tableFooterView = UIView(frame: .zero)
-        tableView.register(UINib(nibName: "UserCell", bundle: nil), forCellReuseIdentifier: "UserCell")
+        tableView.register(UserCell.nib, forCellReuseIdentifier: UserCell.identifier)
         //Configure activityIndicator
         indicator.center = self.view.center
         indicator.style = .large

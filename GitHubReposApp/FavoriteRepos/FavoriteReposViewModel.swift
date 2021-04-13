@@ -25,7 +25,6 @@ class FavoriteReposViewModel {
             .flatMap { statusValue -> Driver<Bool> in
                 let repoStatus = statusValue.repoStatus
                 let isFavorite = !repoStatus.isFavorite  // お気に入り状態を反転
-                print("In ViewModel Event, will save isFavorite", isFavorite)
                 return dataStore.save(liked: isFavorite, for: repoStatus.repo.id)
                     .asDriver(onErrorDriveWith: .empty())
             }
@@ -64,7 +63,6 @@ class FavoriteReposViewModel {
             .asDriver(onErrorDriveWith: .empty())
         
         self.sections.drive(onNext: { a in
-            print(a[0].items.map { $0.repo.name })
         })
         .disposed(by: disposeBag)
         

@@ -1,21 +1,24 @@
 import RxSwift
 
 protocol WebAPIClientProtocol {
-    func fetchUser(query: String) -> Observable<(users: [User], totalCount: Int)>
+    func fetchUsers(query: String) -> Observable<(users: [User], totalCount: Int)>
     func fetchRepositories(by userName: String) -> Observable<[Repository]>
+    func fetchUsers(query: String, page: Int) -> Observable<(users: [User], pagination: Pagination)>
 }
 
 class WebAPIClient: WebAPIClientProtocol {
+    static let shared = WebAPIClient()
+    
     private let session: URLSession = {
         let configuration = URLSessionConfiguration.default
         let session = URLSession(configuration: configuration)
         return session
     }()
     
-    func fetchUser(query: String) -> Observable<(users: [User], totalCount: Int)> {
+    func fetchUsers(query: String) -> Observable<(users: [User], totalCount: Int)> {
         
         return Observable.create { [weak self] observer in
-            let request = GitHubAPI.SearchUsers(keyword: query)
+            let request = GitHubAPI.SearchUsersRequest(keyword: query)
             let urlRequest = request.buildURLRequest()
             print("URLRequest:", urlRequest)
             
@@ -55,7 +58,7 @@ class WebAPIClient: WebAPIClientProtocol {
     func fetchRepositories(by userName: String) -> Observable<[Repository]> {
         
         return Observable.create { [weak self] observer in
-            let request = GitHubAPI.UserRepositories(userName: userName)
+            let request = GitHubAPI.UserRepositoriesRequest(userName: userName)
             
             let urlRequest = request.buildURLRequest()
             print("urlRequest:", urlRequest)
@@ -92,5 +95,9 @@ class WebAPIClient: WebAPIClientProtocol {
             return Disposables.create()
             
         }
+    }
+    
+    func fetchUsers(query: String, page: Int) -> Observable<(users: [User], pagination: Pagination)> {
+        return .just((users: [], pagination: Pagination()))
     }
 }

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		083069582625D47D008EA04F /* Pagination.swift in Sources */ = {isa = PBXBuildFile; fileRef = 083069572625D47D008EA04F /* Pagination.swift */; };
 		085452DB261F0A31002CFE3B /* FavoriteReposViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 085452DA261F0A31002CFE3B /* FavoriteReposViewController.swift */; };
 		085452E3261F0A4B002CFE3B /* FavoriteReposViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 085452E2261F0A4B002CFE3B /* FavoriteReposViewModel.swift */; };
 		085452E8261F0A9B002CFE3B /* FavoriteRepos.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 085452E7261F0A9B002CFE3B /* FavoriteRepos.storyboard */; };
@@ -72,6 +73,7 @@
 
 /* Begin PBXFileReference section */
 		0161675865AB6AB9BA6D8560 /* Pods-GitHubReposApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GitHubReposApp.debug.xcconfig"; path = "Target Support Files/Pods-GitHubReposApp/Pods-GitHubReposApp.debug.xcconfig"; sourceTree = "<group>"; };
+		083069572625D47D008EA04F /* Pagination.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Pagination.swift; sourceTree = "<group>"; };
 		085452DA261F0A31002CFE3B /* FavoriteReposViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteReposViewController.swift; sourceTree = "<group>"; };
 		085452E2261F0A4B002CFE3B /* FavoriteReposViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteReposViewModel.swift; sourceTree = "<group>"; };
 		085452E7261F0A9B002CFE3B /* FavoriteRepos.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = FavoriteRepos.storyboard; sourceTree = "<group>"; };
@@ -278,6 +280,7 @@
 				0865A64F25DC4B1000C9C5B9 /* SearchResponse.swift */,
 				0865A65425DC4B1600C9C5B9 /* User.swift */,
 				0865A65925DC4B1C00C9C5B9 /* Repository.swift */,
+				083069572625D47D008EA04F /* Pagination.swift */,
 			);
 			path = Response;
 			sourceTree = "<group>";
@@ -607,6 +610,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				083069582625D47D008EA04F /* Pagination.swift in Sources */,
 				0865A66425DC4B2C00C9C5B9 /* GitHubAPIError.swift in Sources */,
 				0865A6A425DC4C7F00C9C5B9 /* SearchUserViewController.swift in Sources */,
 				085452F0261F0BEA002CFE3B /* RepoStatusList.swift in Sources */,

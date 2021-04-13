@@ -12,6 +12,9 @@ class UserCell: UITableViewCell {
     @IBOutlet weak var iconImageView: UIImageView!
     @IBOutlet weak var userNameLabel: UILabel!
     
+    static var identifier: String { "UserCell" }
+    static var nib: UINib { UINib(nibName: identifier, bundle: nil) }
+    
     private var task: URLSessionTask?
     
     override func awakeFromNib() {

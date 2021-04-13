@@ -3,7 +3,6 @@ import WebKit
 import RxSwift
 import RxCocoa
 
-
 class RepositoryDetailViewController: UIViewController {
     @IBOutlet weak var progressView: UIProgressView!
     @IBOutlet weak var webView: WKWebView!
@@ -39,13 +38,19 @@ class RepositoryDetailViewController: UIViewController {
             .flatMap { estimatedProgress -> Observable<Double> in
                 estimatedProgress.map(Observable.just) ?? .empty()
             }
-            .bind(to: Binder(self) { me, progress in
-                UIView.animate(withDuration: 0.3) {
-                    let isShown = 0.0..<1.0 ~= progress
-                    me.progressView.alpha = isShown ? 1 : 0
-                    me.progressView.setProgress(Float(progress), animated: isShown)
-                }
-            })
+            .bind(to: setProgress)
             .disposed(by: disposeBag)
+    }
+}
+
+extension RepositoryDetailViewController {
+    private var setProgress: Binder<Double> {
+        return Binder(self) { me, progress in
+            UIView.animate(withDuration: 0.3) {
+                let isShown = 0.0..<1.0 ~= progress
+                me.progressView.alpha = isShown ? 1 : 0
+                me.progressView.setProgress(Float(progress), animated: isShown)
+            }
+        }
     }
 }
