@@ -45,6 +45,31 @@ extension GitHubRequest {
             throw try decoder.decode(GitHubAPIError.self, from: data)
         }
     }
+    
+    func responseWithPagination(from data: Data,
+                  urlResponse: URLResponse) throws -> (Response, Pagination) {
+        let decoder = JSONDecoder()
+        
+        if case (200 ..< 300)? = (urlResponse as? HTTPURLResponse)?.statusCode {
+            //JSONからモデルをインスタンス化
+            let object = try decoder.decode(Response.self, from: data)
+            
+            guard let response = urlResponse as? HTTPURLResponse else {
+                throw try decoder.decode(GitHubAPIError.self, from: data)
+            }
+            let pagination: Pagination
+            if let link = response.allHeaderFields["Link"] as? String {
+                pagination = Pagination(link: link)
+            } else {
+                pagination = Pagination(next: nil, last: nil, first: nil, prev: nil)
+            }
+            
+            return (object, pagination)
+        } else {
+            //JSONからAPIエラーをインスタンス化
+            throw try decoder.decode(GitHubAPIError.self, from: data)
+        }
+    }
 }
 
 

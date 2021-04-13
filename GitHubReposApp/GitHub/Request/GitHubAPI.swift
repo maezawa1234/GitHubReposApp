@@ -44,19 +44,36 @@ final class GitHubAPI {
         var path: String {
             return "/users/\(userName)/repos"
         }
-       
+        
         var queryItems: [URLQueryItem] {
             return []
         }
     }
-   
-    /*
-    struct SearchRepositoriesWithPaginationRequest: GitHubRequest {
-        typealias Response = 
+    
+    struct SearchUsersWithPaginationRequest: GitHubRequest {
+        typealias Response = SearchResponse<User>
         
+        let path: String = "/search/users"
+        let method: HTTPMethod = .get
         
+        let query: String
+        let page: Int?
+        let perPage: Int?
+        
+        var queryItems: [URLQueryItem] {
+            var queryItems = [URLQueryItem(name: "q", value: query)]
+            
+            if let page = page {
+                let query = URLQueryItem(name: "page", value: String(page))
+                queryItems.append(query)
+            }
+            if let perPage = perPage {
+                let query = URLQueryItem(name: "per_page", value: String(perPage))
+                queryItems.append(query)
+            }
+            return queryItems
+        }
     }
-     */
 }
 
 
