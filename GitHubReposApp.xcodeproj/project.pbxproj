@@ -8,6 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		083069582625D47D008EA04F /* Pagination.swift in Sources */ = {isa = PBXBuildFile; fileRef = 083069572625D47D008EA04F /* Pagination.swift */; };
+		083069652625F473008EA04F /* FooterCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 083069642625F473008EA04F /* FooterCell.xib */; };
+		0830696D2625F4A1008EA04F /* FooterCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0830696C2625F4A1008EA04F /* FooterCell.swift */; };
+		083069782626006C008EA04F /* Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 083069772626006C008EA04F /* Extension.swift */; };
 		085452DB261F0A31002CFE3B /* FavoriteReposViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 085452DA261F0A31002CFE3B /* FavoriteReposViewController.swift */; };
 		085452E3261F0A4B002CFE3B /* FavoriteReposViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 085452E2261F0A4B002CFE3B /* FavoriteReposViewModel.swift */; };
 		085452E8261F0A9B002CFE3B /* FavoriteRepos.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 085452E7261F0A9B002CFE3B /* FavoriteRepos.storyboard */; };
@@ -74,6 +77,9 @@
 /* Begin PBXFileReference section */
 		0161675865AB6AB9BA6D8560 /* Pods-GitHubReposApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GitHubReposApp.debug.xcconfig"; path = "Target Support Files/Pods-GitHubReposApp/Pods-GitHubReposApp.debug.xcconfig"; sourceTree = "<group>"; };
 		083069572625D47D008EA04F /* Pagination.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Pagination.swift; sourceTree = "<group>"; };
+		083069642625F473008EA04F /* FooterCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FooterCell.xib; sourceTree = "<group>"; };
+		0830696C2625F4A1008EA04F /* FooterCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FooterCell.swift; sourceTree = "<group>"; };
+		083069772626006C008EA04F /* Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extension.swift; sourceTree = "<group>"; };
 		085452DA261F0A31002CFE3B /* FavoriteReposViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteReposViewController.swift; sourceTree = "<group>"; };
 		085452E2261F0A4B002CFE3B /* FavoriteReposViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteReposViewModel.swift; sourceTree = "<group>"; };
 		085452E7261F0A9B002CFE3B /* FavoriteRepos.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = FavoriteRepos.storyboard; sourceTree = "<group>"; };
@@ -300,6 +306,10 @@
 			children = (
 				0865A6C625DC4D9700C9C5B9 /* UserCell.xib */,
 				0865A6B325DC4D0E00C9C5B9 /* UserCell.swift */,
+				0865A6F025DC4E3200C9C5B9 /* ReposCell.xib */,
+				0865A6E825DC4E2900C9C5B9 /* ReposCell.swift */,
+				083069642625F473008EA04F /* FooterCell.xib */,
+				0830696C2625F4A1008EA04F /* FooterCell.swift */,
 			);
 			path = Cell;
 			sourceTree = "<group>";
@@ -307,8 +317,6 @@
 		0865A6E725DC4E0E00C9C5B9 /* Cell */ = {
 			isa = PBXGroup;
 			children = (
-				0865A6F025DC4E3200C9C5B9 /* ReposCell.xib */,
-				0865A6E825DC4E2900C9C5B9 /* ReposCell.swift */,
 			);
 			path = Cell;
 			sourceTree = "<group>";
@@ -316,6 +324,7 @@
 		0865A6F525DC4EA000C9C5B9 /* Utility */ = {
 			isa = PBXGroup;
 			children = (
+				083069772626006C008EA04F /* Extension.swift */,
 				0865A6F625DC4EC400C9C5B9 /* ExtensionRx.swift */,
 				0865A6FE25DC4ECF00C9C5B9 /* ExtensionUIKit.swift */,
 				08545301261F2128002CFE3B /* Result.swift */,
@@ -476,6 +485,7 @@
 			files = (
 				085452E8261F0A9B002CFE3B /* FavoriteRepos.storyboard in Resources */,
 				0865A61125DC4A4200C9C5B9 /* LaunchScreen.storyboard in Resources */,
+				083069652625F473008EA04F /* FooterCell.xib in Resources */,
 				0865A6AE25DC4CA700C9C5B9 /* SearchUser.storyboard in Resources */,
 				0865A60E25DC4A4200C9C5B9 /* Assets.xcassets in Resources */,
 				0865A6E325DC4E0400C9C5B9 /* UserRepos.storyboard in Resources */,
@@ -625,6 +635,7 @@
 				0865A6FF25DC4ECF00C9C5B9 /* ExtensionUIKit.swift in Sources */,
 				0865A6D425DC4DDC00C9C5B9 /* UserReposViewModel.swift in Sources */,
 				0865A65025DC4B1000C9C5B9 /* SearchResponse.swift in Sources */,
+				083069782626006C008EA04F /* Extension.swift in Sources */,
 				0865A6B425DC4D0E00C9C5B9 /* UserCell.swift in Sources */,
 				0865A69F25DC4C6E00C9C5B9 /* WebAPIClient.swift in Sources */,
 				0865A63E25DC4AD700C9C5B9 /* GitHubAPI.swift in Sources */,
@@ -636,6 +647,7 @@
 				08545302261F2128002CFE3B /* Result.swift in Sources */,
 				0865A65F25DC4B2500C9C5B9 /* GitHubClientError.swift in Sources */,
 				0865A6DE25DC4DFA00C9C5B9 /* UserReposSectionModel.swift in Sources */,
+				0830696D2625F4A1008EA04F /* FooterCell.swift in Sources */,
 				0865A60525DC4A4100C9C5B9 /* AppDelegate.swift in Sources */,
 				0865A60725DC4A4100C9C5B9 /* SceneDelegate.swift in Sources */,
 				0865A64825DC4AE300C9C5B9 /* HTTPMethod.swift in Sources */,

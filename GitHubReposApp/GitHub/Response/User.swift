@@ -1,4 +1,4 @@
-import RxDataSources
+import Foundation
 
 struct User : Codable {
     let id: Int
@@ -10,6 +10,19 @@ struct User : Codable {
         case login, id
         case avatarURL = "avatar_url"
         case name
+    }
+    
+    init() {
+        self.id = -1
+        self.login = ""
+        self.avatarURL = URL(fileURLWithPath: "")
+        self.name = nil
+    }
+}
+
+extension User: Equatable {
+    static func == (lhs: User, rhs: User) -> Bool {
+        return rhs.id == rhs.id
     }
 }
 

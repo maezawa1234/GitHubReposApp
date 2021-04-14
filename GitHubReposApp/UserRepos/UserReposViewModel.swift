@@ -10,7 +10,7 @@ class UserReposViewModel {
     
     private let disposeBag = DisposeBag()
     
-    init(user: User,
+    init(user: UserCellData,
          input: (
             cellSelected: Driver<IndexPath>,
             favoriteButtonClicked: Driver<(indexPath: IndexPath, repoStatus: RepoStatus)>,
@@ -77,6 +77,5 @@ class UserReposViewModel {
         self.transitionToRepoDetailView = input.cellSelected
             .withLatestFrom(fetchRepositoriesResponse) { (indexPath: $0, repositories: $1) }
             .map { $0.repositories[$0.indexPath.row] }
- 
     }
 }

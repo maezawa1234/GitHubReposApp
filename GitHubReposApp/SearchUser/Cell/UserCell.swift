@@ -33,7 +33,7 @@ class UserCell: UITableViewCell {
         super.setSelected(selected, animated: animated)
     }
     
-    func configure(with user: User) {
+    func configure(with user: UserCellData) {
         self.userNameLabel.text = user.login
         
         task = {

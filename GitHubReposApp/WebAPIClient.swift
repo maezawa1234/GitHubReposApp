@@ -3,7 +3,7 @@ import RxSwift
 protocol WebAPIClientProtocol {
     func fetchUsers(query: String) -> Observable<(users: [User], totalCount: Int)>
     func fetchRepositories(by userName: String) -> Observable<[Repository]>
-    func fetchUsers(query: String, page: Int) -> Observable<(users: [User], pagination: Pagination)>
+    func fetchUsers(query: String, page: Int) -> Observable<(users: [User], totalCount: Int, pagination: Pagination)>
 }
 
 class WebAPIClient: WebAPIClientProtocol {
@@ -97,7 +97,7 @@ class WebAPIClient: WebAPIClientProtocol {
         }
     }
     
-    func fetchUsers(query: String, page: Int) -> Observable<(users: [User], pagination: Pagination)> {
+    func fetchUsers(query: String, page: Int = 1) -> Observable<(users: [User], totalCount: Int, pagination: Pagination)> {
         return Observable.create { [weak self] observer in
             let request = GitHubAPI.SearchUsersWithPaginationRequest(query: query, page: page, perPage: nil)
             let urlRequest = request.buildURLRequest()
@@ -114,7 +114,14 @@ class WebAPIClient: WebAPIClientProtocol {
                         print(data)
                         let response = try request.responseWithPagination(from: data, urlResponse: response)
                         print("users count:", response.0.items.count)
-                        observer.onNext((users: response.0.items, pagination: response.1))
+                        
+                        typealias ResponseObject = (users: [User], totalCount: Int, pagination: Pagination)
+                        
+                        let responseObject = ResponseObject(users: response.0.items,
+                                                            totalCount: response.0.totalCount,
+                                                            pagination: response.1)
+                        
+                        observer.onNext(responseObject)
                         observer.onCompleted()
                         
                     } catch let error as GitHubAPIError {

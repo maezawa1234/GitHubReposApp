@@ -9,9 +9,9 @@ class UserReposViewController: UIViewController {
     private let favoriteButtonClicked: PublishRelay<(indexPath: IndexPath, repoStatus: RepoStatus)> = PublishRelay()
     private let disposeBag = DisposeBag()
     
-    private let user: User
+    private let user: UserCellData
     
-    init?(coder: NSCoder, user: User) {
+    init?(coder: NSCoder, user: UserCellData) {
         self.user = user
         
         super.init(coder: coder)

@@ -17,7 +17,8 @@ class SearchUserViewController: UIViewController {
             searchBarDidBeginEditing: searchBar.rx.textDidBeginEditing.asSignal(),
             searchButtonClicked: searchBar.rx.searchButtonClicked.asSignal(),
             cancelButtonClicked: Signal.merge(searchBar.rx.cancelButtonClicked.asSignal(), closeButton.rx.tap.asSignal()),
-            itemSelected: tableView.rx.itemSelected.asDriver()),
+            itemSelected: tableView.rx.itemSelected.asDriver(),
+            isBottomEdge: tableView.rx.contentOffset.asDriver().map { _ in self.isBottomEdge() }.distinctUntilChanged()),
         dependency: (
             wireFrame: DefaultWireframe.shared,
             model: WebAPIClient.shared
@@ -46,6 +47,7 @@ class SearchUserViewController: UIViewController {
         tableView.sectionHeaderHeight = .zero
         tableView.tableFooterView = UIView(frame: .zero)
         tableView.register(UserCell.nib, forCellReuseIdentifier: UserCell.identifier)
+        tableView.register(FooterCell.nib, forCellReuseIdentifier: FooterCell.identifier)
         //Configure activityIndicator
         indicator.center = self.view.center
         indicator.style = .large
@@ -86,16 +88,30 @@ class SearchUserViewController: UIViewController {
                 reloadAnimation: .automatic,
                 deleteAnimation: .automatic
             ),
-            configureCell: { (_, tableView, indexPath, user) in
-                let cell = tableView.dequeueReusableCell(withIdentifier: "UserCell") as! UserCell
-                cell.configure(with: user)
-                return cell
+            configureCell: { (_, tableView, indexPath, cellData) in
+                switch cellData {
+                case .userItem(let user):
+                    //configure main cell
+                    let cell = tableView.dequeueReusableCell(withIdentifier: UserCell.identifier) as! UserCell
+                    cell.configure(with: user)
+                    return cell
+                case .footerItem(_):
+                    //configure footer cell
+                    let footerCell = tableView.dequeueReusableCell(withIdentifier: FooterCell.identifier) as! FooterCell
+                    footerCell.configure(isAnimating: true)
+                    footerCell.separatorInset = .init(top: 0, left: 0, bottom: 0, right: 10000)
+                    return footerCell
+                }
             },
             titleForHeaderInSection: { dataSource, sectionIndex in return dataSource[sectionIndex].header },
             canEditRowAtIndexPath: { (_, _) in false },
             canMoveRowAtIndexPath: { (_, _) in false }
         )
         return dataSource
+    }
+    
+    private func isBottomEdge() -> Bool {
+        return (tableView.contentSize.height - tableView.bounds.size.height) <= tableView.contentOffset.y
     }
 }
 
@@ -138,7 +154,7 @@ extension SearchUserViewController {
         }
     }
     
-    private var transitionToUserReposView: Binder<User> {
+    private var transitionToUserReposView: Binder<UserCellData> {
         return Binder(self) { me, user in
             let userReposVC = UIStoryboard(name: "UserRepos", bundle: nil)
                 .instantiateViewController(identifier: "UserReposViewController") { coder in
