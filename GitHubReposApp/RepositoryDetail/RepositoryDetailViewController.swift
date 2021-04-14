@@ -6,6 +6,7 @@ import RxCocoa
 class RepositoryDetailViewController: UIViewController {
     @IBOutlet weak var progressView: UIProgressView!
     @IBOutlet weak var webView: WKWebView!
+    private var favoriteButton = UIBarButtonItem(title: "⭐", style: .plain, target: nil, action: nil)
     
     private let repository: Repository
     private let disposeBag = DisposeBag()
@@ -25,12 +26,19 @@ class RepositoryDetailViewController: UIViewController {
  
         setup()
         binding()
+        
+        favoriteButton.rx.tap.asSignal()
+            .emit(onNext: {
+                print("tapped favorite button!")
+            })
+            .disposed(by: disposeBag)
     }
     
     private func setup() {
         self.navigationItem.title = repository.name
         let request = URLRequest(url: repository.htmlURL)
         webView.load(request)
+        self.navigationItem.rightBarButtonItem = favoriteButton
     }
     
     private func binding() {

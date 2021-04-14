@@ -8,16 +8,16 @@ class SearchUserViewModel {
     let transitionToReposView: Driver<UserCellData>
     let listIsEmpty: Driver<Bool>
     let totalCount: Driver<Int>
-    let isSearchFieldEditing: Signal<Bool>
+    let isSearchFieldEditing: Driver<Bool>
     let fetchingUsers: Driver<Bool>
     
     private let disposeBag = DisposeBag()
     
     init(input: (
             searchBarText: Driver<String>,
-            searchBarDidBeginEditing: Signal<Void>,
-            searchButtonClicked: Signal<Void>,
-            cancelButtonClicked: Signal<Void>,
+            searchBarDidBeginEditing: Driver<Void>,
+            searchButtonClicked: Driver<Void>,
+            cancelButtonClicked: Driver<Void>,
             itemSelected: Driver<IndexPath>,
             isBottomEdge: Driver<Bool>),
          dependency: (
@@ -38,35 +38,94 @@ class SearchUserViewModel {
         
         var sections = [SearchUserSectionModel(header: "Users", items: []), SearchUserSectionModel(header: "Footer", items: [SearchUserCellDataType.footerItem(FooterCellData(id: -1000000, isAnimation: true))])]
         
+        var nowPagination: Pagination? = nil {
+            didSet {
+                print(nowPagination?.first, nowPagination?.last, nowPagination?.next, nowPagination?.prev)
+            }
+        }
+
         let searchSequence = input.searchButtonClicked
             .withLatestFrom(input.searchBarText)
             .filter { !$0.isEmpty }
             .distinctUntilChanged()
             .asObservable()
-            .flatMapLatest { text in
+            .flatMapLatest { text -> Observable<Event<(users: [User], totalCount: Int, pagination: Pagination)>> in
                 return model.fetchUsers(query: text, page: 1)
-                    .map {
-                        (users: $0.users, totalCount: $0.totalCount)
+                    .map { o -> (users: [User], totalCount: Int, pagination: Pagination) in
+                        nowPagination = o.pagination
+                        return (users: o.users, totalCount: o.totalCount, pagination: o.pagination)
                     }
                     .trackActivity(fetchingUsers)
                     .materialize()
             }
             .share(replay: 1)
         
+        self.fetchingUsers
+            .drive(onNext: { isFetching in
+                print("isFetching: ", isFetching)
+            })
+            .disposed(by: disposeBag)
+        
+        let addSearchSequense = input.isBottomEdge.filter { $0 }
+            .withLatestFrom(input.searchBarText)
+            .filter { !$0.isEmpty }
+            //.distinctUntilChanged()
+            .asObservable()
+            //.withLatestFrom(paginationObservable1) { (text: $0, pagination: $1) }
+            .flatMapLatest { text -> Observable<Event<(users: [User], totalCount: Int)>> in
+                guard let next = nowPagination?.next else {
+                    return .empty()
+                }
+                return model.fetchUsers(query: text, page: next)
+                    .map { o -> (users: [User], totalCount: Int) in
+                        nowPagination = o.pagination
+                        return (users: o.users, totalCount: o.totalCount)
+                    }
+                    .materialize()
+            }
+            .share(replay: 1)
+        
+        
         let response = searchSequence.elements()
             .asDriver(onErrorDriveWith: .empty())
         
-        self.sections = response
-            .map { response in
+        
+        
+        let responseSectionData = response.map { response -> [SearchUserSectionModel] in
+            let items = response.users.map { SearchUserCellDataType.userItem(UserCellData(user: $0)) }
+            sections[0].items = items
+            return sections
+        }
+        
+        let addResponse = addSearchSequense.elements()
+            .asDriver(onErrorDriveWith: .empty())
+            .map { response -> [SearchUserSectionModel] in
                 let items = response.users.map { SearchUserCellDataType.userItem(UserCellData(user: $0)) }
-                sections[0].items = items
+                sections[0].items.append(contentsOf: items)
+                sections[0].items = sections[0].items.unique(resolve: { _, _ in
+                                            print("Duplicate values will be assigned.")
+                                            return .ignoreNewOne
+                })
+                if let pagination = nowPagination {
+                    if pagination.last == nil && pagination.next == nil {
+                        sections[1].items.removeAll()
+                    }
+                }
                 return sections
             }
+        
+        self.sections = Driver.merge(responseSectionData, addResponse)
+        
+        self.sections.drive(onNext: { _ in
+            print("")
+        })
+        .disposed(by: disposeBag)
+        
         
         self.totalCount = response
             .map { $0.totalCount }
         
-        self.error = searchSequence.errors()
+        self.error = Observable.merge(searchSequence.errors(), addSearchSequense.errors())
             .asDriver(onErrorDriveWith: .empty())
             .flatMapLatest { error in
                 return wireFrame.promptFor(error.localizedDescription, cancelAction: "OK", actions: [])
@@ -105,8 +164,8 @@ class SearchUserViewModel {
             .map { $0! }
         
         let didBeginEditing = input.searchBarDidBeginEditing.map { true }
-        let didEndEditing = Signal.merge(input.searchButtonClicked, input.cancelButtonClicked)
+        let didEndEditing = Driver.merge(input.searchButtonClicked, input.cancelButtonClicked)
             .map { false }
-        self.isSearchFieldEditing = Signal.merge(didBeginEditing, didEndEditing)
+        self.isSearchFieldEditing = Driver.merge(didBeginEditing, didEndEditing)
     }
 }

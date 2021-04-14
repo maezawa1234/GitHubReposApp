@@ -41,7 +41,7 @@ struct UserCellData: IdentifiableType, Equatable {
     }
     
     static func == (lhs: UserCellData, rhs: UserCellData) -> Bool {
-        return rhs.id == rhs.id
+        return lhs.id == rhs.id
     }
     let id: Int
     let login: String
@@ -61,7 +61,7 @@ struct FooterCellData: IdentifiableType, Equatable {
     }
     
     static func == (lhs: FooterCellData, rhs: FooterCellData) -> Bool {
-        return rhs.id == rhs.id
+        return lhs.id == rhs.id
     }
     let id: Int
     var isAnimation: Bool = true

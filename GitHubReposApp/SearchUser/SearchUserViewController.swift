@@ -3,7 +3,7 @@ import RxCocoa
 import RxDataSources
 
 class SearchUserViewController: UIViewController {
-    @IBOutlet weak var searchBar: UISearchBar!
+    @IBOutlet weak var searchBar: UISearchBar!       
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var totalCountLabel: UILabel!
     private let indicator = UIActivityIndicatorView()
@@ -14,9 +14,9 @@ class SearchUserViewController: UIViewController {
     private lazy var viewModel = SearchUserViewModel(
         input: (
             searchBarText: searchBar.rx.text.orEmpty.asDriver(),
-            searchBarDidBeginEditing: searchBar.rx.textDidBeginEditing.asSignal(),
-            searchButtonClicked: searchBar.rx.searchButtonClicked.asSignal(),
-            cancelButtonClicked: Signal.merge(searchBar.rx.cancelButtonClicked.asSignal(), closeButton.rx.tap.asSignal()),
+            searchBarDidBeginEditing: searchBar.rx.textDidBeginEditing.asDriver(),
+            searchButtonClicked: searchBar.rx.searchButtonClicked.asDriver(),
+            cancelButtonClicked: Driver.merge(searchBar.rx.cancelButtonClicked.asDriver(), closeButton.rx.tap.asDriver()),
             itemSelected: tableView.rx.itemSelected.asDriver(),
             isBottomEdge: tableView.rx.contentOffset.asDriver().map { _ in self.isBottomEdge() }.distinctUntilChanged()),
         dependency: (
@@ -73,7 +73,7 @@ class SearchUserViewController: UIViewController {
             .disposed(by: disposeBag)
         
         viewModel.isSearchFieldEditing
-            .emit(to: refrectEditing)
+            .drive(refrectEditing)
             .disposed(by: disposeBag)
         
         viewModel.fetchingUsers
@@ -95,10 +95,10 @@ class SearchUserViewController: UIViewController {
                     let cell = tableView.dequeueReusableCell(withIdentifier: UserCell.identifier) as! UserCell
                     cell.configure(with: user)
                     return cell
-                case .footerItem(_):
+                case .footerItem(let footerCellData):
                     //configure footer cell
                     let footerCell = tableView.dequeueReusableCell(withIdentifier: FooterCell.identifier) as! FooterCell
-                    footerCell.configure(isAnimating: true)
+                    footerCell.configure(isAnimating: footerCellData.isAnimation)
                     footerCell.separatorInset = .init(top: 0, left: 0, bottom: 0, right: 10000)
                     return footerCell
                 }
@@ -111,7 +111,7 @@ class SearchUserViewController: UIViewController {
     }
     
     private func isBottomEdge() -> Bool {
-        return (tableView.contentSize.height - tableView.bounds.size.height) <= tableView.contentOffset.y
+        return (tableView.contentSize.height - tableView.bounds.size.height - 350) <= tableView.contentOffset.y
     }
 }
 
