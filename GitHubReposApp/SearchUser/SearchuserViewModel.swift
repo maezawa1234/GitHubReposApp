@@ -85,11 +85,8 @@ class SearchUserViewModel {
             }
             .share(replay: 1)
         
-        
         let response = searchSequence.elements()
             .asDriver(onErrorDriveWith: .empty())
-        
-        
         
         let responseSectionData = response.map { response -> [SearchUserSectionModel] in
             let items = response.users.map { SearchUserCellDataType.userItem(UserCellData(user: $0)) }
