@@ -1,5 +1,6 @@
 import RxSwift
 import RxCocoa
+import Action
 
 class UserReposViewModel {
     //MARK: Drivers
@@ -35,8 +36,13 @@ class UserReposViewModel {
                 return dataStore.save(repos: repos)
                     .asDriver(onErrorDriveWith: .empty())
             }
-    
-        //MARK: お気に入り状態をdataStoreへ保存
+        
+        // MARK: - Action
+        let saveAction: Action<[Repository], [Repository]> = Action { repos in
+            return dataStore.save(repos: repos)
+        }
+        
+        // MARK: - お気に入り状態をdataStoreへ保存
         let favoriteEvent = input.favoriteButtonClicked
             //FIXME: イベントの値Boolはてきとう、使用していない状態です。
             .flatMap { statusValue -> Driver<Bool> in
@@ -50,7 +56,7 @@ class UserReposViewModel {
         self.sections = Driver
             .combineLatest(fetchRepositoriesResponse, favoriteEvent, input.viewWillAppear) { ($0, $1, $2) }
             .flatMapLatest { reposAndFavoriteEvent -> Driver<RepoStatusList> in
-                //MARK: RepositoryをRepoStatusに変換する. dataStoreからお気に入り情報の取得を開始
+                //MARK: - RepositoryをRepoStatusに変換する. dataStoreからお気に入り情報の取得を開始
                 let repositories = reposAndFavoriteEvent.0
                 let ids = repositories.map { $0.id }
                 return dataStore.fetch(ids: ids)
