@@ -12,7 +12,7 @@ extension UserDefaults: UserDefaultsProtocol {}
 protocol DataStoreProtocol: AnyObject {
     // お気に入り情報を検索・保存する
     func fetch(ids: [Int]) -> Single<[Int: Bool]>
-    func save(liked: Bool, for id: Int) -> Single<Bool>
+    func save(isFavorite: Bool, for id: Int) -> Single<Bool>
     func allLikes() -> Single<[Int: Bool]>
     // リポジトリ情報を保存・取得する
     func save(repos: [Repository]) -> Single<[Repository]>
@@ -49,16 +49,16 @@ final class UserDefaultsDataStore: DataStoreProtocol {
         }
     }
     
-    func save(liked: Bool, for id: Int) -> Single<Bool> {
+    func save(isFavorite: Bool, for id: Int) -> Single<Bool> {
         return Single.create { observer in
-            print("will save with liked:", liked)
+            print("will save with liked:", isFavorite)
             var all = self._allLikes()
             let id = String(id)
-            all[id] = liked
+            all[id] = isFavorite
             let pairs = all.map { (k, v) in (k, v) }
             let newAll = Dictionary(uniqueKeysWithValues: pairs)
             self.userDefaults.set(newAll, forKey: "likes")
-            observer(.success(liked))
+            observer(.success(isFavorite))
             
             return Disposables.create()
         }

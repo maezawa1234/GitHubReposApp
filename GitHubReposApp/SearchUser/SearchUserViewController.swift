@@ -84,7 +84,7 @@ class SearchUserViewController: UIViewController {
     private static func configureDataSource() -> RxTableViewSectionedAnimatedDataSource<SearchUserSectionModel> {
         let dataSource = RxTableViewSectionedAnimatedDataSource<SearchUserSectionModel>(
             animationConfiguration: AnimationConfiguration(
-                insertAnimation: .right,
+                insertAnimation: .none,
                 reloadAnimation: .automatic,
                 deleteAnimation: .automatic
             ),

@@ -1,13 +1,14 @@
 import RxSwift
 import RxCocoa
+import Action
 
 protocol RepositoryDetailViewModelInput: AnyObject {
-    var favoriteButtonClicked: PublishRelay<()> { get }
+    var favoriteButtonClicked: PublishRelay<Bool> { get }
     var webViewEstimatedProgress: PublishRelay<Double?> { get }
 }
 
 protocol RepositoryDetailViewModelOutput: AnyObject {
-    var isfavorite: Driver<String> { get }
+    var isFavorite: Driver<String> { get }
     var estimatedProgress: Driver<Double> { get }
 }
 
@@ -25,7 +26,7 @@ class RepositoryDetailViewModel: RepositoryDetailViewModelType, RepositoryDetail
     var webViewEstimatedProgress = PublishRelay<Double?>()
     
     //MARK: - Output
-    var isfavorite: Driver<String>
+    var isFavorite: Driver<String>
     var estimatedProgress: Driver<Double>
     
     private let disposeBag = DisposeBag()
@@ -33,28 +34,22 @@ class RepositoryDetailViewModel: RepositoryDetailViewModelType, RepositoryDetail
     init(repository: Repository,
          dataStore: DataStoreProtocol = UserDefaultsDataStore.shared) {
         
-        let nowFavorite = BehaviorRelay<Bool>(value: true)
-        let firstStatus = dataStore.allLikes().map { allFavorites -> Bool in
-            let isFavorite = allFavorites[repository.id] ?? false
-            nowFavorite.accept(isFavorite)
-            return isFavorite
+        let initialFavorite = dataStore.allLikes().map { $0[repository.id] ?? false }
+        
+        let saveFavoriteAction: Action<Bool, Bool> = Action { isFavorite in
+            return dataStore.save(isFavorite: !isFavorite, for: repository.id)
         }
         
-        let likeSequence = favoriteButtonClicked.asObservable().withLatestFrom(nowFavorite)
-            .flatMap { isFavorite -> Observable<Bool> in
-                nowFavorite.accept(!isFavorite)
-                return dataStore.save(liked: !isFavorite, for: repository.id).map { _ in !isFavorite }
-            }
-        
-        self.isfavorite = Observable.merge(firstStatus, likeSequence)
+        favoriteButtonClicked
+            .bind(to: saveFavoriteAction.inputs)
+            .disposed(by: disposeBag)
+         
+        self.isFavorite = Observable.concat(initialFavorite.asObservable(), saveFavoriteAction.elements)
             .map { $0 ? "⭐" : "☆" }
             .asDriver(onErrorDriveWith: .empty())
         
         self.estimatedProgress = webViewEstimatedProgress
-            .asDriver(onErrorDriveWith: .empty())
             .compactMap { $0 }
-            .do(onNext: { progress in
-                print("progress bar: ", progress)
-            })
+            .asDriver(onErrorDriveWith: .empty())
     }
 }

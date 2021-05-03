@@ -43,16 +43,17 @@ class RepositoryDetailViewController: UIViewController {
             .disposed(by: disposeBag)
         
         favoriteButton.rx.tap.asSignal()
+            .map { self.favoriteButton.title == "⭐" }
             .emit(to: viewModel.input.favoriteButtonClicked)
             .disposed(by: disposeBag)
          
-        viewModel.output.isfavorite
+        viewModel.output.isFavorite
             .drive(favoriteButton.rx.title)
             .disposed(by: disposeBag)
         
         viewModel.output.estimatedProgress
             .drive(setProgress)
-            .disposed(by: disposeBag) 
+            .disposed(by: disposeBag)
     }
 }
 

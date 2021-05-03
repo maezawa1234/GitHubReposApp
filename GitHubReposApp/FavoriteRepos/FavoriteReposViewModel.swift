@@ -25,7 +25,7 @@ class FavoriteReposViewModel {
             .flatMap { statusValue -> Driver<Bool> in
                 let repoStatus = statusValue.repoStatus
                 let isFavorite = !repoStatus.isFavorite  // お気に入り状態を反転
-                return dataStore.save(liked: isFavorite, for: repoStatus.repo.id)
+                return dataStore.save(isFavorite: isFavorite, for: repoStatus.repo.id)
                     .asDriver(onErrorDriveWith: .empty())
             }
             .startWith(true)
