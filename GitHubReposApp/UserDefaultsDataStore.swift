@@ -20,11 +20,12 @@ protocol DataStoreProtocol: AnyObject {
 }
 
 final class UserDefaultsDataStore: DataStoreProtocol {
-    let userDefaults: UserDefaultsProtocol
-    
-    init(userDefaults: UserDefaultsProtocol) {
+    static let shared = UserDefaultsDataStore(userDefaults: UserDefaults.standard)
+    private init(userDefaults: UserDefaultsProtocol) {
         self.userDefaults = userDefaults
     }
+    
+    private let userDefaults: UserDefaultsProtocol
     
     // MARK: お気に入りの管理
     func fetch(ids: [Int]) -> Observable<[Int: Bool]> {
