@@ -7,6 +7,8 @@
 
 import XCTest
 @testable import GitHubReposApp
+import RxSwift
+import RxBlocking
 
 class GitHubReposAppTests: XCTestCase {
 
@@ -21,8 +23,11 @@ class GitHubReposAppTests: XCTestCase {
     func testExample() throws {
         // This is an example of a functional test case.
         // Use XCTAssert and related functions to verify your tests produce the correct results.
+        let userDefaultMock: UserDefaultsProtocol = UserDefaultsMock()
+        let dataStore = UserDefaultsDataStore.shared(userDefaults: userDefaultMock)
+      
     }
-
+    
     func testPerformanceExample() throws {
         // This is an example of a performance test case.
         self.measure {
