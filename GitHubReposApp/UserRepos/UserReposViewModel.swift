@@ -37,11 +37,12 @@ class UserReposViewModel {
             .bind(to: saveAction.inputs)
             .disposed(by: disposeBag)
         
+        /*
         let favoriteRegisterAction: Action<(indexPath: IndexPath, repoStatus: RepoStatus), Bool> = Action { statusValue in
             let repoStatus = statusValue.repoStatus
             return dataStore.save(liked: !statusValue.repoStatus.isFavorite, for: repoStatus.repo.id)
         }
-        
+        */
         // MARK: - お気に入り状態をdataStoreへ保存
         let favoriteEvent = input.favoriteButtonClicked
             //FIXME: イベントの値Boolはてきとう、使用していない状態です。

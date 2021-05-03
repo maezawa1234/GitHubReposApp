@@ -21,7 +21,7 @@ class RepositoryDetailViewModel: RepositoryDetailViewModelType, RepositoryDetail
     var output: RepositoryDetailViewModelOutput { return self }
     
     //MARK: - Input
-    var favoriteButtonClicked = PublishRelay<()>()
+    var favoriteButtonClicked = PublishRelay<Bool>()
     var webViewEstimatedProgress = PublishRelay<Double?>()
     
     //MARK: - Output
