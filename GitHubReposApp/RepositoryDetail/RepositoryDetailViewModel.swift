@@ -31,7 +31,7 @@ class RepositoryDetailViewModel: RepositoryDetailViewModelType, RepositoryDetail
     private let disposeBag = DisposeBag()
     
     init(repository: Repository,
-         dataStore: DataStoreProtocol = UserDefaultsDataStore(userDefaults: UserDefaults.standard)) {
+         dataStore: DataStoreProtocol = UserDefaultsDataStore.shared) {
         
         let nowFavorite = BehaviorRelay<Bool>(value: true)
         let firstStatus = dataStore.allLikes().map { allFavorites -> Bool in
@@ -53,5 +53,8 @@ class RepositoryDetailViewModel: RepositoryDetailViewModelType, RepositoryDetail
         self.estimatedProgress = webViewEstimatedProgress
             .asDriver(onErrorDriveWith: .empty())
             .compactMap { $0 }
+            .do(onNext: { progress in
+                print("progress bar: ", progress)
+            })
     }
 }

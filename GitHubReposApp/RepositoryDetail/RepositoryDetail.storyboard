@@ -24,7 +24,7 @@
                                     <wkPreferences key="preferences"/>
                                 </wkWebViewConfiguration>
                             </wkWebView>
-                            <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="Fqi-PF-MEd">
+                            <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Fqi-PF-MEd">
                                 <rect key="frame" x="0.0" y="44" width="414" height="3"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="3" id="oFv-52-ImG"/>

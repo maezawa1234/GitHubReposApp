@@ -1,5 +1,6 @@
 import RxSwift
 import RxCocoa
+import Action
 
 class SearchUserViewModel {
     //Drivers
@@ -65,6 +66,19 @@ class SearchUserViewModel {
                 print("isFetching: ", isFetching)
             })
             .disposed(by: disposeBag)
+        
+        /*
+        let addSearchAction: Action<String, (users: [User], totalCount: Int)> = Action(workFactory: { text in
+            guard let next = nowPagination?.next else {
+                return .empty()
+            }
+            return model.fetchUsers(query: text, page: next)
+                .map { o -> (users: [User], totalCount: Int) in
+                    nowPagination = o.pagination
+                    return (users: o.users, totalCount: o.totalCount)
+                }
+        })
+        */
         
         let addSearchSequense = input.isBottomEdge.filter { $0 }
             .withLatestFrom(input.searchBarText)

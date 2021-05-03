@@ -19,5 +19,4 @@ target 'GitHubReposApp' do
   target 'GitHubReposAppUITests' do
     # Pods for testing
   end
-
 end
