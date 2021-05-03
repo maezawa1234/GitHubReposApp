@@ -210,6 +210,7 @@
 				085452EF261F0BEA002CFE3B /* RepoStatusList.swift */,
 				0865A69E25DC4C6E00C9C5B9 /* WebAPIClient.swift */,
 				085452FC261F1D77002CFE3B /* UserDefaultsDataStore.swift */,
+				0865A6B225DC4CFC00C9C5B9 /* Cell */,
 				086760072622FFEE00189058 /* SectionModel */,
 				0865A63825DC4A6A00C9C5B9 /* SearchUser */,
 				0865A63925DC4A7700C9C5B9 /* UserRepos */,
@@ -257,7 +258,6 @@
 				0865A6AD25DC4CA700C9C5B9 /* SearchUser.storyboard */,
 				0865A6A325DC4C7F00C9C5B9 /* SearchUserViewController.swift */,
 				0865A69625DC4C6400C9C5B9 /* SearchuserViewModel.swift */,
-				0865A6B225DC4CFC00C9C5B9 /* Cell */,
 			);
 			path = SearchUser;
 			sourceTree = "<group>";

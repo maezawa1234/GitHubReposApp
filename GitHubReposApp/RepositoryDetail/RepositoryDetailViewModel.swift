@@ -31,7 +31,7 @@ class RepositoryDetailViewModel: RepositoryDetailViewModelType, RepositoryDetail
     private let disposeBag = DisposeBag()
     
     init(repository: Repository,
-         dataStore: DataStoreProtocol = UserDefaultsDataStore(userDefaults: UserDefaults.standard)) {
+         dataStore: DataStoreProtocol = UserDefaultsDataStore.shared) {
         
         let nowFavorite = BehaviorRelay<Bool>(value: true)
         let firstStatus = dataStore.allLikes().map { allFavorites -> Bool in
