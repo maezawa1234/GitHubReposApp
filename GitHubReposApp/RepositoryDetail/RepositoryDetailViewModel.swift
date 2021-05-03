@@ -53,5 +53,8 @@ class RepositoryDetailViewModel: RepositoryDetailViewModelType, RepositoryDetail
         self.estimatedProgress = webViewEstimatedProgress
             .asDriver(onErrorDriveWith: .empty())
             .compactMap { $0 }
+            .do(onNext: { progress in
+                print("progress bar: ", progress)
+            })
     }
 }
