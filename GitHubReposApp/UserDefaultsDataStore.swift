@@ -20,14 +20,7 @@ protocol DataStoreProtocol: AnyObject {
 }
 
 final class UserDefaultsDataStore: DataStoreProtocol {
-    static let shared = UserDefaultsDataStore(userDefaults: UserDefaults.standard)
-    
-    static func shared(userDefaults: UserDefaultsProtocol) -> UserDefaultsDataStore {
-        let dataStore = UserDefaultsDataStore(userDefaults: userDefaults)
-        return dataStore
-    }
-    
-    private init(userDefaults: UserDefaultsProtocol) {
+    init(userDefaults: UserDefaultsProtocol) {
         self.userDefaults = userDefaults
     }
     

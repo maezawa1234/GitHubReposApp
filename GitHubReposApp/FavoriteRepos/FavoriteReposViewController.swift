@@ -16,7 +16,7 @@ class FavoriteReposViewController: UIViewController {
         ),
         dependencies: (
             wireFrame: DefaultWireframe.shared,
-            dataStore: UserDefaultsDataStore.shared
+            dataStore: UserDefaultsDataStore(userDefaults: UserDefaults.standard)
         )
     )
     

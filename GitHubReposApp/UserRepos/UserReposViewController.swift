@@ -31,7 +31,7 @@ class UserReposViewController: UIViewController {
         dependencies: (
             wireFrame: DefaultWireframe.shared,
             webClient: WebAPIClient.shared,
-            dataStore: UserDefaultsDataStore.shared
+            dataStore: UserDefaultsDataStore(userDefaults: UserDefaults.standard)
         )
     )
     

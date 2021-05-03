@@ -32,7 +32,7 @@ class RepositoryDetailViewModel: RepositoryDetailViewModelType, RepositoryDetail
     private let disposeBag = DisposeBag()
     
     init(repository: Repository,
-         dataStore: DataStoreProtocol = UserDefaultsDataStore.shared) {
+         dataStore: DataStoreProtocol = UserDefaultsDataStore(userDefaults: UserDefaults.standard)) {
         
         let initialFavorite = dataStore.allLikes().map { $0[repository.id] ?? false }
         
