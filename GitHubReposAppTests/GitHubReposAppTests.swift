@@ -6,9 +6,10 @@
 //
 
 import XCTest
-@testable import GitHubReposApp
-import RxSwift
 import RxBlocking
+import RxTest
+@testable import GitHubReposApp
+
 
 class GitHubReposAppTests: XCTestCase {
 
@@ -26,6 +27,7 @@ class GitHubReposAppTests: XCTestCase {
         let userDefaultMock: UserDefaultsProtocol = UserDefaultsMock()
         let dataStore = UserDefaultsDataStore.shared(userDefaults: userDefaultMock)
       
+        
     }
     
     func testPerformanceExample() throws {

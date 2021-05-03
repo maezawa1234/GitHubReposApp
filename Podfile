@@ -14,6 +14,8 @@ target 'GitHubReposApp' do
   target 'GitHubReposAppTests' do
     inherit! :search_paths
     # Pods for testing
+    pod 'RxBlocking',:modular_headers => true
+    pod 'RxTest',:modular_headers => true
   end
 
   target 'GitHubReposAppUITests' do
