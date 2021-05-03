@@ -11,12 +11,12 @@ extension UserDefaults: UserDefaultsProtocol {}
 
 protocol DataStoreProtocol: AnyObject {
     // お気に入り情報を検索・保存する
-    func fetch(ids: [Int]) -> Observable<[Int: Bool]>
-    func save(liked: Bool, for id: Int) -> Observable<Bool>
-    func allLikes() -> Observable<[Int: Bool]>
+    func fetch(ids: [Int]) -> Single<[Int: Bool]>
+    func save(liked: Bool, for id: Int) -> Single<Bool>
+    func allLikes() -> Single<[Int: Bool]>
     // リポジトリ情報を保存・取得する
-    func save(repos: [Repository]) -> Observable<[Repository]>
-    func fetch(using ids: [Int]) -> Observable<[Repository]>
+    func save(repos: [Repository]) -> Single<[Repository]>
+    func fetch(using ids: [Int]) -> Single<[Repository]>
 }
 
 final class UserDefaultsDataStore: DataStoreProtocol {
@@ -28,29 +28,29 @@ final class UserDefaultsDataStore: DataStoreProtocol {
     private let userDefaults: UserDefaultsProtocol
     
     // MARK: お気に入りの管理
-    func fetch(ids: [Int]) -> Observable<[Int: Bool]> {
-        return Observable.create { [weak self] observer in
-            let all = self?._allLikes()
-            let result = all?.filter { (k, v) -> Bool in
-                ids.contains{ $0 == Int(k) }
+    func fetch(ids: [Int]) -> Single<[Int: Bool]> {
+        return Single.create { [weak self] observer in
+            
+            let disposables = Disposables.create()
+            guard let strongSelf = self else {
+                observer(.success([:]))
+                return disposables
+            }
+            let all = strongSelf._allLikes()
+            let result = all.filter { (k, v) -> Bool in
+                ids.contains { $0 == Int(k) }
             }
             
-            if let result = result {
-                let _result = result.map { (str, v) in (Int(str)!, v) }
-                let a = Dictionary(uniqueKeysWithValues: _result)
-                observer.onNext(a)
-                observer.onCompleted()
-            } else {
-                print("favorite list is empty")
-                observer.onNext([:])
-                observer.onCompleted()
-            }
-            return Disposables.create()
+            let _result = result.map { (str, v) in (Int(str)!, v) }
+            let a = Dictionary(uniqueKeysWithValues: _result)
+            observer(.success(a))
+            
+            return disposables
         }
     }
     
-    func save(liked: Bool, for id: Int) -> Observable<Bool> {
-        return Observable.create { observer in
+    func save(liked: Bool, for id: Int) -> Single<Bool> {
+        return Single.create { observer in
             print("will save with liked:", liked)
             var all = self._allLikes()
             let id = String(id)
@@ -58,31 +58,29 @@ final class UserDefaultsDataStore: DataStoreProtocol {
             let pairs = all.map { (k, v) in (k, v) }
             let newAll = Dictionary(uniqueKeysWithValues: pairs)
             self.userDefaults.set(newAll, forKey: "likes")
-            observer.onNext(liked)
-            observer.onCompleted()
+            observer(.success(liked))
             
             return Disposables.create()
         }
     }
     
-    func allLikes() -> Observable<[Int: Bool]> {
+    func allLikes() -> Single<[Int: Bool]> {
         let pair = _allLikes().map { (k, v) in (Int(k)!, v) }
         let likes = Dictionary(uniqueKeysWithValues: pair)
         return .just(likes)
     }
     
     private func _allLikes() -> [String: Bool] {
-        if let dictionary = userDefaults.dictionary(forKey: "likes") as? [String: Bool] {
-            let pair = dictionary.map { (k, v) in (k, v) }
-            let likes = Dictionary(uniqueKeysWithValues: pair)
-            return likes
-        } else {
+        guard let dictionary = userDefaults.dictionary(forKey: "likes") as? [String: Bool] else {
             return [:]
         }
+        let pair = dictionary.map { (k, v) in (k, v) }
+        let likes = Dictionary(uniqueKeysWithValues: pair)
+        return likes
     }
     // リポジトリ情報の保存・取得
-    func save(repos: [Repository]) -> Observable<[Repository]> {
-        return Observable.create { observer in
+    func save(repos: [Repository]) -> Single<[Repository]> {
+        return Single.create { observer in
             
             do {
                 try repos.forEach { repo in
@@ -91,19 +89,18 @@ final class UserDefaultsDataStore: DataStoreProtocol {
                     let jsonString = String(data: data, encoding: .utf8)
                     self.userDefaults.set(jsonString, forKey: String(repo.id))
                 }
-                observer.onNext(repos)
-                observer.onCompleted()
+                observer(.success(repos))
             } catch {
                 print("error occured: saving repositories \(error.localizedDescription)")
-                observer.onError(error)
+                observer(.error(error))
             }
             
             return Disposables.create()
         }
     }
     
-    func fetch(using ids: [Int]) -> Observable<[Repository]> {
-        return Observable.create { observer in
+    func fetch(using ids: [Int]) -> Single<[Repository]> {
+        return Single.create { observer in
             
             let decoder = JSONDecoder()
             do {
@@ -115,11 +112,10 @@ final class UserDefaultsDataStore: DataStoreProtocol {
                         result.append(repo)
                     }
                 }
-                observer.onNext(result)
-                observer.onCompleted()
+                observer(.success(result))
             } catch {
                 print("error occured: fetching repositories \(error.localizedDescription)")
-                observer.onError(error)
+                observer(.error(error))
             }
             return Disposables.create()
             
