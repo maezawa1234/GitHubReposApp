@@ -18,7 +18,10 @@ class SearchUserViewController: UIViewController {
             searchButtonClicked: searchBar.rx.searchButtonClicked.asDriver(),
             cancelButtonClicked: Driver.merge(searchBar.rx.cancelButtonClicked.asDriver(), closeButton.rx.tap.asDriver()),
             itemSelected: tableView.rx.itemSelected.asDriver(),
-            isBottomEdge: tableView.rx.contentOffset.asDriver().map { _ in self.isBottomEdge() }.distinctUntilChanged()),
+            isBottomEdge: tableView.rx.contentOffset
+                .asDriver()
+                .map { _ in self.isBottomEdge() }
+                .distinctUntilChanged()),
         dependency: (
             wireFrame: DefaultWireframe.shared,
             model: WebAPIClient.shared
@@ -76,7 +79,7 @@ class SearchUserViewController: UIViewController {
             .drive(refrectEditing)
             .disposed(by: disposeBag)
         
-        viewModel.fetchingUsers
+        viewModel.isFetching
             .drive(indicator.rx.isAnimating)
             .disposed(by: disposeBag)
     }
@@ -85,8 +88,8 @@ class SearchUserViewController: UIViewController {
         let dataSource = RxTableViewSectionedAnimatedDataSource<SearchUserSectionModel>(
             animationConfiguration: AnimationConfiguration(
                 insertAnimation: .none,
-                reloadAnimation: .automatic,
-                deleteAnimation: .automatic
+                reloadAnimation: .none,
+                deleteAnimation: .none
             ),
             configureCell: { (_, tableView, indexPath, cellData) in
                 switch cellData {

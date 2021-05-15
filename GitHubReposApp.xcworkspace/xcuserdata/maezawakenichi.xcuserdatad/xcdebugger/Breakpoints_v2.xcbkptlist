@@ -14,8 +14,8 @@
             filePath = "GitHubReposApp/SearchUser/SearchuserViewModel.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "142"
-            endingLineNumber = "142"
+            startingLineNumber = "99"
+            endingLineNumber = "99"
             landmarkName = "init(input:dependency:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -167,63 +167,63 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "3F329FAA-4FDF-40C5-A5DC-3A1B03F96E43"
+            uuid = "674C64AE-0633-4633-9E21-6D3E942FC0EC"
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "GitHubReposApp/SearchUser/SearchuserViewModel.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "90"
-            endingLineNumber = "90"
+            startingLineNumber = "66"
+            endingLineNumber = "66"
             landmarkName = "init(input:dependency:)"
             landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "674C64AE-0633-4633-9E21-6D3E942FC0EC - ae461668a54e4be3"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "GitHubReposApp.SearchUserViewModel.init(input: (searchBarText: RxCocoa.SharedSequence&lt;RxCocoa.DriverSharingStrategy, Swift.String&gt;, searchBarDidBeginEditing: RxCocoa.SharedSequence&lt;RxCocoa.DriverSharingStrategy, ()&gt;, searchButtonClicked: RxCocoa.SharedSequence&lt;RxCocoa.DriverSharingStrategy, ()&gt;, cancelButtonClicked: RxCocoa.SharedSequence&lt;RxCocoa.DriverSharingStrategy, ()&gt;, itemSelected: RxCocoa.SharedSequence&lt;RxCocoa.DriverSharingStrategy, Foundation.IndexPath&gt;, isBottomEdge: RxCocoa.SharedSequence&lt;RxCocoa.DriverSharingStrategy, Swift.Bool&gt;), dependency: (wireFrame: GitHubReposApp.Wireframe, model: GitHubReposApp.WebAPIClientProtocol)) -&gt; GitHubReposApp.SearchUserViewModel"
+                  moduleName = "GitHubReposApp"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/maezawakenichi/Desktop/%E3%83%9B%E3%82%9A%E3%83%BC%E3%83%88%E3%83%95%E3%82%A9%E3%83%AA%E3%82%AA%E7%94%A8App/GitHubReposApp/GitHubReposApp/SearchUser/SearchuserViewModel.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "69"
+                  endingLineNumber = "69"
+                  offsetFromSymbolStart = "3370">
+               </Location>
+               <Location
+                  uuid = "674C64AE-0633-4633-9E21-6D3E942FC0EC - c3a8fb64c68d1a25"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #5 (Swift.String) -&gt; Swift.Bool in GitHubReposApp.SearchUserViewModel.init(input: (searchBarText: RxCocoa.SharedSequence&lt;RxCocoa.DriverSharingStrategy, Swift.String&gt;, searchBarDidBeginEditing: RxCocoa.SharedSequence&lt;RxCocoa.DriverSharingStrategy, ()&gt;, searchButtonClicked: RxCocoa.SharedSequence&lt;RxCocoa.DriverSharingStrategy, ()&gt;, cancelButtonClicked: RxCocoa.SharedSequence&lt;RxCocoa.DriverSharingStrategy, ()&gt;, itemSelected: RxCocoa.SharedSequence&lt;RxCocoa.DriverSharingStrategy, Foundation.IndexPath&gt;, isBottomEdge: RxCocoa.SharedSequence&lt;RxCocoa.DriverSharingStrategy, Swift.Bool&gt;), dependency: (wireFrame: GitHubReposApp.Wireframe, model: GitHubReposApp.WebAPIClientProtocol)) -&gt; GitHubReposApp.SearchUserViewModel"
+                  moduleName = "GitHubReposApp"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/maezawakenichi/Desktop/%E3%83%9B%E3%82%9A%E3%83%BC%E3%83%88%E3%83%95%E3%82%A9%E3%83%AA%E3%82%AA%E7%94%A8App/GitHubReposApp/GitHubReposApp/SearchUser/SearchuserViewModel.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "69"
+                  endingLineNumber = "69"
+                  offsetFromSymbolStart = "23">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "2F1017D6-F096-40F4-901B-6B112F4B6F90"
-            shouldBeEnabled = "No"
+            uuid = "C632A337-D62A-48F4-A95C-0CC16FDFEEC8"
+            shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "GitHubReposApp/SearchUser/SearchuserViewModel.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "95"
-            endingLineNumber = "95"
-            landmarkName = "init(input:dependency:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "EAC45553-872A-4DA4-92CD-BCADA02BA40B"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "GitHubReposApp/SearchUser/SearchuserViewModel.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "56"
-            endingLineNumber = "56"
-            landmarkName = "init(input:dependency:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "60F7C852-327C-443B-9331-39F4F13A5A47"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "GitHubReposApp/SearchUser/SearchuserViewModel.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "96"
-            endingLineNumber = "96"
+            startingLineNumber = "48"
+            endingLineNumber = "48"
             landmarkName = "init(input:dependency:)"
             landmarkType = "7">
          </BreakpointContent>
