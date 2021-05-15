@@ -57,7 +57,7 @@ class SearchUserViewController: UIViewController {
     
     private func binding() {
         viewModel.sections
-            .drive(tableView.rx.items(dataSource: Self.configureDataSource()))
+            .drive(tableView.rx.items(dataSource: self.configureDataSource()))
             .disposed(by: disposeBag)
         
         viewModel.transitionToReposView
@@ -81,7 +81,7 @@ class SearchUserViewController: UIViewController {
             .disposed(by: disposeBag)
     }
     
-    private static func configureDataSource() -> RxTableViewSectionedAnimatedDataSource<SearchUserSectionModel> {
+    private func configureDataSource() -> RxTableViewSectionedAnimatedDataSource<SearchUserSectionModel> {
         let dataSource = RxTableViewSectionedAnimatedDataSource<SearchUserSectionModel>(
             animationConfiguration: AnimationConfiguration(
                 insertAnimation: .none,
