@@ -3,7 +3,7 @@ import RxCocoa
 import RxDataSources
 
 class UserReposViewController: UIViewController {
-    @IBOutlet weak var tableView: UITableView!
+    @IBOutlet private weak var tableView: UITableView!
     private let indicator = UIActivityIndicatorView()
     
     private let favoriteButtonClicked: PublishRelay<(indexPath: IndexPath, repoStatus: RepoStatus)> = PublishRelay()

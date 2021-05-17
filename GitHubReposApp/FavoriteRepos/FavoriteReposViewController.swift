@@ -3,7 +3,7 @@ import RxCocoa
 import RxDataSources
 
 class FavoriteReposViewController: UIViewController {
-    @IBOutlet weak var tableView: UITableView!
+    @IBOutlet private weak var tableView: UITableView!
     private let favoriteButtonClicked: PublishRelay<(indexPath: IndexPath, repoStatus: RepoStatus)> = PublishRelay()
     
     private let disposeBag = DisposeBag()
@@ -80,18 +80,19 @@ class FavoriteReposViewController: UIViewController {
     }
 }
 
-extension FavoriteReposViewController {
-    private var setEmpty: Binder<Bool> {
+private extension FavoriteReposViewController {
+    var setEmpty: Binder<Bool> {
         return Binder(self) { me, isEmpty in
             if isEmpty {
-                me.tableView.setEmptyMessage("There is no favorite repositories.\n\nPlease register your favorite one!")
+                let message = "There is no favorite repositories.\n\nPlease register your favorite one!"
+                me.tableView.setEmptyMessage(message)
             } else {
                 me.tableView.restore()
             }
         }
     }
     
-    private var transitionToRepoDetailView: Binder<Repository> {
+    var transitionToRepoDetailView: Binder<Repository> {
         return Binder(self) { me, repo in
             let repoDetailVC = UIStoryboard(name: "RepositoryDetail", bundle: nil)
                 .instantiateViewController(identifier: "RepositoryDetailViewController") { coder in

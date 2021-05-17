@@ -3,9 +3,9 @@ import RxCocoa
 import RxDataSources
 
 class SearchUserViewController: UIViewController {
-    @IBOutlet weak var searchBar: UISearchBar!       
-    @IBOutlet weak var tableView: UITableView!
-    @IBOutlet weak var totalCountLabel: UILabel!
+    @IBOutlet private weak var searchBar: UISearchBar!
+    @IBOutlet private weak var tableView: UITableView!
+    @IBOutlet private weak var totalCountLabel: UILabel!
     private let indicator = UIActivityIndicatorView()
     private let closeButton = UIBarButtonItem(systemItem: .close)
     

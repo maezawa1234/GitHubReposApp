@@ -3,8 +3,8 @@ import RxSwift
 import RxCocoa
 
 class RepositoryDetailViewController: UIViewController {
-    @IBOutlet weak var progressView: UIProgressView!
-    @IBOutlet weak var webView: WKWebView!
+    @IBOutlet private weak var progressView: UIProgressView!
+    @IBOutlet private weak var webView: WKWebView!
     private let favoriteButton = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
     
     private let repository: Repository
