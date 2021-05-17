@@ -37,7 +37,7 @@ class SearchUserViewModel {
         
         var sections = [SearchUserSectionModel(header: "Users", items: []),
                         SearchUserSectionModel(header: "Footer",
-                                               items: [SearchUserCellDataType.footerItem(FooterCellData(id: -1000000, isAnimation: true))])]
+                                               items: [SearchUserCellDataType.footerItem(FooterCellData(isAnimation: true))])]
         
         let searchUsersAction: Action<String, APIResultType> = Action { searchText in
             return model.fetchUsers(query: searchText, page: 1)

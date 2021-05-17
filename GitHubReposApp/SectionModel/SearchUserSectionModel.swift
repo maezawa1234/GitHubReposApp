@@ -57,13 +57,12 @@ struct UserCellData: IdentifiableType, Equatable {
 
 struct FooterCellData: IdentifiableType, Equatable {
     var identity: Int {
-        return self.id
+        return 1
     }
-    
+   
     static func == (lhs: FooterCellData, rhs: FooterCellData) -> Bool {
-        return lhs.id == rhs.id
+        return lhs.isAnimation == rhs.isAnimation
     }
-    let id: Int
     var isAnimation: Bool = true
 }
 
