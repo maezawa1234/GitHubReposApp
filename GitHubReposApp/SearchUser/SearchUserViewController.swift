@@ -62,23 +62,18 @@ class SearchUserViewController: UIViewController {
         viewModel.sections
             .drive(tableView.rx.items(dataSource: self.configureDataSource()))
             .disposed(by: disposeBag)
-        
         viewModel.transitionToReposView
             .drive(transitionToUserReposView)
             .disposed(by: disposeBag)
-        
         viewModel.listIsEmpty
             .drive(setEmpty)
             .disposed(by: disposeBag)
-        
         viewModel.totalCount
             .drive(totalCountText)
             .disposed(by: disposeBag)
-        
         viewModel.isSearchFieldEditing
             .drive(refrectEditing)
             .disposed(by: disposeBag)
-        
         viewModel.isFetching
             .drive(indicator.rx.isAnimating)
             .disposed(by: disposeBag)

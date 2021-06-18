@@ -169,6 +169,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		08110B6B267D00E400F0EBC0 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				0865A6B225DC4CFC00C9C5B9 /* Cell */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
 		085452D9261F0A03002CFE3B /* FavoriteRepos */ = {
 			isa = PBXGroup;
 			children = (
@@ -212,7 +220,7 @@
 				085452EF261F0BEA002CFE3B /* RepoStatusList.swift */,
 				0865A69E25DC4C6E00C9C5B9 /* WebAPIClient.swift */,
 				085452FC261F1D77002CFE3B /* UserDefaultsDataStore.swift */,
-				0865A6B225DC4CFC00C9C5B9 /* Cell */,
+				08110B6B267D00E400F0EBC0 /* Views */,
 				086760072622FFEE00189058 /* SectionModel */,
 				0865A63825DC4A6A00C9C5B9 /* SearchUser */,
 				0865A63925DC4A7700C9C5B9 /* UserRepos */,
