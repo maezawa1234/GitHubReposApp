@@ -42,12 +42,10 @@ class UserCell: UITableViewCell {
                 guard let imageData = data else {
                     return
                 }
-                
                 DispatchQueue.global().async { [weak self] in
                     guard let image = UIImage(data: imageData) else {
                         return
                     }
-                    
                     DispatchQueue.main.async {
                         self?.iconImageView?.image = image
                         self?.setNeedsLayout()
