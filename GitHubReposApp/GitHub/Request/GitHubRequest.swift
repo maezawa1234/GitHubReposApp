@@ -46,14 +46,13 @@ extension GitHubRequest {
         }
     }
     
-    func responseWithPagination(from data: Data,
-                  urlResponse: URLResponse) throws -> (Response, Pagination) {
+    func responseWithPagination(from data: Data, urlResponse: URLResponse) throws -> (Response, Pagination) {
         let decoder = JSONDecoder()
         
         if case (200 ..< 300)? = (urlResponse as? HTTPURLResponse)?.statusCode {
             //JSONからモデルをインスタンス化
             let object = try decoder.decode(Response.self, from: data)
-          
+            
             guard let response = urlResponse as? HTTPURLResponse else {
                 throw try decoder.decode(GitHubAPIError.self, from: data)
             }

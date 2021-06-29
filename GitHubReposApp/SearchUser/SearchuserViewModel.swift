@@ -78,7 +78,7 @@ final class SearchUserViewModel: SearchUserViewModelInputs, SearchUserViewModelO
         
         self.userSections = _users
             .map {
-                let users = $0.map { SearchUserCellDataType.userItem(UserCellData(user: $0)) }
+                let users = $0.map { UserCellData(user: $0) }
                 return [SearchUserSectionModel(header: "Users", items: users)]
             }
             .asDriver(onErrorDriveWith: .empty())
@@ -130,14 +130,6 @@ final class SearchUserViewModel: SearchUserViewModelInputs, SearchUserViewModelO
             .map {
                 return $0.sections[0].items[$0.indexPath.row]
             }
-            .map { cellItem -> UserCellData? in
-                switch cellItem {
-                case .userItem(let userData):
-                    return userData
-                case .footerItem(_):
-                    return nil
-                }
-            }
             .compactMap { $0 }
             .asDriver(onErrorDriveWith: .empty())
         
@@ -169,6 +161,14 @@ final class SearchUserViewModel: SearchUserViewModelInputs, SearchUserViewModelO
             .merge(searchUsersAction.errors, searchAdditionalUsersAction.errors)
             .map { actionError in
                 if case let .underlyingError(error) = actionError {
+                    if let error = error as? GitHubClientError {
+                        switch error {
+                        case .apiError(let err):
+                            return err.message
+                        default:
+                            return error.localizedDescription
+                        }
+                    }
                     return error.localizedDescription
                 } else {
                     return ""

@@ -104,7 +104,7 @@
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
             uuid = "686A34D7-A44B-4CC4-AAB6-E260ED840DA3"
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "GitHubReposApp/SearchUser/SearchuserViewModel.swift"
@@ -126,8 +126,8 @@
             filePath = "GitHubReposApp/SearchUser/SearchUserViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "183"
-            endingLineNumber = "183"
+            startingLineNumber = "172"
+            endingLineNumber = "172"
             landmarkName = "isVisibleLoadingFooterView"
             landmarkType = "24">
          </BreakpointContent>
