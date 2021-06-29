@@ -31,10 +31,17 @@ class UserCell: UITableViewCell {
     
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
+        
+        //self.containerView.backgroundColor = selected ? .systemGray4 : .white
     }
     
     func configure(with user: UserCellData) {
         self.userNameLabel.text = user.login
+        
+        if let cachedImage = ImageCache.shared.object(forKey: user.avatarURL as AnyObject) {
+            self.iconImageView.image = cachedImage
+            return
+        }
         
         task = {
             let url = user.avatarURL
@@ -49,6 +56,7 @@ class UserCell: UITableViewCell {
                     DispatchQueue.main.async {
                         self?.iconImageView?.image = image
                         self?.setNeedsLayout()
+                        ImageCache.shared.setObject(image, forKey: url as AnyObject)
                     }
                 }
             }

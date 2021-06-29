@@ -8,7 +8,7 @@ protocol SearchUserViewModelInputs: AnyObject {
     var searchButtonClicked: PublishRelay<Void> { get }
     var closeButtonClicked: PublishRelay<Void> { get }
     var itemSelected: PublishRelay<IndexPath> { get }
-    var additionalLoadUsers: PublishRelay<Void> { get }
+    var loadAdditionalUsers: PublishRelay<Void> { get }
 }
 
 protocol SearchUserViewModelOutputs: AnyObject {
@@ -39,7 +39,7 @@ final class SearchUserViewModel: SearchUserViewModelInputs, SearchUserViewModelO
     var searchButtonClicked = PublishRelay<Void>()
     var closeButtonClicked = PublishRelay<Void>()
     var itemSelected = PublishRelay<IndexPath>()
-    var additionalLoadUsers = PublishRelay<Void>()
+    var loadAdditionalUsers = PublishRelay<Void>()
     
     //MARK: - Output Sources
     var userSections: Driver<[SearchUserSectionModel]>
@@ -106,7 +106,6 @@ final class SearchUserViewModel: SearchUserViewModelInputs, SearchUserViewModelO
             .map { $0.pagination }
             .bind(to: _pagenation)
             .disposed(by: disposeBag)
-            
         
         // Load users
         searchButtonClicked
@@ -118,11 +117,11 @@ final class SearchUserViewModel: SearchUserViewModelInputs, SearchUserViewModelO
             .disposed(by: disposeBag)
         
         // Additional loading users
-        additionalLoadUsers.asObservable()
+        loadAdditionalUsers.asObservable()
             .withLatestFrom(searchBarText)
+            //.throttle(.seconds(1), latest: false, scheduler: MainScheduler.instance)
             .bind(to: searchAdditionalUsersAction.inputs)
             .disposed(by: disposeBag)
-        
         
         self.transitionToReposView = itemSelected
             .withLatestFrom(userSections) {
@@ -162,6 +161,7 @@ final class SearchUserViewModel: SearchUserViewModelInputs, SearchUserViewModelO
             .asDriver(onErrorDriveWith: .empty())
         
         self.isLoadingFooterHidden = searchAdditionalUsersAction.executing
+            //.throttle(.seconds(1), latest: false, scheduler: MainScheduler.instance)
             .asDriver(onErrorDriveWith: .empty())
             .distinctUntilChanged()
         
