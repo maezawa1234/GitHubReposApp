@@ -2,120 +2,130 @@ import RxSwift
 import RxCocoa
 import Action
 
-class SearchUserViewModel {
-    //Drivers
-    let sections: Driver<[SearchUserSectionModel]>
-    let error: Driver<Bool>
-    let transitionToReposView: Driver<UserCellData>
-    let listIsEmpty: Driver<Bool>
-    let totalCount: Driver<Int>
-    let isSearchFieldEditing: Driver<Bool>
-    let isFetching: Driver<Bool>
+protocol SearchUserViewModelInputs: AnyObject {
+    var searchBarText: PublishRelay<String> { get }
+    var searchBarDidBeginEditing: PublishRelay<Void> { get }
+    var searchButtonClicked: PublishRelay<Void> { get }
+    var closeButtonClicked: PublishRelay<Void> { get }
+    var itemSelected: PublishRelay<IndexPath> { get }
+    var additionalLoadUsers: PublishRelay<Void> { get }
+}
+
+protocol SearchUserViewModelOutputs: AnyObject {
+    var userSections: Driver<[SearchUserSectionModel]> { get }
+    var transitionToReposView: Driver<UserCellData> { get }
+    var totalCount: Driver<Int> { get }
+    var listIsEmpty: Driver<Bool> { get }
+    var isSearchFieldEditing: Driver<Bool> { get }
+    var isFetching: Driver<Bool> { get }
+    var isErrorOccured: Driver<String> { get }
+    var isLoadingFooterHidden: Driver<Bool> { get }
+}
+
+protocol SearchUserViewModelType: AnyObject {
+    var inputs: SearchUserViewModelInputs { get }
+    var output: SearchUserViewModelOutputs { get }
+}
+
+final class SearchUserViewModel: SearchUserViewModelInputs, SearchUserViewModelOutputs, SearchUserViewModelType {
+    
+    // MARK: - properties
+    var inputs: SearchUserViewModelInputs { return self }
+    var output: SearchUserViewModelOutputs { return self }
+    
+    // MARK: - Input Sources
+    var searchBarText = PublishRelay<String>()
+    var searchBarDidBeginEditing = PublishRelay<Void>()
+    var searchButtonClicked = PublishRelay<Void>()
+    var closeButtonClicked = PublishRelay<Void>()
+    var itemSelected = PublishRelay<IndexPath>()
+    var additionalLoadUsers = PublishRelay<Void>()
+    
+    //MARK: - Output Sources
+    var userSections: Driver<[SearchUserSectionModel]>
+    var transitionToReposView: Driver<UserCellData>
+    var totalCount: Driver<Int>
+    var listIsEmpty: Driver<Bool>
+    var isSearchFieldEditing: Driver<Bool>
+    var isFetching: Driver<Bool>
+    var isErrorOccured: Driver<String>
+    var isLoadingFooterHidden: Driver<Bool>
+    
+    typealias APIUsersResultType = (users: [User], totalCount: Int, pagination: Pagination)
+    
+    private let searchUsersAction: Action<String, APIUsersResultType>
+    private let searchAdditionalUsersAction: Action<String, APIUsersResultType>
+    
+    private let _users = BehaviorRelay<[User]>(value: [])
+    private let _pagenation = BehaviorRelay<Pagination?>(value: nil)
     
     private let disposeBag = DisposeBag()
     
-    init(input: (
-            searchBarText: Driver<String>,
-            searchBarDidBeginEditing: Driver<Void>,
-            searchButtonClicked: Driver<Void>,
-            cancelButtonClicked: Driver<Void>,
-            itemSelected: Driver<IndexPath>,
-            isBottomEdge: Driver<Bool>),
-         dependency: (
-            wireFrame: Wireframe,
-            model: WebAPIClientProtocol)
-    ) {
-        typealias APIResultType = (users: [User], totalCount: Int, pagination: Pagination)
-        
-        let model = dependency.model
-        let wireFrame = dependency.wireFrame
-        
-        let _nowPagination = BehaviorRelay<Pagination?>(value: nil)
-        
-        let isFetching = ActivityIndicator()
-        self.isFetching = isFetching.asDriver()
-        
-        var sections = [SearchUserSectionModel(header: "Users", items: []),
-                        SearchUserSectionModel(header: "Footer",
-                                               items: [SearchUserCellDataType.footerItem(FooterCellData(isAnimation: true))])]
-        
-        let searchUsersAction: Action<String, APIResultType> = Action { searchText in
-            return model.fetchUsers(query: searchText, page: 1)
-                .trackActivity(isFetching)
-        }
-        
-        let searchNextPageAction: Action<String, APIResultType> = Action { searchText in
-            guard let nextPage = _nowPagination.value?.next else { return .empty() }
+    // MARK: - Initialize
+    init(model: WebAPIClientProtocol) {
+        self.searchUsersAction = Action { searchText in
             return model
-                .fetchUsers(query: searchText, page: nextPage)
+                .fetchUsers(query: searchText, page: 1)
+        }
+        self.searchAdditionalUsersAction = Action { [weak _pagenation] searchText in
+            guard let next = _pagenation?.value?.next else { return .empty() }
+            return model
+                .fetchUsers(query: searchText, page: next)
                 .asObservable()
         }
         
-        // Trigger searching from search Bar
-        input.searchButtonClicked
-            .withLatestFrom(input.searchBarText)
-            .filter { !$0.isEmpty }
-            .distinctUntilChanged()
-            .drive(searchUsersAction.inputs)
-            .disposed(by: disposeBag)
+        self.isFetching = searchUsersAction.executing.asDriver(onErrorDriveWith: .empty())
         
-        // Trigger fetching next page users
-        input.isBottomEdge
-            .filter { $0 }
-            .withLatestFrom(input.searchBarText)
-            .filter { !$0.isEmpty }
-            .drive(searchNextPageAction.inputs)
-            .disposed(by: disposeBag)
-        
-        let apiResponse = Observable
-            .merge(searchUsersAction.elements, searchNextPageAction.elements)
+        self.userSections = _users
+            .map {
+                let users = $0.map { SearchUserCellDataType.userItem(UserCellData(user: $0)) }
+                return [SearchUserSectionModel(header: "Users", items: users)]
+            }
             .asDriver(onErrorDriveWith: .empty())
         
-        // Bind nowPagination
-        apiResponse
+        let searchUsers = searchUsersAction.elements.share(replay: 1)
+            .withLatestFrom(_users) { ($0, $1) }
+            .map { responseFromAPI, _ -> [User] in
+                return responseFromAPI.users
+            }
+        
+        let addtionalSearchUsers = searchAdditionalUsersAction.elements
+            .withLatestFrom(_users) { ($0, $1) }
+            .map { response, users -> [User] in
+                let currentUsers = users
+                return currentUsers + response.users
+            }
+            .map { $0.unique(resolve: { _, _ in .ignoreNewOne }) }
+        
+        Observable.merge(searchUsers, addtionalSearchUsers)
+            .map { $0.unique(resolve: { _, _ in .ignoreNewOne }) }
+            .bind(to: _users)
+            .disposed(by: disposeBag)
+            
+        searchUsersAction.elements
             .map { $0.pagination }
-            .drive(_nowPagination)
+            .bind(to: _pagenation)
             .disposed(by: disposeBag)
+            
         
-        let responseSectionModel = apiResponse
-            .map { response -> [SearchUserSectionModel] in
-                var prevItems = sections[0].items
-                let addItems = response.users.map { SearchUserCellDataType.userItem(UserCellData(user: $0)) }
-                prevItems.append(contentsOf: addItems)
-                let newItems = prevItems.unique(resolve: { _, _ in .ignoreNewOne })
-                sections[0].items = newItems
-                return sections
-            }
-        
-        self.sections = responseSectionModel
-        
-        self.totalCount = apiResponse
-            .map { $0.totalCount }
-        
-        self.error = Observable
-            .merge(searchUsersAction.errors, searchNextPageAction.errors)
-            .asDriver(onErrorDriveWith: .empty())
-            .flatMapLatest { error in
-                return wireFrame.promptFor(error.localizedDescription, cancelAction: "OK", actions: [])
-                    .map { _ in
-                        return true
-                    }
-                    .asDriver(onErrorJustReturn: false)
-            }
-        
-        self.error
-            .drive(onNext: { error in
-                print("error occured")
-            })
-            .disposed(by: disposeBag)
-        
-        self.listIsEmpty = self.sections
-            .map { $0[0].items.isEmpty }
+        // Load users
+        searchButtonClicked
+            .asObservable()
+            .withLatestFrom(searchBarText)
+            .filter { !$0.isEmpty }
             .distinctUntilChanged()
+            .bind(to: searchUsersAction.inputs)
+            .disposed(by: disposeBag)
         
-        self.transitionToReposView = input.itemSelected
-            .filter { $0.section == 0 }
-            .withLatestFrom(self.sections) {
+        // Additional loading users
+        additionalLoadUsers.asObservable()
+            .withLatestFrom(searchBarText)
+            .bind(to: searchAdditionalUsersAction.inputs)
+            .disposed(by: disposeBag)
+        
+        
+        self.transitionToReposView = itemSelected
+            .withLatestFrom(userSections) {
                 return (indexPath: $0, sections: $1)
             }
             .map {
@@ -130,13 +140,41 @@ class SearchUserViewModel {
                 }
             }
             .compactMap { $0 }
+            .asDriver(onErrorDriveWith: .empty())
         
-        let didBeginEditing = input.searchBarDidBeginEditing
+        self.totalCount = Observable.merge(searchUsersAction.elements, searchAdditionalUsersAction.elements)
+            .map { $0.totalCount }
+            .asDriver(onErrorDriveWith: .empty())
+        
+        self.listIsEmpty = _users
+            .skip(1)
+            .map { $0.isEmpty }
+            .distinctUntilChanged()
+            .asDriver(onErrorDriveWith: .empty())
+        
+        let didBeginEditing = searchBarDidBeginEditing
             .map { true }
-        let didEndEditing = Driver
-            .merge(input.searchButtonClicked, input.cancelButtonClicked)
+        let didEndEditing = Observable
+            .merge(searchButtonClicked.asObservable(), closeButtonClicked.asObservable())
             .map { false }
-        self.isSearchFieldEditing = Driver
+        self.isSearchFieldEditing = Observable
             .merge(didBeginEditing, didEndEditing)
+            .asDriver(onErrorDriveWith: .empty())
+        
+        self.isLoadingFooterHidden = searchAdditionalUsersAction.executing
+            .asDriver(onErrorDriveWith: .empty())
+            .distinctUntilChanged()
+        
+        self.isErrorOccured = Observable
+            .merge(searchUsersAction.errors, searchAdditionalUsersAction.errors)
+            .map { actionError in
+                if case let .underlyingError(error) = actionError {
+                    return error.localizedDescription
+                } else {
+                    return ""
+                }
+            }
+            .filter { !$0.isEmpty }
+            .asDriver(onErrorDriveWith: .empty())
     }
 }

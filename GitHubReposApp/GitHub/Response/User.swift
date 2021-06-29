@@ -22,7 +22,7 @@ struct User : Codable {
 
 extension User: Equatable {
     static func == (lhs: User, rhs: User) -> Bool {
-        return rhs.id == rhs.id
+        return rhs.id == lhs.id
     }
 }
 

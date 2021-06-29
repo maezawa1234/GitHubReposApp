@@ -19,9 +19,9 @@ class FooterCell: UITableViewCell {
     
     func configure(isAnimating: Bool) {
         if isAnimating {
-            self.activityIndicator.startAnimating()
+            activityIndicator.startAnimating()
         } else {
-            self.activityIndicator.stopAnimating()
+            activityIndicator.stopAnimating()
         }
     }
 }

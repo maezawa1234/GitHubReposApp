@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		080D2E6D268A1DFB00076E38 /* LoadingFooterView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 080D2E6C268A1DFB00076E38 /* LoadingFooterView.xib */; };
+		080D2E72268A1E9C00076E38 /* LoadingFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 080D2E71268A1E9C00076E38 /* LoadingFooterView.swift */; };
+		082C50A2268B0630004B44FE /* ShowAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 082C50A1268B0630004B44FE /* ShowAlert.swift */; };
 		083069582625D47D008EA04F /* Pagination.swift in Sources */ = {isa = PBXBuildFile; fileRef = 083069572625D47D008EA04F /* Pagination.swift */; };
 		083069652625F473008EA04F /* FooterCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 083069642625F473008EA04F /* FooterCell.xib */; };
 		0830696D2625F4A1008EA04F /* FooterCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0830696C2625F4A1008EA04F /* FooterCell.swift */; };
@@ -78,6 +81,9 @@
 
 /* Begin PBXFileReference section */
 		0161675865AB6AB9BA6D8560 /* Pods-GitHubReposApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GitHubReposApp.debug.xcconfig"; path = "Target Support Files/Pods-GitHubReposApp/Pods-GitHubReposApp.debug.xcconfig"; sourceTree = "<group>"; };
+		080D2E6C268A1DFB00076E38 /* LoadingFooterView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = LoadingFooterView.xib; sourceTree = "<group>"; };
+		080D2E71268A1E9C00076E38 /* LoadingFooterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingFooterView.swift; sourceTree = "<group>"; };
+		082C50A1268B0630004B44FE /* ShowAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowAlert.swift; sourceTree = "<group>"; };
 		083069572625D47D008EA04F /* Pagination.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Pagination.swift; sourceTree = "<group>"; };
 		083069642625F473008EA04F /* FooterCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FooterCell.xib; sourceTree = "<group>"; };
 		0830696C2625F4A1008EA04F /* FooterCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FooterCell.swift; sourceTree = "<group>"; };
@@ -169,6 +175,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		08110B6B267D00E400F0EBC0 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				0865A6B225DC4CFC00C9C5B9 /* Cell */,
+				080D2E6C268A1DFB00076E38 /* LoadingFooterView.xib */,
+				080D2E71268A1E9C00076E38 /* LoadingFooterView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
 		085452D9261F0A03002CFE3B /* FavoriteRepos */ = {
 			isa = PBXGroup;
 			children = (
@@ -212,7 +228,7 @@
 				085452EF261F0BEA002CFE3B /* RepoStatusList.swift */,
 				0865A69E25DC4C6E00C9C5B9 /* WebAPIClient.swift */,
 				085452FC261F1D77002CFE3B /* UserDefaultsDataStore.swift */,
-				0865A6B225DC4CFC00C9C5B9 /* Cell */,
+				08110B6B267D00E400F0EBC0 /* Views */,
 				086760072622FFEE00189058 /* SectionModel */,
 				0865A63825DC4A6A00C9C5B9 /* SearchUser */,
 				0865A63925DC4A7700C9C5B9 /* UserRepos */,
@@ -327,6 +343,7 @@
 				08545301261F2128002CFE3B /* Result.swift */,
 				0865A70325DC4F0000C9C5B9 /* WireFrame.swift */,
 				08765E1B25DD81FA00EB14A2 /* ActivityIndicator.swift */,
+				082C50A1268B0630004B44FE /* ShowAlert.swift */,
 			);
 			path = Utility;
 			sourceTree = "<group>";
@@ -485,6 +502,7 @@
 				085452E8261F0A9B002CFE3B /* FavoriteRepos.storyboard in Resources */,
 				0865A61125DC4A4200C9C5B9 /* LaunchScreen.storyboard in Resources */,
 				083069652625F473008EA04F /* FooterCell.xib in Resources */,
+				080D2E6D268A1DFB00076E38 /* LoadingFooterView.xib in Resources */,
 				0865A6AE25DC4CA700C9C5B9 /* SearchUser.storyboard in Resources */,
 				0865A60E25DC4A4200C9C5B9 /* Assets.xcassets in Resources */,
 				0865A6E325DC4E0400C9C5B9 /* UserRepos.storyboard in Resources */,
@@ -649,6 +667,7 @@
 				087481AC262C0AEA00359076 /* RepositoryDetailViewModel.swift in Sources */,
 				0865A65525DC4B1600C9C5B9 /* User.swift in Sources */,
 				0865A70C25DC4FDE00C9C5B9 /* TabBarController.swift in Sources */,
+				080D2E72268A1E9C00076E38 /* LoadingFooterView.swift in Sources */,
 				0865A6FF25DC4ECF00C9C5B9 /* ExtensionUIKit.swift in Sources */,
 				0865A6D425DC4DDC00C9C5B9 /* UserReposViewModel.swift in Sources */,
 				0865A65025DC4B1000C9C5B9 /* SearchResponse.swift in Sources */,
@@ -666,6 +685,7 @@
 				0865A6DE25DC4DFA00C9C5B9 /* UserReposSectionModel.swift in Sources */,
 				0830696D2625F4A1008EA04F /* FooterCell.swift in Sources */,
 				0865A60525DC4A4100C9C5B9 /* AppDelegate.swift in Sources */,
+				082C50A2268B0630004B44FE /* ShowAlert.swift in Sources */,
 				0865A60725DC4A4100C9C5B9 /* SceneDelegate.swift in Sources */,
 				0865A64825DC4AE300C9C5B9 /* HTTPMethod.swift in Sources */,
 				0865A6CF25DC4DD100C9C5B9 /* UserReposViewController.swift in Sources */,
@@ -776,7 +796,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.4;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -831,7 +851,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.4;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;

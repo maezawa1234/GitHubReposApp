@@ -3,39 +3,37 @@ import RxCocoa
 import RxDataSources
 
 class SearchUserViewController: UIViewController {
+    
+    // MARK: - Properties
     @IBOutlet private weak var searchBar: UISearchBar!
     @IBOutlet private weak var tableView: UITableView!
     @IBOutlet private weak var totalCountLabel: UILabel!
-    private let indicator = UIActivityIndicatorView()
+    private lazy var indicator: UIActivityIndicatorView = {
+        let indicator = UIActivityIndicatorView(style: .large)
+        indicator.center = self.view.center
+        indicator.style = .large
+        indicator.hidesWhenStopped = true
+        return indicator
+    }()
     private let closeButton = UIBarButtonItem(systemItem: .close)
+    
+    private lazy var loadingFooterView: UIView = {
+        let screenWidth = UIScreen.main.bounds.size.width
+        return LoadingFooterView(frame: CGRect(x: 0, y: 0, width: screenWidth, height: 100))
+    }()
     
     private let disposeBag = DisposeBag()
     
-    private lazy var viewModel = SearchUserViewModel(
-        input: (
-            searchBarText: searchBar.rx.text.orEmpty.asDriver(),
-            searchBarDidBeginEditing: searchBar.rx.textDidBeginEditing.asDriver(),
-            searchButtonClicked: searchBar.rx.searchButtonClicked.asDriver(),
-            cancelButtonClicked: Driver.merge(searchBar.rx.cancelButtonClicked.asDriver(), closeButton.rx.tap.asDriver()),
-            itemSelected: tableView.rx.itemSelected.asDriver(),
-            isBottomEdge: tableView.rx.contentOffset
-                .asDriver()
-                .map { _ in self.isBottomEdge() }
-                .distinctUntilChanged()),
-        dependency: (
-            wireFrame: DefaultWireframe.shared,
-            model: WebAPIClient.shared
-        )
-    )
+    private lazy var viewModel: SearchUserViewModelType = SearchUserViewModel(model: WebAPIClient.shared)
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        setup()
+        setupView()
         binding()
     }
     
-    private func setup() {
+    private func setupView() {
         // Configure navigetionBar
         self.navigationItem.title = "Search User"
         self.navigationController?.navigationBar.barTintColor = UIColor(red: 0.4, green: 0.4, blue: 1.0, alpha: 1.0)
@@ -48,48 +46,77 @@ class SearchUserViewController: UIViewController {
         searchBar.searchTextField.inputAccessoryView = toolbar
         //Configure tableView
         tableView.sectionHeaderHeight = .zero
-        tableView.tableFooterView = UIView(frame: .zero)
+        tableView.tableFooterView = loadingFooterView
         tableView.register(UserCell.nib, forCellReuseIdentifier: UserCell.identifier)
         tableView.register(FooterCell.nib, forCellReuseIdentifier: FooterCell.identifier)
         //Configure activityIndicator
-        indicator.center = self.view.center
-        indicator.style = .large
-        indicator.hidesWhenStopped = true
         self.view.addSubview(indicator)
     }
     
     private func binding() {
-        viewModel.sections
+        searchBar.rx.text.orEmpty.asObservable()
+            .bind(to: viewModel.inputs.searchBarText)
+            .disposed(by: disposeBag)
+        
+        searchBar.rx.searchButtonClicked.asSignal()
+            .emit(to: viewModel.inputs.searchButtonClicked)
+            .disposed(by: disposeBag)
+        
+        searchBar.rx.textDidBeginEditing.asSignal()
+            .emit(to: viewModel.inputs.searchBarDidBeginEditing)
+            .disposed(by: disposeBag)
+        
+        Signal.merge(closeButton.rx.tap.asSignal(), searchBar.rx.cancelButtonClicked.asSignal())
+            .emit(to: viewModel.inputs.closeButtonClicked)
+            .disposed(by: disposeBag)
+        
+        tableView.rx.itemSelected.asObservable()
+            .bind(to: viewModel.inputs.itemSelected)
+            .disposed(by: disposeBag)
+        
+        tableView.rx.reachedBottom.asSignal()
+            .emit(to: viewModel.inputs.additionalLoadUsers)
+            .disposed(by: disposeBag)
+        
+        viewModel.output.userSections
             .drive(tableView.rx.items(dataSource: self.configureDataSource()))
             .disposed(by: disposeBag)
         
-        viewModel.transitionToReposView
+        viewModel.output.transitionToReposView
             .drive(transitionToUserReposView)
             .disposed(by: disposeBag)
-        
-        viewModel.listIsEmpty
-            .drive(setEmpty)
+       
+        viewModel.output.isFetching
+            .drive(indicator.rx.isAnimating)
             .disposed(by: disposeBag)
         
-        viewModel.totalCount
-            .drive(totalCountText)
-            .disposed(by: disposeBag)
-        
-        viewModel.isSearchFieldEditing
+        viewModel.output.isSearchFieldEditing
             .drive(refrectEditing)
             .disposed(by: disposeBag)
         
-        viewModel.isFetching
-            .drive(indicator.rx.isAnimating)
+        viewModel.output.totalCount
+            .drive(totalCountText)
+            .disposed(by: disposeBag)
+        
+        viewModel.output.listIsEmpty
+            .drive(setEmpty)
+            .disposed(by: disposeBag)
+        
+        viewModel.output.isLoadingFooterHidden
+            .drive(isVisibleLoadingFooterView)
+            .disposed(by: disposeBag)
+        
+        viewModel.output.isErrorOccured
+            .drive(showErrorAlertView)
             .disposed(by: disposeBag)
     }
     
     private func configureDataSource() -> RxTableViewSectionedAnimatedDataSource<SearchUserSectionModel> {
         let dataSource = RxTableViewSectionedAnimatedDataSource<SearchUserSectionModel>(
             animationConfiguration: AnimationConfiguration(
-                insertAnimation: .none,
-                reloadAnimation: .none,
-                deleteAnimation: .none
+                insertAnimation: .automatic,
+                reloadAnimation: .fade,
+                deleteAnimation: .automatic
             ),
             configureCell: { (_, tableView, indexPath, cellData) in
                 switch cellData {
@@ -150,6 +177,17 @@ extension SearchUserViewController {
         }
     }
     
+    private var isVisibleLoadingFooterView: Binder<Bool> {
+        return Binder(self) { me, isVisible in
+            print("footer isVisible now: ", isVisible)
+            if isVisible {
+                me.tableView.tableFooterView = me.loadingFooterView
+            } else {
+                me.tableView.tableFooterView = UIView(frame: .zero)
+            }
+        }
+    }
+    
     private var totalCountText: Binder<Int> {
         return Binder(self) { me, count in
             me.totalCountLabel.isHidden = false
@@ -166,4 +204,12 @@ extension SearchUserViewController {
             me.navigationController?.pushViewController(userReposVC, animated: true)
         }
     }
+    
+    private var showErrorAlertView: Binder<String> {
+        return Binder(self) { me, message in
+            me.showErrorAlert(title: nil, message: message)
+        }
+    }
 }
+
+extension SearchUserViewController: ShowAlert {}
