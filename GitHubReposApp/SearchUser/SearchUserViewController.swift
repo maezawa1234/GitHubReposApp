@@ -75,7 +75,7 @@ class SearchUserViewController: UIViewController {
             .disposed(by: disposeBag)
         
         tableView.rx.reachedBottom.asSignal()
-            .emit(to: viewModel.inputs.additionalLoadUsers)
+            .emit(to: viewModel.inputs.loadAdditionalUsers)
             .disposed(by: disposeBag)
         
         viewModel.output.userSections
