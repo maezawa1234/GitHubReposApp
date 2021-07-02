@@ -4,9 +4,9 @@ class UserCell: UITableViewCell {
     @IBOutlet weak var containerView: UIView! {
         didSet {
             containerView.layer.cornerRadius = 8
-            containerView.layer.masksToBounds = true
             containerView.layer.borderWidth = 1
             containerView.layer.borderColor = UIColor.lightGray.cgColor
+            containerView.layer.masksToBounds = true
         }
     }
     @IBOutlet weak var iconImageView: UIImageView!
@@ -31,8 +31,6 @@ class UserCell: UITableViewCell {
     
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-        
-        //self.containerView.backgroundColor = selected ? .systemGray4 : .white
     }
     
     func configure(with user: UserCellData) {
@@ -47,7 +45,6 @@ class UserCell: UITableViewCell {
             let url = user.avatarURL
             let task = URLSession.shared.dataTask(with: url) { data, response, error in
                 guard let imageData = data else { return }
-                
                 DispatchQueue.global().async { [weak self] in
                     guard let image = UIImage(data: imageData) else { return }
                     DispatchQueue.main.async {
@@ -56,7 +53,6 @@ class UserCell: UITableViewCell {
                         ImageCache.shared.setObject(image, forKey: url as AnyObject)
                     }
                 }
-                
             }
             task.resume()
             return task
