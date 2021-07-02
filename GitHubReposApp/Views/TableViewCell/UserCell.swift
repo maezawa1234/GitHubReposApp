@@ -28,6 +28,7 @@ class UserCell: UITableViewCell {
         task?.cancel()
         task = nil
         iconImageView.image = nil
+        self.containerView.backgroundColor = .white
     }
     
     override func setHighlighted(_ highlighted: Bool, animated: Bool) {
