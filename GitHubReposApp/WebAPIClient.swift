@@ -75,7 +75,7 @@ class WebAPIClient: WebAPIClientProtocol {
                                                             pagination: response.1)
                         observer(.success(responseObject))
                     } catch let error as GitHubAPIError {
-                        observer(.error(GitHubClientError.apiError(error)))
+                        observer(.error(error))
                         print("api error", error.message)
                     } catch {
                         observer(.error(GitHubClientError.responseParseError(error)))

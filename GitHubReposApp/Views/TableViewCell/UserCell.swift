@@ -46,19 +46,17 @@ class UserCell: UITableViewCell {
         task = {
             let url = user.avatarURL
             let task = URLSession.shared.dataTask(with: url) { data, response, error in
-                guard let imageData = data else {
-                    return
-                }
+                guard let imageData = data else { return }
+                
                 DispatchQueue.global().async { [weak self] in
-                    guard let image = UIImage(data: imageData) else {
-                        return
-                    }
+                    guard let image = UIImage(data: imageData) else { return }
                     DispatchQueue.main.async {
                         self?.iconImageView?.image = image
                         self?.setNeedsLayout()
                         ImageCache.shared.setObject(image, forKey: url as AnyObject)
                     }
                 }
+                
             }
             task.resume()
             return task

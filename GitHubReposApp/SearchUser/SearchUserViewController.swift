@@ -3,7 +3,7 @@ import RxCocoa
 import RxDataSources
 
 class SearchUserViewController: UIViewController {
-    
+
     // MARK: - Properties
     @IBOutlet private weak var searchBar: UISearchBar!
     @IBOutlet private weak var tableView: UITableView!
@@ -196,7 +196,7 @@ extension SearchUserViewController {
     
     private var showErrorAlertView: Binder<String> {
         return Binder(self) { me, message in
-            me.showErrorAlert(title: nil, message: message)
+            me.showErrorAlert(title: "Error", message: message)
         }
     }
 }

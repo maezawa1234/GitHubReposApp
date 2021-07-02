@@ -41,8 +41,8 @@ final class UserDefaultsDataStore: DataStoreProtocol {
             }
             
             let _result = result.map { (str, v) in (Int(str)!, v) }
-            let a = Dictionary(uniqueKeysWithValues: _result)
-            observer(.success(a))
+            let dict = Dictionary(uniqueKeysWithValues: _result)
+            observer(.success(dict))
             
             return disposables
         }

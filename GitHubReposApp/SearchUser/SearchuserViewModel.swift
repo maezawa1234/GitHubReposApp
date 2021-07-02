@@ -83,11 +83,9 @@ final class SearchUserViewModel: SearchUserViewModelInputs, SearchUserViewModelO
             }
             .asDriver(onErrorDriveWith: .empty())
         
-        let searchUsers = searchUsersAction.elements.share(replay: 1)
-            .withLatestFrom(_users) { ($0, $1) }
-            .map { responseFromAPI, _ -> [User] in
-                return responseFromAPI.users
-            }
+        let searchUsers = searchUsersAction.elements
+            .share(replay: 1)
+            .map { $0.users }
         
         let addtionalSearchUsers = searchAdditionalUsersAction.elements
             .withLatestFrom(_users) { ($0, $1) }
@@ -98,7 +96,6 @@ final class SearchUserViewModel: SearchUserViewModelInputs, SearchUserViewModelO
             .map { $0.unique(resolve: { _, _ in .ignoreNewOne }) }
         
         Observable.merge(searchUsers, addtionalSearchUsers)
-            .map { $0.unique(resolve: { _, _ in .ignoreNewOne }) }
             .bind(to: _users)
             .disposed(by: disposeBag)
             
@@ -107,7 +104,7 @@ final class SearchUserViewModel: SearchUserViewModelInputs, SearchUserViewModelO
             .bind(to: _pagenation)
             .disposed(by: disposeBag)
         
-        // Load users
+        // Search users
         searchButtonClicked
             .asObservable()
             .withLatestFrom(searchBarText)
@@ -116,20 +113,28 @@ final class SearchUserViewModel: SearchUserViewModelInputs, SearchUserViewModelO
             .bind(to: searchUsersAction.inputs)
             .disposed(by: disposeBag)
         
+        // Error
+        self.isErrorOccured = Observable
+            .merge(searchUsersAction.underlyingError, searchAdditionalUsersAction.underlyingError)
+            .map {
+                if let apiError = $0 as? GitHubAPIError {
+                    return apiError.message
+                }
+                else { return nil }
+            }
+            .compactMap { $0 }
+            .asDriver(onErrorDriveWith: .empty())
+        
         // Additional loading users
         loadAdditionalUsers.asObservable()
             .withLatestFrom(searchBarText)
-            //.throttle(.seconds(1), latest: false, scheduler: MainScheduler.instance)
+            .takeUntil(isErrorOccured.asObservable())
             .bind(to: searchAdditionalUsersAction.inputs)
             .disposed(by: disposeBag)
         
         self.transitionToReposView = itemSelected
-            .withLatestFrom(userSections) {
-                return (indexPath: $0, sections: $1)
-            }
-            .map {
-                return $0.sections[0].items[$0.indexPath.row]
-            }
+            .withLatestFrom(userSections) { (indexPath: $0, sections: $1) }
+            .map { $0.sections[0].items[$0.indexPath.row] }
             .compactMap { $0 }
             .asDriver(onErrorDriveWith: .empty())
         
@@ -153,28 +158,7 @@ final class SearchUserViewModel: SearchUserViewModelInputs, SearchUserViewModelO
             .asDriver(onErrorDriveWith: .empty())
         
         self.isLoadingFooterHidden = searchAdditionalUsersAction.executing
-            //.throttle(.seconds(1), latest: false, scheduler: MainScheduler.instance)
             .asDriver(onErrorDriveWith: .empty())
             .distinctUntilChanged()
-        
-        self.isErrorOccured = Observable
-            .merge(searchUsersAction.errors, searchAdditionalUsersAction.errors)
-            .map { actionError in
-                if case let .underlyingError(error) = actionError {
-                    if let error = error as? GitHubClientError {
-                        switch error {
-                        case .apiError(let err):
-                            return err.message
-                        default:
-                            return error.localizedDescription
-                        }
-                    }
-                    return error.localizedDescription
-                } else {
-                    return ""
-                }
-            }
-            .filter { !$0.isEmpty }
-            .asDriver(onErrorDriveWith: .empty())
     }
 }
