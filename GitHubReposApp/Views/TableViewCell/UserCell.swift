@@ -33,7 +33,7 @@ class UserCell: UITableViewCell {
     override func setHighlighted(_ highlighted: Bool, animated: Bool) {
         super.setHighlighted(highlighted, animated: animated)
         guard !highlighted else {
-            containerView.backgroundColor = .systemGray4
+            containerView.backgroundColor = .systemGray5
             return
         }
         UIView.animate(withDuration: 0.3) { [weak self] in
