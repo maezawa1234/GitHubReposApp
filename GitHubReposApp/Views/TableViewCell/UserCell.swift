@@ -18,10 +18,6 @@ class UserCell: UITableViewCell {
     
     private var task: URLSessionTask?
     
-    override func awakeFromNib() {
-        super.awakeFromNib()
-    }
-    
     override func prepareForReuse() {
         super.prepareForReuse()
         
