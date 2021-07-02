@@ -1,7 +1,8 @@
-import UIKit
+import RxSwift
+import RxCocoa
 
 class UserCell: UITableViewCell {
-    @IBOutlet weak var containerView: UIView! {
+    @IBOutlet private weak var containerView: UIView! {
         didSet {
             containerView.layer.cornerRadius = 8
             containerView.layer.borderWidth = 1
@@ -9,8 +10,8 @@ class UserCell: UITableViewCell {
             containerView.layer.masksToBounds = true
         }
     }
-    @IBOutlet weak var iconImageView: UIImageView!
-    @IBOutlet weak var userNameLabel: UILabel!
+    @IBOutlet private weak var iconImageView: UIImageView!
+    @IBOutlet private weak var userNameLabel: UILabel!
     
     static var identifier: String { "UserCell" }
     static var nib: UINib { UINib(nibName: identifier, bundle: nil) }
@@ -29,8 +30,15 @@ class UserCell: UITableViewCell {
         iconImageView.image = nil
     }
     
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
+    override func setHighlighted(_ highlighted: Bool, animated: Bool) {
+        super.setHighlighted(highlighted, animated: animated)
+        guard !highlighted else {
+            containerView.backgroundColor = .systemGray4
+            return
+        }
+        UIView.animate(withDuration: 0.3) { [weak self] in
+            self?.containerView.backgroundColor = .white
+        }
     }
     
     func configure(with user: UserCellData) {
@@ -57,6 +65,7 @@ class UserCell: UITableViewCell {
             task.resume()
             return task
         }()
+        
     }
 }
 
