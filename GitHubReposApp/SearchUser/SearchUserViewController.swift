@@ -3,7 +3,7 @@ import RxCocoa
 import RxDataSources
 
 class SearchUserViewController: UIViewController {
-    
+
     // MARK: - Properties
     @IBOutlet private weak var searchBar: UISearchBar!
     @IBOutlet private weak var tableView: UITableView!
@@ -48,7 +48,6 @@ class SearchUserViewController: UIViewController {
         tableView.sectionHeaderHeight = .zero
         tableView.tableFooterView = loadingFooterView
         tableView.register(UserCell.nib, forCellReuseIdentifier: UserCell.identifier)
-        tableView.register(FooterCell.nib, forCellReuseIdentifier: FooterCell.identifier)
         //Configure activityIndicator
         self.view.addSubview(indicator)
     }
@@ -107,6 +106,12 @@ class SearchUserViewController: UIViewController {
             .disposed(by: disposeBag)
         
         viewModel.output.isErrorOccured
+            .drive(onNext: { _ in
+                self.totalCountLabel.text =   "  検索件数: ---"
+            })
+            .disposed(by: disposeBag)
+        
+        viewModel.output.isErrorOccured
             .drive(showErrorAlertView)
             .disposed(by: disposeBag)
     }
@@ -118,20 +123,10 @@ class SearchUserViewController: UIViewController {
                 reloadAnimation: .fade,
                 deleteAnimation: .automatic
             ),
-            configureCell: { (_, tableView, indexPath, cellData) in
-                switch cellData {
-                case .userItem(let user):
-                    //configure main cell
-                    let cell = tableView.dequeueReusableCell(withIdentifier: UserCell.identifier) as! UserCell
-                    cell.configure(with: user)
-                    return cell
-                case .footerItem(let footerCellData):
-                    //configure footer cell
-                    let footerCell = tableView.dequeueReusableCell(withIdentifier: FooterCell.identifier) as! FooterCell
-                    footerCell.configure(isAnimating: footerCellData.isAnimation)
-                    footerCell.separatorInset = .init(top: 0, left: 0, bottom: 0, right: 10000)
-                    return footerCell
-                }
+            configureCell: { (_, tableView, indexPath, userCellData) in
+                let cell = tableView.dequeueReusableCell(withIdentifier: UserCell.identifier) as! UserCell
+                cell.configure(with: userCellData)
+                return cell
             },
             titleForHeaderInSection: { dataSource, sectionIndex in return dataSource[sectionIndex].header },
             canEditRowAtIndexPath: { (_, _) in false },
@@ -207,7 +202,7 @@ extension SearchUserViewController {
     
     private var showErrorAlertView: Binder<String> {
         return Binder(self) { me, message in
-            me.showErrorAlert(title: nil, message: message)
+            me.showErrorAlert(title: "Error", message: message)
         }
     }
 }

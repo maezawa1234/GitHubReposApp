@@ -22,14 +22,21 @@ class ReposCell: UITableViewCell {
 
     var disposeBag = DisposeBag()
     
-    override func awakeFromNib() {
-        super.awakeFromNib()
-    }
-    
     override func prepareForReuse() {
         super.prepareForReuse()
-        
+        self.containerView.backgroundColor = .white
         self.disposeBag = DisposeBag()
+    }
+    
+    override func setHighlighted(_ highlighted: Bool, animated: Bool) {
+        super.setHighlighted(highlighted, animated: animated)
+        guard !highlighted else {
+            containerView.backgroundColor = .systemGray5
+            return
+        }
+        UIView.animate(withDuration: 0.3) { [weak self] in
+            self?.containerView.backgroundColor = .white
+        }
     }
     
     func configure(with repos: Repository, isFavorite: Bool) {

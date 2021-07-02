@@ -1,12 +1,5 @@
-struct GitHubAPIError : Decodable ,Error{
-    struct FieldError : Decodable{
-        let resource: String
-        let field: String
-        let code: String
-    }
-    
+struct GitHubAPIError : Decodable, Error {
     let message: String
-    let fieldErrors: [FieldError]
 }
 
 

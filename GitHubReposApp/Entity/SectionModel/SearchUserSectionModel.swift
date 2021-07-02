@@ -1,7 +1,7 @@
 import RxDataSources
 
 struct SearchUserSectionModel: AnimatableSectionModelType {
-    typealias Item = SearchUserCellDataType
+    typealias Item = UserCellData
     
     var header: String
     var items: [Item]
@@ -18,21 +18,6 @@ struct SearchUserSectionModel: AnimatableSectionModelType {
     var identity: String {
         return header
     }
-}
-
-enum SearchUserCellDataType: IdentifiableType, Equatable {
-    typealias Identity = Int
-    
-    var identity: Identity {
-        switch self {
-        case .userItem(let item):
-            return item.identity
-        case .footerItem(let item):
-            return item.identity
-        }
-    }
-    case userItem(UserCellData)
-    case footerItem(FooterCellData)
 }
 
 struct UserCellData: IdentifiableType, Equatable {
@@ -54,15 +39,3 @@ struct UserCellData: IdentifiableType, Equatable {
         self.name = user.name
     }
 }
-
-struct FooterCellData: IdentifiableType, Equatable {
-    var identity: Int {
-        return 1
-    }
-   
-    static func == (lhs: FooterCellData, rhs: FooterCellData) -> Bool {
-        return lhs.isAnimation == rhs.isAnimation
-    }
-    var isAnimation: Bool = true
-}
-

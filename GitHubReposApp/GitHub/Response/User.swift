@@ -11,13 +11,6 @@ struct User : Codable {
         case avatarURL = "avatar_url"
         case name
     }
-    
-    init() {
-        self.id = -1
-        self.login = ""
-        self.avatarURL = URL(fileURLWithPath: "")
-        self.name = nil
-    }
 }
 
 extension User: Equatable {

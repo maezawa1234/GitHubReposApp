@@ -1,25 +1,22 @@
-import UIKit
+import RxSwift
+import RxCocoa
 
 class UserCell: UITableViewCell {
-    @IBOutlet weak var containerView: UIView! {
+    @IBOutlet private weak var containerView: UIView! {
         didSet {
             containerView.layer.cornerRadius = 8
-            containerView.layer.masksToBounds = true
             containerView.layer.borderWidth = 1
             containerView.layer.borderColor = UIColor.lightGray.cgColor
+            containerView.layer.masksToBounds = true
         }
     }
-    @IBOutlet weak var iconImageView: UIImageView!
-    @IBOutlet weak var userNameLabel: UILabel!
+    @IBOutlet private weak var iconImageView: UIImageView!
+    @IBOutlet private weak var userNameLabel: UILabel!
     
     static var identifier: String { "UserCell" }
     static var nib: UINib { UINib(nibName: identifier, bundle: nil) }
     
     private var task: URLSessionTask?
-    
-    override func awakeFromNib() {
-        super.awakeFromNib()
-    }
     
     override func prepareForReuse() {
         super.prepareForReuse()
@@ -27,12 +24,18 @@ class UserCell: UITableViewCell {
         task?.cancel()
         task = nil
         iconImageView.image = nil
+        self.containerView.backgroundColor = .white
     }
     
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-        
-        //self.containerView.backgroundColor = selected ? .systemGray4 : .white
+    override func setHighlighted(_ highlighted: Bool, animated: Bool) {
+        super.setHighlighted(highlighted, animated: animated)
+        guard !highlighted else {
+            containerView.backgroundColor = .systemGray5
+            return
+        }
+        UIView.animate(withDuration: 0.3) { [weak self] in
+            self?.containerView.backgroundColor = .white
+        }
     }
     
     func configure(with user: UserCellData) {
@@ -46,13 +49,9 @@ class UserCell: UITableViewCell {
         task = {
             let url = user.avatarURL
             let task = URLSession.shared.dataTask(with: url) { data, response, error in
-                guard let imageData = data else {
-                    return
-                }
+                guard let imageData = data else { return }
                 DispatchQueue.global().async { [weak self] in
-                    guard let image = UIImage(data: imageData) else {
-                        return
-                    }
+                    guard let image = UIImage(data: imageData) else { return }
                     DispatchQueue.main.async {
                         self?.iconImageView?.image = image
                         self?.setNeedsLayout()
@@ -63,6 +62,7 @@ class UserCell: UITableViewCell {
             task.resume()
             return task
         }()
+        
     }
 }
 
