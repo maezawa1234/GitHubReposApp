@@ -9,15 +9,15 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="UserCell" rowHeight="119" id="X6a-3g-3oe" customClass="UserCell" customModule="GitHubReposApp" customModuleProvider="target">
-            <rect key="frame" x="0.0" y="0.0" width="503" height="119"/>
+        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="UserCell" rowHeight="81" id="X6a-3g-3oe" customClass="UserCell" customModule="GitHubReposApp" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="505" height="81"/>
             <autoresizingMask key="autoresizingMask"/>
-            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" ambiguous="YES" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="X6a-3g-3oe" id="0J6-3x-Wsr">
-                <rect key="frame" x="0.0" y="0.0" width="503" height="119"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="X6a-3g-3oe" id="0J6-3x-Wsr">
+                <rect key="frame" x="0.0" y="0.0" width="505" height="81"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="MaE-5d-RoA">
-                        <rect key="frame" x="16" y="8" width="471" height="65"/>
+                        <rect key="frame" x="16" y="8" width="473" height="65"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3TD-zr-9zR">
                                 <rect key="frame" x="85" y="22" width="42" height="21"/>
@@ -56,7 +56,7 @@
                 <outlet property="iconImageView" destination="36j-RN-4bi" id="Rul-kg-jXc"/>
                 <outlet property="userNameLabel" destination="3TD-zr-9zR" id="w4U-0O-geA"/>
             </connections>
-            <point key="canvasLocation" x="-84.782608695652186" y="-557.47767857142856"/>
+            <point key="canvasLocation" x="-58.695652173913047" y="-570.20089285714278"/>
         </tableViewCell>
     </objects>
     <resources>

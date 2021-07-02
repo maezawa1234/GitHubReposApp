@@ -106,6 +106,12 @@ class SearchUserViewController: UIViewController {
             .disposed(by: disposeBag)
         
         viewModel.output.isErrorOccured
+            .drive(onNext: { _ in
+                self.totalCountLabel.text =   "  検索件数: ---"
+            })
+            .disposed(by: disposeBag)
+        
+        viewModel.output.isErrorOccured
             .drive(showErrorAlertView)
             .disposed(by: disposeBag)
     }
