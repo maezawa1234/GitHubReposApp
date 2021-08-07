@@ -14,6 +14,7 @@ UIの実装について
 ActivityIndicatorを実装しデータ取得中はローディングアニメーションが表示されるようにしました。  
 ProgressBarを実装し、リポジトリ詳細画面でのWeb表示のローディングアニメーションを実装しました。
 
-![AppPreview](https://user-images.githubusercontent.com/52379412/108257654-76ff1000-71a2-11eb-8cbe-d3903d79adbb.gif)
+![GitHubReposPreview](https://user-images.githubusercontent.com/52379412/128586771-85fdb74e-d848-4986-88fd-abef5663de4f.gif)
+
 
 
