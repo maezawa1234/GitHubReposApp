@@ -11,6 +11,7 @@ target 'GitHubReposApp' do
   pod 'RxDataSources'
   pod 'Action'
   pod 'APIKit'
+  pod 'SwiftyJSON'
 
   target 'GitHubReposAppTests' do
     inherit! :search_paths
