@@ -10,6 +10,7 @@ target 'GitHubReposApp' do
   pod 'RxCocoa',:modular_headers => true
   pod 'RxDataSources',:modular_headers => true
   pod 'Action',:modular_headers => true
+  pod 'APIKit',:modular_headers => true
 
   target 'GitHubReposAppTests' do
     inherit! :search_paths
