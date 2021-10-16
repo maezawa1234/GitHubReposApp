@@ -2,6 +2,8 @@ import RxSwift
 import RxCocoa
 
 class UserCell: UITableViewCell {
+    
+    // MARK: - UIProperties
     @IBOutlet private weak var containerView: UIView! {
         didSet {
             containerView.layer.cornerRadius = 8
