@@ -3,7 +3,8 @@ import RxCocoa
 import Action
 
 class UserReposViewModel {
-    //MARK: Drivers
+
+    // MARK: - Drivers
     let sections: Driver<[UserReposSectionModel]>
     let listIsEmpty: Driver<Bool>
     let fetchingRepos: Driver<Bool>
