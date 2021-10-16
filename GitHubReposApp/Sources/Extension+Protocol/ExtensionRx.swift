@@ -1,6 +1,7 @@
 import RxCocoa
 import RxSwift
 
+// MARK: - UIViewController
 extension Reactive where Base: UIViewController {
     var viewWillAppear: Driver<Void> {
         return sentMessage(#selector(base.viewWillAppear(_:)))
@@ -28,7 +29,7 @@ extension Reactive where Base: UIViewController {
     }
 }
 
-//Eventの分岐メソッドextension
+// MARK: - Eventの分岐メソッドextension
 extension ObservableType where Element: EventConvertible {
     public func elements() -> Observable<Element.Element> {
         return filter { $0.event.element != nil }
@@ -41,6 +42,7 @@ extension ObservableType where Element: EventConvertible {
     }
 }
 
+// MARK: UIScrollView
 extension Reactive where Base: UIScrollView {
     var reachedBottom: ControlEvent<Void> {
         let observable = contentOffset
